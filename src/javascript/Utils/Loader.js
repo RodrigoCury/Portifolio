@@ -78,7 +78,7 @@ export default class Resources extends EventEmitter {
     }
 
     load(_resources = []) {
-        _resources.forEach(_resource => {
+        for (const _resource of _resources) {
             this.toLoad++
 
             const extentionMatch = _resource.source.match(/\.([a-z]+)$/)
@@ -86,7 +86,7 @@ export default class Resources extends EventEmitter {
             if (typeof extentionMatch[1] !== 'undefined') {
                 const extension = extentionMatch[1]
                 const loader = this.loaders.find(_loader => {
-                    _loader.extensions.find(_extention => _extention === extension)
+                    _loader.extentions.find(_extention => _extention === extension)
                 })
 
                 if (loader) {
@@ -98,7 +98,7 @@ export default class Resources extends EventEmitter {
                 console.warn(`Can't find extension for ${_resource}`)
             }
 
-        })
+        }
     }
 
     fileLoadEnd(_resource, _data) {
