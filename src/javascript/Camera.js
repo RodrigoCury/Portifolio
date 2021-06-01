@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import gsap from 'gsap'
-import { Power1 } from 'gsap/EasePack'
+import { Power1 } from 'gsap/gsap-core'
 
 export default class Camera {
     /**
