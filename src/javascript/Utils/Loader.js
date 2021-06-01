@@ -86,9 +86,8 @@ export default class Resources extends EventEmitter {
             if (typeof extentionMatch[1] !== 'undefined') {
                 const extension = extentionMatch[1]
                 const loader = this.loaders.find(_loader => {
-                    _loader.extentions.find(_extention => _extention === extension)
+                    return _loader.extentions.find(_extention => _extention === extension)
                 })
-
                 if (loader) {
                     loader.action(_resource)
                 } else {
@@ -105,7 +104,7 @@ export default class Resources extends EventEmitter {
         this.loaded++
         this.items[_resource.name] = _data
 
-        this, trigger('fileEnd', [_resource, _data])
+        this.trigger('fileEnd', [_resource, _data])
 
         if (this.loaded === this.toLoad) {
             this.trigger('end')

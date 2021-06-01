@@ -302,7 +302,6 @@ export default class Camera {
         this.orbitControls.enabled = false
         this.orbitControls.enableKeys = false
         this.orbitControls.zoomSpeed = 0.5
-        console.log(this.orbitControls);
 
         // Time tick
         this.time.on('tick', () => {
