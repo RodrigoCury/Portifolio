@@ -100,48 +100,24 @@ export default class Camera {
             this.instance.updateProjectionMatrix()
         })
 
-        // Time tick
-        this.time.on('tick', () => {
-            if (!this.OrbitControls.enabled) {
-                // Move with Ease
-                this.targetEased.x += (this.target.x - this.targetEased.x) * this.easing
-                this.targetEased.y += (this.target.y - this.targetEased.y) * this.easing
-                this.targetEased.z += (this.target.z - this.targetEased.z) * this.easing
 
-                // Apply Zoom
-                this.instance.position
-                    .copy(this.targetEased)
-                    .add(
-                        this.angle.value
-                            .clone()
-                            .normalize()
-                            .multiplyScalar(this.zoom.distance)
-                    )
-
-                // Apply new Direction
-                this.instance.lookAt(this.targetEased)
-
-                // Apply Pan
-                this.instance.position.x += this.pan.value.x
-                this.instance.position.y += this.pan.value.y
-            }
-        })
     }
 
     setZoom() {
         // Setup
 
-        this.zoom = {
-            easing: 0.1,
-            minDistance: 14,
-            amplitude: 15,
-            value: 0.5,
-            targetValue: this.zomm.value,
-            distance: this.zoom.minDistance + this.zoom.amplitude * this.zoom.value
-        }
+        this.zoom = {}
+
+        this.zoom.easing = 0.1,
+            this.zoom.minDistance = 14,
+            this.zoom.amplitude = 15,
+            this.zoom.value = 0.5,
+            this.zoom.targetValue = this.zoom.value,
+            this.zoom.distance = this.zoom.minDistance + this.zoom.amplitude * this.zoom.value
+
 
         document.addEventListener('mousewheel', _event => {
-            this.zomm.targetValue += _event.deltaY * 0.001
+            this.zoom.targetValue += _event.deltaY * 0.001
             this.zoom.targetValue = Math.min(Math.max(this.zoom.targetValue, 0), 1)
         }, { passive: true })
 
@@ -184,94 +160,92 @@ export default class Camera {
     }
 
     setPan() {
-        this.pan = {
-            // Setup configs
-            enabled: false,
-            active: false,
-            easing: 0.1,
-            start: { x: 0, y: 0, },
-            value: { x: 0, y: 0 },
-            targetValue: {
+        this.pan = {}
+        // Setup configs
+        this.pan.enabled = false,
+            this.pan.active = false,
+            this.pan.easing = 0.1,
+            this.pan.start = { x: 0, y: 0, },
+            this.pan.value = { x: 0, y: 0 },
+            this.pan.targetValue = {
                 x: this.pan.value.x,
                 y: this.pan.value.y
-            },
+            }
 
-            // Limiter
-            raycaster: new THREE.Raycaster(),
-            mouse: new THREE.Vector2(),
-            needsUpdate: false,
-            hitMesh: new THREE.Mesh(
+        // Limiter
+        this.pan.raycaster = new THREE.Raycaster(),
+            this.pan.mouse = new THREE.Vector2(),
+            this.pan.needsUpdate = false,
+            this.pan.hitMesh = new THREE.Mesh(
                 new THREE.PlaneBufferGeometry(100, 100, 1, 1),
                 new THREE.MeshBasicMaterial({ color: '#ffff00', wireframe: true, visible: false })
-            ),
+            )
+        // Add hitMesh to container
+        this.container.add(this.pan.hitMesh)
 
-            // Methods
-            reset: () => {
-                this.pan.targetValue.x = 0
-                this.pan.targetValue.y = 0
-            },
+        // Methods
+        this.pan.reset = () => {
+            this.pan.targetValue.x = 0
+            this.pan.targetValue.y = 0
+        }
 
-            enable: () => {
-                this.pan.enabled = true
+        this.pan.enable = () => {
+            this.pan.enabled = true
 
-                // Update Cursor
-                this.renderer.domElement.classList.add('has-cursor-grab')
-            },
+            // Update Cursor
+            this.renderer.domElement.classList.add('has-cursor-grab')
+        }
 
-            disable: () => {
-                this.pan.enabled = false
+        this.pan.disable = () => {
+            this.pan.enabled = false
 
-                // Update Cursor
-                this.renderer.domElement.classList.remove('has-cursor-grab')
-            },
+            // Update Cursor
+            this.renderer.domElement.classList.remove('has-cursor-grab')
+        }
 
-            down: (_x, _y) => {
-                if (!this.pan.enabled) { return }
+        this.pan.down = (_x, _y) => {
+            if (!this.pan.enabled) { return }
 
-                // Update Cursor
-                this.renderer.domElement.classList.add("has-cursor-grabbing")
+            // Update Cursor
+            this.renderer.domElement.classList.add("has-cursor-grabbing")
 
-                // Activate
-                this.pan.active = true
+            // Activate
+            this.pan.active = true
 
-                // Update Mouse Position
-                this.pan.mouse.x = (_x / this.sizes.viewport.width) * 2 - 1
-                this.pan.mouse.y = -(_y / this.sizes.viewport.height) * 2 + 1
+            // Update Mouse Position
+            this.pan.mouse.x = (_x / this.sizes.viewport.width) * 2 - 1
+            this.pan.mouse.y = -(_y / this.sizes.viewport.height) * 2 + 1
 
-                this.pan.raycaster.setFromCamera(this.pan.mouse, this.instance)
+            this.pan.raycaster.setFromCamera(this.pan.mouse, this.instance)
 
-                const intersect = this.pan.raycaster.intersectObject(this.pan.hitMesh)
+            const intersect = this.pan.raycaster.intersectObject(this.pan.hitMesh)
 
-                if (intersect) {
-                    this.pan.start.x = intersect.point.x
-                    this.pan.start.y = intersect.point.y
-                }
-            },
-
-            move: (_x, _y) => {
-                if (!this.pan.enabled) { return }
-
-                if (!this.pan.active) { return }
-
-                // Update Mouse Position
-                this.pan.mouse.x = (_x / this.sizes.viewport.width) * 2 - 1
-                this.pan.mouse.y = -(_y / this.sizes.viewport.height) * 2 + 1
-
-                // Call Update
-                this.pan.needsUpdate = true
-            },
-
-            up: function () {
-                // Deactivate Pan
-                this.pan.active = false
-
-                // Update Cursor
-                this.renderer.domElement.classList.remove('has-cursor-grabbing')
+            if (intersect) {
+                this.pan.start.x = intersect.point.x
+                this.pan.start.y = intersect.point.y
             }
         }
 
-        // Add hitMesh to container
-        this.container.add(this.pan.hitMesh)
+        this.pan.move = (_x, _y) => {
+            if (!this.pan.enabled) { return }
+
+            if (!this.pan.active) { return }
+
+            // Update Mouse Position
+            this.pan.mouse.x = (_x / this.sizes.viewport.width) * 2 - 1
+            this.pan.mouse.y = -(_y / this.sizes.viewport.height) * 2 + 1
+
+            // Call Update
+            this.pan.needsUpdate = true
+        }
+
+        this.pan.up = () => {
+            // Deactivate Pan
+            this.pan.active = false
+
+            // Update Cursor
+            this.renderer.domElement.classList.remove('has-cursor-grabbing')
+        }
 
         /**
          * Events
@@ -319,6 +293,7 @@ export default class Camera {
             this.pan.value.x += (this.pan.targetValue.x - this.pan.value.x) * this.pan.easing
             this.pan.value.y += (this.pan.targetValue.y - this.pan.value.y) * this.pan.easing
         })
+
     }
 
     setOrbitControls() {
@@ -327,6 +302,36 @@ export default class Camera {
         this.orbitControls.enabled = false
         this.orbitControls.enableKeys = false
         this.orbitControls.zoomSpeed = 0.5
+        console.log(this.orbitControls);
+
+        // Time tick
+        this.time.on('tick', () => {
+            if (this.orbitControls) {
+                if (!this.orbitControls.enabled) {
+                    // Move with Ease
+                    this.targetEased.x += (this.target.x - this.targetEased.x) * this.easing
+                    this.targetEased.y += (this.target.y - this.targetEased.y) * this.easing
+                    this.targetEased.z += (this.target.z - this.targetEased.z) * this.easing
+
+                    // Apply Zoom
+                    this.instance.position
+                        .copy(this.targetEased)
+                        .add(
+                            this.angle.value
+                                .clone()
+                                .normalize()
+                                .multiplyScalar(this.zoom.distance)
+                        )
+
+                    // Apply new Direction
+                    this.instance.lookAt(this.targetEased)
+
+                    // Apply Pan
+                    this.instance.position.x += this.pan.value.x
+                    this.instance.position.y += this.pan.value.y
+                }
+            }
+        })
 
         // Debug
         if (this.debug) {
