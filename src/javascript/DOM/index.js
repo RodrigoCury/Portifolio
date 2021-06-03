@@ -6,6 +6,7 @@ export default class DOM {
         // Options
         this.debug = _options.debug
         this.$canvas = _options.$canvas
+        this.position = _options.spherePositions
 
         // Debug
         if (this.debug) {
@@ -19,7 +20,7 @@ export default class DOM {
 
         this.colors = {
             title: "#ffffff",
-            subTitle: "#ffffff",
+            subTitle: "#a0a0a0",
         }
 
     }
