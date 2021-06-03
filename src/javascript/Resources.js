@@ -11,9 +11,15 @@ import DNAStrand from '../models/matrices/dnaMatrices.json'
  * Load Resources here
  *      jpgs, png, glbs, gltfs
  */
+import nx from '../textures/nebulaEnvMap/nx.png'
+import ny from '../textures/nebulaEnvMap/ny.png'
+import nz from '../textures/nebulaEnvMap/nz.png'
+import px from '../textures/nebulaEnvMap/px.png'
+import py from '../textures/nebulaEnvMap/py.png'
+import pz from '../textures/nebulaEnvMap/pz.png'
+
 
 import DNASource from '../models/dna.gltf'
-
 
 /**
  * Resources Class
@@ -33,6 +39,7 @@ export default class Resources extends EventEmitter {
         // Setup all loads
         this.loader.load([
             { name: 'DNAStrand', source: DNASource },
+            { name: 'envMap', source: [px, nx, py, ny, pz, nz] }
         ])
 
         // Setup Triggers and put loaded resoucers on items Object

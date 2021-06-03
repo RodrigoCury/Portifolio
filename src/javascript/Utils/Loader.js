@@ -1,4 +1,5 @@
 import EventEmitter from './EventEmitter'
+import { CubeTextureLoader, sRGBEncoding } from 'three'
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
@@ -25,8 +26,23 @@ export default class Resources extends EventEmitter {
 
         this.loaders = []
 
+        // Cube Texture
+        this.loaders.push({
+            name: 'CubeTexture',
+            extentions: [],
+            action: _resource => {
+                const cubeTextureLoader = new CubeTextureLoader()
+                cubeTextureLoader.load(_resource.source,
+                    _data => {
+                        this.fileLoadEnd(_resource, _data)
+                    })
+
+            }
+        })
+
         // Images 
         this.loaders.push({
+            name: 'Image',
             extentions: ['jpg', 'png'],
             action: _resource => {
 
@@ -52,6 +68,7 @@ export default class Resources extends EventEmitter {
         dracoLoader.setDecoderConfig({ type: 'js' })
 
         this.loaders.push({
+            name: 'Draco',
             extentions: ['drc'],
             action: _resource => {
                 dracoLoader.load(_resource.source, _data => {
@@ -68,6 +85,7 @@ export default class Resources extends EventEmitter {
         gltfLoader.setDRACOLoader(dracoLoader)
 
         this.loaders.push({
+            name: 'GLTF',
             extentions: ['glb', 'gltf'],
             action: _resource => {
                 gltfLoader.load(_resource.source, (_data) => {
@@ -83,22 +101,35 @@ export default class Resources extends EventEmitter {
         for (const _resource of _resources) {
             this.toLoad++
 
-            const extentionMatch = _resource.source.match(/\.([a-z]+)$/)
-
-            if (typeof extentionMatch[1] !== 'undefined') {
-                const extension = extentionMatch[1]
-                const loader = this.loaders.find(_loader => {
-                    return _loader.extentions.find(_extention => _extention === extension)
-                })
+            if (typeof _resource.source !== 'string' && _resource.source.length == 6) {
+                const loader = this.loaders.find(_loader => _loader.name === 'CubeTexture')
                 if (loader) {
                     loader.action(_resource)
                 } else {
-                    console.warn(`Can't find loader for ${extension}`)
+                    console.warn(`Can't find loader for ${_resource}`)
                 }
-            } else {
-                console.warn(`Can't find extension for ${_resource}`)
-            }
 
+            } else {
+                const extentionMatch = _resource.source.match(/\.([a-z]+)$/)
+
+                if (typeof extentionMatch[1] !== 'undefined') {
+
+                    const extension = extentionMatch[1]
+
+                    const loader = this.loaders.find(_loader => {
+                        return _loader.extentions.find(_extention => _extention === extension)
+                    })
+
+                    if (loader) {
+                        loader.action(_resource)
+                    } else {
+                        console.warn(`Can't find loader for ${extension}`)
+                    }
+
+                } else {
+                    console.warn(`Can't find extension for ${_resource}`)
+                }
+            }
 
         }
     }
@@ -114,4 +145,5 @@ export default class Resources extends EventEmitter {
         }
     }
 }
+
 

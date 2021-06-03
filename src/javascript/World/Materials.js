@@ -27,6 +27,8 @@ export default class Materials {
         this.items.dnaMaterial = new THREE.MeshStandardMaterial({
             color: "white",
             wireframe: false,
+            metalness: 0.7,
+            roughness: 0.4,
         })
     }
 }

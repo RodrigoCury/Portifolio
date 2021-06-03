@@ -31,6 +31,7 @@ export default class Application {
         this.setPasses()
         this.setWorld()
         this.setDOMElements()
+
     }
 
     /**
@@ -66,8 +67,9 @@ export default class Application {
         // Scene
         this.scene = new THREE.Scene()
         this.resources.loader.on('end', () => {
-            console.log(this.resources)
-            // this.scene.background = this.resources.
+            this.scene.background = this.resources.items.envMap
+            this.scene.environment = this.resources.items.envMap
+
         })
 
         // Renderer 
