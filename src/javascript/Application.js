@@ -202,7 +202,8 @@ export default class Application {
         this.DOM = new DOM({
             debug: this.debug,
             $canvas: this.$canvas,
+            time: this.time,
+            world: this.world
         })
-        this.DOM.setHomePage()
     }
 }
