@@ -20,14 +20,10 @@ export default class Camera {
         // Setup
         this.FOV = 50
         this.NEAR = 0.1
-        this.FAR = 40
+        this.FAR = 10
 
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = false
-
-        this.target = new THREE.Vector3(0, 0, 0)
-        this.targetEased = new THREE.Vector3(0, 0, 0)
-        this.easing = 0.15
 
         if (this.debug) {
             this.debugFolder = this.debug.addFolder("Camera")
@@ -35,48 +31,19 @@ export default class Camera {
 
         this.setAngle()
         this.setInstance()
-        this.setZoom()
-        this.setPan()
         this.setOrbitControls()
     }
 
     setAngle() {
         // Set Up
-        this.angle = {
-            // Items
-            items: {
-                default: new THREE.Vector3(0, 0, 2),
-                projects: new THREE.Vector3(0.5, -1.5, 1.5)
-            },
-
-            // Value
-            value: new THREE.Vector3(),
-
-            // Set Method
-            set: _name => {
-
-                const angle = this.angle.items[_name]
-
-                if (typeof angle !== 'undefined') {
-
-                    gsap.to(this.angle.value, {
-                        x: angle.x,
-                        y: angle.y,
-                        z: angle.z,
-                        ease: Power1.easeInOut
-                    })
-                }
-            }
-        }
-
-        this.angle.value.copy(this.angle.items.default)
+        this.position = new THREE.Vector3(0, 0, 5)
+        this.target = new THREE.Vector3(0, 0, 0)
 
         // Debug
         if (this.debug) {
-            this.debugFolder.add(this, 'easing', 0, 1, 0.0001).name("Easing")
-            this.debugFolder.add(this.angle.value, 'x', -2, 2, 0.001).name("AngleX").listen()
-            this.debugFolder.add(this.angle.value, 'y', -2, 2, 0.001).name("AngleY").listen()
-            this.debugFolder.add(this.angle.value, 'z', -2, 2, 0.001).name("AngleZ").listen()
+            this.debugFolder.add(this.position, 'x', -5, 5, 0.001)
+            this.debugFolder.add(this.position, 'y', -5, 5, 0.001)
+            this.debugFolder.add(this.position, 'z', -5, 5, 0.001)
         }
     }
 
@@ -89,7 +56,7 @@ export default class Camera {
         )
 
         this.instance.up.set(0, 1, 0)
-        this.instance.position.copy(this.angle.value)
+        this.instance.position.copy(this.position)
         this.instance.lookAt(new THREE.Vector3(0, 0, 0))
 
         this.container.add(this.instance)
@@ -103,232 +70,26 @@ export default class Camera {
 
     }
 
-    setZoom() {
-        // Setup
-
-        this.zoom = {}
-
-        this.zoom.easing = 0.1,
-            this.zoom.minDistance = 5,
-            this.zoom.amplitude = 10,
-            this.zoom.value = 0.0,
-            this.zoom.targetValue = this.zoom.value,
-            this.zoom.distance = this.zoom.minDistance + this.zoom.amplitude * this.zoom.value
-
-
-        document.addEventListener('mousewheel', _event => {
-            this.zoom.targetValue += _event.deltaY * 0.001
-            this.zoom.targetValue = Math.min(Math.max(this.zoom.targetValue, 0), 1)
-        }, { passive: true })
-
-        // Touch
-        this.zoom.touch = {
-            startDistante: 0,
-            startValue: 0,
-        }
-
-        this.renderer.domElement.addEventListener('touchstart', _event => {
-            if (_event.touches.length === 2) {
-                this.zoom.startDistante = Math.hypot(
-                    _event.touches[0].clientX - _event.touches[1].clientX,
-                    _event.touches[0].clientX - _event.touches[1].clientX
-                )
-                this.zoom.touch.startValue = this.zoom.targetValue
-            }
-        })
-
-        this.renderer.domElement.addEventListener('touchmove', _event => {
-            if (_event.touches.length === 2) {
-                _event.preventDefault()
-
-                const distance = Math.hypot(
-                    _event.touches[0].clientX - _event.touches[1].clientX,
-                    _event.touches[0].clientX - _event.touches[1].clientX
-                )
-                const ratio = distance / this.zoom.touch.startDistante
-
-                this.zoom.targetValue = this.zoom.touch.startValue - (ratio - 1)
-                this.zoom.targetValue = Math.min(Math.max(this.zoom.targetValue, 0), 1)
-            }
-        })
-
-        // Time Tick
-        this.time.on('tick', () => {
-            this.zoom.value += (this.zoom.targetValue - this.zoom.value) * this.zoom.easing
-            this.zoom.distance = this.zoom.minDistance + this.zoom.amplitude * this.zoom.value
-        })
-    }
-
-    setPan() {
-        this.pan = {}
-        // Setup configs
-        this.pan.enabled = false,
-            this.pan.active = false,
-            this.pan.easing = 0.1,
-            this.pan.start = { x: 0, y: 0, },
-            this.pan.value = { x: 0, y: 0 },
-            this.pan.targetValue = {
-                x: this.pan.value.x,
-                y: this.pan.value.y
-            }
-
-        // Limiter
-        this.pan.raycaster = new THREE.Raycaster(),
-            this.pan.mouse = new THREE.Vector2(),
-            this.pan.needsUpdate = false,
-            this.pan.hitMesh = new THREE.Mesh(
-                new THREE.PlaneBufferGeometry(100, 100, 1, 1),
-                new THREE.MeshBasicMaterial({ color: '#ffff00', wireframe: true, visible: false })
-            )
-        // Add hitMesh to container
-        this.container.add(this.pan.hitMesh)
-
-        // Methods
-        this.pan.reset = () => {
-            this.pan.targetValue.x = 0
-            this.pan.targetValue.y = 0
-        }
-
-        this.pan.enable = () => {
-            this.pan.enabled = true
-
-            // Update Cursor
-            this.renderer.domElement.classList.add('has-cursor-grab')
-        }
-
-        this.pan.disable = () => {
-            this.pan.enabled = false
-
-            // Update Cursor
-            this.renderer.domElement.classList.remove('has-cursor-grab')
-        }
-
-        this.pan.down = (_x, _y) => {
-            if (!this.pan.enabled) { return }
-
-            // Update Cursor
-            this.renderer.domElement.classList.add("has-cursor-grabbing")
-
-            // Activate
-            this.pan.active = true
-
-            // Update Mouse Position
-            this.pan.mouse.x = (_x / this.sizes.viewport.width) * 2 - 1
-            this.pan.mouse.y = -(_y / this.sizes.viewport.height) * 2 + 1
-
-            this.pan.raycaster.setFromCamera(this.pan.mouse, this.instance)
-
-            const intersect = this.pan.raycaster.intersectObject(this.pan.hitMesh)
-
-            if (intersect) {
-                this.pan.start.x = intersect.point.x
-                this.pan.start.y = intersect.point.y
-            }
-        }
-
-        this.pan.move = (_x, _y) => {
-            if (!this.pan.enabled) { return }
-
-            if (!this.pan.active) { return }
-
-            // Update Mouse Position
-            this.pan.mouse.x = (_x / this.sizes.viewport.width) * 2 - 1
-            this.pan.mouse.y = -(_y / this.sizes.viewport.height) * 2 + 1
-
-            // Call Update
-            this.pan.needsUpdate = true
-        }
-
-        this.pan.up = () => {
-            // Deactivate Pan
-            this.pan.active = false
-
-            // Update Cursor
-            this.renderer.domElement.classList.remove('has-cursor-grabbing')
-        }
-
-        /**
-         * Events
-         */
-
-        // Mouse
-        window.addEventListener('mousedown', _event => this.pan.down(_event.clientX, _event.clientY))
-        window.addEventListener('mousemove', _event => this.pan.move(_event.clientX, _event.clientY))
-        window.addEventListener('mouseup', _event => this.pan.up())
-
-        // Touch
-        this.renderer.domElement.addEventListener('touchstart', _event => {
-            if (_event.touches.length === 1) {
-                this.pan.down(_event.touches[0].clientX, _event.touches[0].clientY)
-            }
-        })
-
-        this.renderer.domElement.addEventListener('touchmove', (_event) => {
-            if (_event.touches.length === 1) {
-                this.pan.move(_event.touches[0].clientX, _event.touches[0].clientY)
-            }
-        })
-
-        this.renderer.domElement.addEventListener('touchend', () => this.pan.up())
-
-        // Time Tick
-
-        this.time.on('tick', () => {
-            // Check if Pan is active and needs Update
-            if (this.pan.active && this.pan.needsUpdate) {
-                this.pan.raycaster.setFromCamera(this.pan.mouse, this.instance)
-
-                const intersect = this.pan.raycaster.intersectObject(this.pan.hitMesh)
-
-                if (intersect) {
-                    this.pan.targetValue.x = - (intersect.point.x - this.pan.start.x)
-                    this.pan.targetValue.y = - (intersect.point.z - this.pan.start.z)
-                }
-
-                // Doesn't need Update anymore
-                this.pan.needsUpdate = false
-            }
-
-            // Update value and apply easing
-            this.pan.value.x += (this.pan.targetValue.x - this.pan.value.x) * this.pan.easing
-            this.pan.value.y += (this.pan.targetValue.y - this.pan.value.y) * this.pan.easing
-        })
-
-    }
 
     setOrbitControls() {
         // Setuo
         this.orbitControls = new OrbitControls(this.instance, this.renderer.domElement)
-        this.orbitControls.enabled = false
+        this.orbitControls.enabled = true
         this.orbitControls.enableKeys = false
         this.orbitControls.zoomSpeed = 0.5
 
+        this.flag = true
         // Time tick
         this.time.on('tick', () => {
-            if (this.orbitControls) {
-                if (!this.orbitControls.enabled) {
-                    // Move with Ease
-                    this.targetEased.x += (this.target.x - this.targetEased.x) * this.easing
-                    this.targetEased.y += (this.target.y - this.targetEased.y) * this.easing
-                    this.targetEased.z += (this.target.z - this.targetEased.z) * this.easing
-
-                    // Apply Zoom
-                    this.instance.position
-                        .copy(this.targetEased)
-                        .add(
-                            this.angle.value
-                                .clone()
-                                .normalize()
-                                .multiplyScalar(this.zoom.distance)
-                        )
-
-                    // Apply new Direction
-                    this.instance.lookAt(this.targetEased)
-
-                    // Apply Pan
-                    this.instance.position.x += this.pan.value.x
-                    this.instance.position.y += this.pan.value.y
+            if (this.orbitControls.enabled) {
+                this.orbitControls.update()
+                if (this.flag) {
+                    this.instance.lookAt(new THREE.Vector3(3.3, 0, 0))
+                    this.flag = false
                 }
+            } else {
+                this.instance.position.copy(this.position)
+                this.instance.lookAt(this.target)
             }
         })
 

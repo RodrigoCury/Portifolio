@@ -1,3 +1,5 @@
+import * as THREE from "three"
+
 export default class DOM {
     /**
      * Constructor
@@ -6,7 +8,8 @@ export default class DOM {
         // Options
         this.debug = _options.debug
         this.$canvas = _options.$canvas
-        this.position = _options.spherePositions
+        this.time = _options.time
+        this.world = _options.world
 
         // Debug
         if (this.debug) {
@@ -16,37 +19,39 @@ export default class DOM {
         // Setup
         this.body = document.querySelector('body')
 
-        this.items = {}
+        this.positions = {
+            tech: new THREE.Vector3(0, 0.57, 0)
+        }
 
         this.colors = {
             title: "#ffffff",
             subTitle: "#a0a0a0",
         }
+        this.setPositions()
+        this.setHomePage()
+    }
 
+    setPositions() {
+        this.time.on("tick", () => {
+            this.positions.tech.x = this.world.positions.dnaMeshPosition.x + Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.225) * 0.5
+            this.positions.tech.z = this.world.positions.dnaMeshPosition.z + Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.225) * 0.5
+        })
     }
 
     setHomePage() {
         // TittleDiv
         this.mainDIV = document.createElement('div')
         this.mainDIV.className = 'intro'
-        this.mainDIV.style.position = 'fixed'
-        this.mainDIV.style.height = '10vh'
-        this.mainDIV.style.width = '50vw'
-        this.mainDIV.style.top = '45vh'
-        this.mainDIV.style.left = '10vw'
         this.body.appendChild(this.mainDIV)
 
         // Title
         this.title = document.createElement('h1')
         this.title.className = 'name'
-        this.title.style.fontFamily = 'Caveat'
-        this.title.style.fontSize = '10vh'
         this.title.style.color = this.colors.title
         this.title.innerHTML = "Rodrigo Cury"
 
         this.subTitle = document.createElement('p')
         this.subTitle.className = 'subtitle'
-        this.subTitle.style.fontFamily = 'Mate SC'
         this.subTitle.style.color = this.colors.subTitle
         this.subTitle.innerHTML = `Desenvolvedor FullStack & Biotecnologista`
 
@@ -62,5 +67,11 @@ export default class DOM {
 
         this.mainDIV.appendChild(this.title)
         this.mainDIV.appendChild(this.subTitle)
+
+    }
+
+    setMenu() {
+        this.techDIV = document.createElement("div")
+        this.techDIV.className = 'menu-btn'
     }
 }

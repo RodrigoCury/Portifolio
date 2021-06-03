@@ -135,36 +135,3 @@ export default class {
 
     }
 }
-
-// // Tip 22
-// const instances = 50
-// const geometry = new THREE.BoxBufferGeometry(0.5, 0.5, 0.5)
-
-// const material = new THREE.MeshNormalMaterial()
-
-// const mesh = new THREE.InstancedMesh(geometry, material, instances)
-// mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
-// scene.add(mesh)
-
-// for (let i = 0; i < instances; i++) {
-
-//     const position = new THREE.Vector3(
-//         (Math.random() - 0.5) * 10,
-//         (Math.random() - 0.5) * 10,
-//         (Math.random() - 0.5) * 10,
-//     )
-
-//     const quaternion = new THREE.Quaternion()
-//     quaternion.setFromEuler(new THREE.Euler(
-//         (Math.random() - 0.5) * Math.PI * 2,
-//         (Math.random() - 0.5) * Math.PI * 2,
-//         0
-//     ))
-
-//     const matrix = new THREE.Matrix4()
-//     matrix.makeRotationFromQuaternion(quaternion)
-//     matrix.setPosition(position)
-//     mesh.setMatrixAt(i, matrix)
-// }
-
-

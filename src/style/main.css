@@ -20,3 +20,20 @@ html{
     width: 100%;
     height: 100%;
 }
+
+.intro{
+    position: fixed;
+    height: 10vh;
+    width: 50vw;
+    top: 45vh;
+    left: 10vw;
+}
+
+.name{
+    font-family : 'Caveat';
+    font-size : 10vh;
+}
+
+.subtitle {
+    font-family : 'Mate SC';
+}
