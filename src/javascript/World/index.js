@@ -25,6 +25,13 @@ export default class {
         }
 
         // Setup
+        this.spheresPositions = {
+            home: new THREE.Matrix4(),
+            about: new THREE.Matrix4(),
+            projects: new THREE.Matrix4(),
+            tech: new THREE.Matrix4(),
+            contact: new THREE.Matrix4(),
+        }
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = true
 
@@ -59,7 +66,7 @@ export default class {
             debug: this.debug
         })
 
-        this.container.add(this.lights.items.hemisphericalLight)
+        // this.container.add(this.lights.items.hemisphericalLight)
     }
 
     setMaterials() {
@@ -94,6 +101,7 @@ export default class {
                 matrix.elements = m
                 spheresMesh.setMatrixAt(idx, matrix)
             })
+
             this.resources.items.matrices.DNAStrandMatrices.cylindersMatrices.forEach((m, idx) => {
                 matrix.elements = m
                 cylindersMesh.setMatrixAt(idx, matrix)
@@ -105,6 +113,11 @@ export default class {
 
             this.time.on("tick", () => {
                 dnaStrand.rotation.y = this.time.elapsed * 0.0002
+                spheresMesh.getMatrixAt(73, this.spheresPositions.home)
+                spheresMesh.getMatrixAt(67, this.spheresPositions.about)
+                spheresMesh.getMatrixAt(50, this.spheresPositions.tech)
+                spheresMesh.getMatrixAt(44, this.spheresPositions.projects)
+                spheresMesh.getMatrixAt(203, this.spheresPositions.contact)
             })
             this.container.add(dnaStrand)
         })
