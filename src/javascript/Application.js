@@ -9,6 +9,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 
 import Camera from './Camera'
 import World from './World/index'
+import DOM from './DOM/index'
 
 export default class Application {
     /**
@@ -29,6 +30,7 @@ export default class Application {
         this.setCamera()
         this.setPasses()
         this.setWorld()
+        this.setDOMElements()
     }
 
     /**
@@ -51,6 +53,7 @@ export default class Application {
     setDebug() {
         if (this.config.debug) {
             this.debug = new dat.GUI({ width: this.sizes.width / 3 })
+            this.debug.close()
         }
     }
 
@@ -62,15 +65,24 @@ export default class Application {
 
         // Scene
         this.scene = new THREE.Scene()
+        this.resources.loader.on('end', () => {
+            console.log(this.resources)
+            // this.scene.background = this.resources.
+        })
 
         // Renderer 
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.$canvas,
             alpha: true,
+            antialias: true,
         })
 
+        this.backgroundProperties = {
+            color: '#82D9E2'
+        }
+
         // Clear Color
-        this.renderer.setClearColor("#000000", 1)
+        this.renderer.setClearColor(this.backgroundProperties.color, 1)
 
         // Pixel Ratio Max 2
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -86,6 +98,14 @@ export default class Application {
 
         // Resize Event
         this.sizes.on('resize', () => this.renderer.setSize(this.sizes.viewport.width, this.sizes.viewport.height))
+
+        // Debug
+        if (this.debug) {
+            this.backgroundFolder = this.debug.addFolder("Background")
+            this.backgroundFolder.addColor(this.backgroundProperties, 'color').onChange(() => {
+                this.renderer.setClearColor(this.backgroundProperties.color, 1)
+            })
+        }
 
     }
 
@@ -174,5 +194,13 @@ export default class Application {
             passes: this.passes
         })
         this.scene.add(this.world.container)
+    }
+
+    setDOMElements() {
+        this.DOM = new DOM({
+            debug: this.debug,
+            $canvas: this.$canvas,
+        })
+        this.DOM.setHomePage()
     }
 }

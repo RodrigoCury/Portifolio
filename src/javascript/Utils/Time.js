@@ -1,4 +1,7 @@
 import EventEmitter from './EventEmitter'
+const Stats = require('stats.js')
+
+
 
 export default class Time extends EventEmitter {
     /**
@@ -6,6 +9,10 @@ export default class Time extends EventEmitter {
      */
     constructor() {
         super()
+
+        this.stats = new Stats()
+        this.stats.showPanel(0)
+        document.body.appendChild(this.stats.dom)
 
         this.start = Date.now()
         this.current = this.start
@@ -20,6 +27,7 @@ export default class Time extends EventEmitter {
      * Tick
      */
     tick() {
+        this.stats.begin()
         this.ticker = window.requestAnimationFrame(this.tick)
 
         const current = Date.now()
@@ -33,6 +41,7 @@ export default class Time extends EventEmitter {
         }
 
         this.trigger('tick')
+        this.stats.end()
     }
 
 

@@ -75,6 +75,8 @@ export default class Resources extends EventEmitter {
                 })
             }
         })
+
+
     }
 
     load(_resources = []) {
@@ -97,6 +99,7 @@ export default class Resources extends EventEmitter {
                 console.warn(`Can't find extension for ${_resource}`)
             }
 
+
         }
     }
 
@@ -111,3 +114,4 @@ export default class Resources extends EventEmitter {
         }
     }
 }
+

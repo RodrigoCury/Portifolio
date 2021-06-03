@@ -18,7 +18,7 @@ export default class Camera {
         this.config = _options.config
 
         // Setup
-        this.FOV = 40
+        this.FOV = 50
         this.NEAR = 0.1
         this.FAR = 40
 
@@ -45,7 +45,7 @@ export default class Camera {
         this.angle = {
             // Items
             items: {
-                default: new THREE.Vector3(1, -1, 1),
+                default: new THREE.Vector3(0, 0, 2),
                 projects: new THREE.Vector3(0.5, -1.5, 1.5)
             },
 
@@ -109,9 +109,9 @@ export default class Camera {
         this.zoom = {}
 
         this.zoom.easing = 0.1,
-            this.zoom.minDistance = 14,
-            this.zoom.amplitude = 15,
-            this.zoom.value = 0.5,
+            this.zoom.minDistance = 5,
+            this.zoom.amplitude = 10,
+            this.zoom.value = 0.0,
             this.zoom.targetValue = this.zoom.value,
             this.zoom.distance = this.zoom.minDistance + this.zoom.amplitude * this.zoom.value
 
