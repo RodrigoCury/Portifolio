@@ -49,12 +49,6 @@ export default class Lights {
             this.debugFolder
                 .addColor(this.colors, 'pink')
                 .onChange(() => this.items.hemisphericalLight.groundColor.set(this.colors.pink))
-
-
-            const font = document.querySelector(".name")
-            this.debugFolder
-                .addColor(this.colors, 'name')
-                .onChange(() => font.style.color = this.colors.name)
         }
     }
 }
