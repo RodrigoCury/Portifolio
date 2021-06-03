@@ -25,15 +25,12 @@ export default class {
         }
 
         // Setup
-        this.spheresPositions = {
-            home: new THREE.Matrix4(),
-            about: new THREE.Matrix4(),
-            projects: new THREE.Matrix4(),
-            tech: new THREE.Matrix4(),
-            contact: new THREE.Matrix4(),
-        }
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = true
+
+        this.positions = {
+            dnaMeshPosition: new THREE.Vector3(3.3, 0, 0)
+        }
 
         this.setLights()
         this.setMaterials()
@@ -55,9 +52,18 @@ export default class {
     setAxes() {
         // Debug
         if (this.debug) {
-            this.axes = new THREE.AxesHelper(2)
-            this.container.add(this.axes)
-            this.debugFolder.add(this.axes, 'visible').name("AxesHelper")
+            this.axes = new THREE.AxesHelper(1)
+            this.axes2 = new THREE.AxesHelper(1)
+            this.axes2.rotation.y = Math.PI * 1.5
+            this.axes2.rotation.x = Math.PI
+            this.container.add(this.axes, this.axes2)
+            this.debugFolder.add(this.axes, 'visible').name("AxesHelper").onChange(() => {
+                if (this.axes2) {
+                    this.axes2 = false
+                } else {
+                    this.axes2 = true
+                }
+            })
         }
     }
 
@@ -66,7 +72,7 @@ export default class {
             debug: this.debug
         })
 
-        // this.container.add(this.lights.items.hemisphericalLight)
+        this.container.add(this.lights.items.hemisphericalLight)
     }
 
     setMaterials() {
@@ -77,6 +83,9 @@ export default class {
     }
 
     setResources() {
+        this.setDNA()
+    }
+    setDNA() {
         this.resources.on('ready', () => {
 
             const strandSphereGeometry = new THREE.SphereBufferGeometry(0.05, 8, 8)
@@ -107,20 +116,23 @@ export default class {
                 cylindersMesh.setMatrixAt(idx, matrix)
             })
 
-            const dnaStrand = new THREE.Object3D()
-            dnaStrand.add(cylindersMesh, spheresMesh)
-            dnaStrand.position.x = 3.3
+            this.dnaStrand = new THREE.Object3D()
+            this.dnaStrand.add(cylindersMesh, spheresMesh)
+            this.dnaStrand.position.copy(this.positions.dnaMeshPosition)
 
             this.time.on("tick", () => {
-                dnaStrand.rotation.y = this.time.elapsed * 0.0002
-                spheresMesh.getMatrixAt(73, this.spheresPositions.home)
-                spheresMesh.getMatrixAt(67, this.spheresPositions.about)
-                spheresMesh.getMatrixAt(50, this.spheresPositions.tech)
-                spheresMesh.getMatrixAt(44, this.spheresPositions.projects)
-                spheresMesh.getMatrixAt(203, this.spheresPositions.contact)
+                this.dnaStrand.rotation.y = this.time.elapsed * 0.0002
             })
-            this.container.add(dnaStrand)
+            this.container.add(this.dnaStrand)
+
+            // Debug
+            if (this.debug) {
+                this.debugFolder.add(this.dnaStrand.position, 'x', -4, 4, 0.01).name("dnaX")
+                this.debugFolder.add(this.dnaStrand.position, 'y', -4, 4, 0.01).name("dnaY")
+                this.debugFolder.add(this.dnaStrand.position, 'z', -4, 4, 0.01).name("dnaZ")
+            }
         })
+
     }
 }
 
