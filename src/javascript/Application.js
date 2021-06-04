@@ -203,7 +203,10 @@ export default class Application {
             debug: this.debug,
             $canvas: this.$canvas,
             time: this.time,
-            world: this.world
+            world: this.world,
+            camera: this.camera,
+            sizes: this.sizes,
+            resources: this.resources,
         })
     }
 }

@@ -10,6 +10,9 @@ export default class DOM {
         this.$canvas = _options.$canvas
         this.time = _options.time
         this.world = _options.world
+        this.camera = _options.camera
+        this.sizes = _options.sizes
+        this.resources = _options.resources
 
         // Debug
         if (this.debug) {
@@ -20,15 +23,21 @@ export default class DOM {
         this.body = document.querySelector('body')
 
         this.positions = {
-            tech: new THREE.Vector3(0, 0.57, 0)
+            tech: new THREE.Vector3(0, 0.57, 0),
+            about: new THREE.Vector3()
         }
 
         this.colors = {
             title: "#ffffff",
             subTitle: "#a0a0a0",
+            p: "#ffffff"
         }
-        this.setPositions()
-        this.setHomePage()
+
+        this.resources.on('ready', () => {
+            this.setPositions()
+            this.setHomePage()
+            this.setMenu()
+        })
     }
 
     setPositions() {
@@ -40,20 +49,11 @@ export default class DOM {
 
     setHomePage() {
         // TittleDiv
-        this.mainDIV = document.createElement('div')
-        this.mainDIV.className = 'intro'
-        this.body.appendChild(this.mainDIV)
+        this.mainDIV = document.querySelector('.intro')
 
         // Title
-        this.title = document.createElement('h1')
-        this.title.className = 'name'
-        this.title.style.color = this.colors.title
-        this.title.innerHTML = "Rodrigo Cury"
-
-        this.subTitle = document.createElement('p')
-        this.subTitle.className = 'subtitle'
-        this.subTitle.style.color = this.colors.subTitle
-        this.subTitle.innerHTML = `Desenvolvedor FullStack & Biotecnologista`
+        this.title = document.querySelector('.name')
+        this.subTitle = document.querySelector('.subtitle')
 
 
         if (this.debug) {
@@ -64,14 +64,31 @@ export default class DOM {
                 this.subTitle.style.color = this.colors.subTitle
             })
         }
-
-        this.mainDIV.appendChild(this.title)
-        this.mainDIV.appendChild(this.subTitle)
-
     }
 
     setMenu() {
-        this.techDIV = document.createElement("div")
-        this.techDIV.className = 'menu-btn'
+        this.buttons = [
+            {
+                element: document.querySelector('.tech'),
+                position: this.positions.tech
+            }
+        ]
+
+        this.counter = 0
+        this.time.on('tick', () => {
+            // if (this.counter % 600 == 0) {
+            for (const button of this.buttons) {
+                const techPosition = button.position.clone()
+                techPosition.project(this.camera.instance)
+                const translateY = `translateY(${(-techPosition.y + 1) * this.sizes.height * 0.5}px)`
+                const translateX = `translateX(${(techPosition.x + 1) * this.sizes.width * 0.5}px)`
+                button.element.style.transform = translateX + translateY
+            }
+
+            // }
+            this.counter++
+
+        })
+
     }
 }

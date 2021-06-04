@@ -14,7 +14,7 @@ html{
 }
 
 .canvas{
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -22,7 +22,7 @@ html{
 }
 
 .intro{
-    position: fixed;
+    position: absolute;
     height: 10vh;
     width: 50vw;
     top: 45vh;
@@ -36,4 +36,30 @@ html{
 
 .subtitle {
     font-family : 'Mate SC';
+}
+
+.menu-btn{
+    position: absolute;
+    height: 35px;
+    top: -22.5px;
+    width: 100px;
+    left: -50px;
+    padding: 0 5px;
+    /* background-color: rgba(0,0,0,0.5); */
+    /* border: 1px solid white; */
+    /* border-radius: 5px; */
+    text-align: center;
+    line-height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-btn .menu-p {
+    /* font-family : 'Mate SC'; */
+    font-family : 'Caveat';
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
 }

@@ -28,19 +28,12 @@ export default class {
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = true
 
-        this.positions = {
-            dnaMeshPosition: new THREE.Vector3(3.3, 0, 0)
-        }
 
         this.setLights()
         this.setMaterials()
         this.setAxes()
         this.setResources()
-        // this.setSounds()
-        // this.setControls()
-        // this.setFloor()
-        // this.setStartingScreen()
-
+        this.setPositions()
     }
 
     start() {
@@ -72,7 +65,7 @@ export default class {
             debug: this.debug
         })
 
-        this.container.add(this.lights.items.hemisphericalLight)
+        // this.container.add(this.lights.items.hemisphericalLight)
     }
 
     setMaterials() {
@@ -118,7 +111,7 @@ export default class {
 
             this.dnaStrand = new THREE.Object3D()
             this.dnaStrand.add(cylindersMesh, spheresMesh)
-            this.dnaStrand.position.copy(this.positions.dnaMeshPosition)
+            this.dnaStrand.position.set(3.3, 0, 0)
 
             this.time.on("tick", () => {
                 this.dnaStrand.rotation.y = this.time.elapsed * 0.0002
@@ -133,5 +126,12 @@ export default class {
             }
         })
 
+    }
+    setPositions() {
+        this.resources.on('ready', () => {
+            this.positions = {
+                dnaMeshPosition: this.dnaStrand.position
+            }
+        })
     }
 }
