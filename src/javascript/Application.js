@@ -98,6 +98,12 @@ export default class Application {
         // Auto Clear
         this.renderer.autoClear = false
 
+        // Output Encoding
+        this.renderer.outputEncoding = THREE.sRGBEncoding
+
+        // Tone Mapping
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping
+
         // Resize Event
         this.sizes.on('resize', () => this.renderer.setSize(this.sizes.viewport.width, this.sizes.viewport.height))
 
