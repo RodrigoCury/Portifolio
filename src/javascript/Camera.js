@@ -1,7 +1,5 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import gsap from 'gsap'
-import { Power1, Power2 } from 'gsap/gsap-core'
 
 export default class Camera {
     /**
@@ -81,42 +79,43 @@ export default class Camera {
     }
 
     setControls() {
+        this.ease = "back.inOut(2.5)"
         this.movementFunction = {
             ArrowRight: () => {
                 gsap.to(this, {
                     rotationAngle: this.rotationAngle + Math.PI * 0.125,
                     duration: 1,
-                    ease: Power2,
+                    ease: this.ease,
                 })
             }
             ,
             ArrowLeft: () => gsap.to(this, {
                 rotationAngle: this.rotationAngle - Math.PI * 0.125,
                 duration: 1,
-                ease: Power2,
+                ease: this.ease,
             }),
             ArrowUp: () => {
                 gsap.to(this.instance.position, {
                     y: this.instance.position.y + 1.5,
                     duration: 1,
-                    ease: Power2,
+                    ease: this.ease,
                 })
                 gsap.to(this.target, {
                     y: this.target.y + 1.5,
                     duration: 1,
-                    ease: Power2,
+                    ease: this.ease,
                 })
             },
             ArrowDown: () => {
                 gsap.to(this.instance.position, {
                     y: this.instance.position.y - 1.5,
                     duration: 1,
-                    ease: Power2,
+                    ease: this.ease,
                 })
                 gsap.to(this.target, {
                     y: this.target.y - 1.5,
                     duration: 1,
-                    ease: Power2,
+                    ease: this.ease,
                 })
 
             },
