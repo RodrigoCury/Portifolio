@@ -23,9 +23,13 @@ export default class DOM {
         this.body = document.querySelector('body')
 
         this.positions = {
-            tech: new THREE.Vector3(0, 0.57, 0),
-            about: new THREE.Vector3()
+            home: new THREE.Vector3(0, 1.2, 0),
+            tech: new THREE.Vector3(0, 0.47, 0),
+            projects: new THREE.Vector3(0, -0.135, 0),
+            whoami: new THREE.Vector3(0, -0.75, 0),
+            contact: new THREE.Vector3(0, -1.35, 0),
         }
+
 
         this.colors = {
             title: "#ffffff",
@@ -42,8 +46,30 @@ export default class DOM {
 
     setPositions() {
         this.time.on("tick", () => {
-            this.positions.tech.x = this.world.positions.dnaMeshPosition.x + Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.225) * 0.5
-            this.positions.tech.z = this.world.positions.dnaMeshPosition.z + Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.225) * 0.5
+            // Home
+            this.positions.home.x = this.world.dnaObject.position.x //+ Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.85) * 0.5
+            this.positions.home.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.85) * 0.5
+            // this.positions.home.y += this.camera.instance.position.y
+
+            // Technologies
+            this.positions.tech.x = this.world.dnaObject.position.x //+ Math.sin(this.time.elapsed * 0.0002 - Math.PI * 1.325) * 0.5
+            this.positions.tech.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.325) * 0.5
+            this.positions.tech.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.325) * 0.5
+
+            // Projects
+            this.positions.projects.x = this.world.dnaObject.position.x //- Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.6) * 0.5
+            this.positions.projects.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.6) * 0.5
+            this.positions.projects.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.6) * 0.5
+
+            // WhoAmI
+            this.positions.whoami.x = this.world.dnaObject.position.x //- Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.9) * 0.5
+            this.positions.whoami.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.9) * 0.5
+            this.positions.whoami.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.9) * 0.5
+
+            // Contact
+            this.positions.contact.x = this.world.dnaObject.position.x //- Math.sin(this.time.elapsed * 0.0002 - Math.PI * 1.3) * 0.5
+            this.positions.contact.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.3) * 0.5
+            this.positions.contact.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.3) * 0.5
         })
     }
 
@@ -69,9 +95,25 @@ export default class DOM {
     setMenu() {
         this.buttons = [
             {
+                element: document.querySelector('.home'),
+                position: this.positions.home
+            },
+            {
                 element: document.querySelector('.tech'),
                 position: this.positions.tech
-            }
+            },
+            {
+                element: document.querySelector('.projects'),
+                position: this.positions.projects
+            },
+            {
+                element: document.querySelector('.whoami'),
+                position: this.positions.whoami
+            },
+            {
+                element: document.querySelector('.contact'),
+                position: this.positions.contact
+            },
         ]
 
         this.counter = 0

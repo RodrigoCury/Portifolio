@@ -26,25 +26,35 @@ html{
     height: 10vh;
     width: 50vw;
     top: 45vh;
-    left: 10vw;
+    left: 60vw;
 }
 
 .name{
     font-family : 'Caveat';
     font-size : 10vh;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -moz-user-select: none;
 }
 
 .subtitle {
     font-family : 'Mate SC';
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -moz-user-select: none;
 }
 
 .menu-btn{
     position: absolute;
     height: 35px;
-    top: -22.5px;
+    top: -17.5px;
     width: 100px;
-    left: -50px;
-    padding: 0 5px;
+    left: -55px;
+    padding: 0 10px;
     /* background-color: rgba(0,0,0,0.5); */
     /* border: 1px solid white; */
     /* border-radius: 5px; */
@@ -62,4 +72,27 @@ html{
     font-size: 25px;
     font-weight: bold;
     color: white;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -moz-user-select: none;
+}
+
+.selected{
+    /* border: 1px solid white;
+    border-radius: 5px; */
+    font-size: 45px;
+
+}
+
+.test {
+    position: absolute;
+    height: 5px;
+    top: -2.5px;
+    width: 5px;
+    left: -2.5px;
+    background-color: "#fff"; 
+    border: 1px solid white;
+    border-radius: 50%;
 }

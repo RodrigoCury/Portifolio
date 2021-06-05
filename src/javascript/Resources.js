@@ -1,6 +1,6 @@
 import Loader from './Utils/Loader'
 import EventEmitter from './Utils/EventEmitter'
-
+import { Texture } from 'three'
 /**
  * Load Matrices
  */
@@ -17,7 +17,6 @@ import nz from '../textures/nebulaEnvMap/nz.png'
 import px from '../textures/nebulaEnvMap/px.png'
 import py from '../textures/nebulaEnvMap/py.png'
 import pz from '../textures/nebulaEnvMap/pz.png'
-
 
 import DNASource from '../models/dna.gltf'
 
@@ -36,6 +35,9 @@ export default class Resources extends EventEmitter {
         this.loader = new Loader()
         this.items = {}
 
+        // setup instancedMesh Matrices
+        this.setUpMatrices()
+
         // Setup all loads
         this.loader.load([
             { name: 'DNAStrand', source: DNASource },
@@ -46,9 +48,8 @@ export default class Resources extends EventEmitter {
         this.loader.on('fileEnd', (_resource, _data) => {
             // Texture
             if (_resource.type === 'texture') {
-                const texture = new THREE.Texture(_data)
+                const texture = new Texture(_data)
                 this.items[`${_resource.name}Texture`] = texture
-                console.log("FINISHED");
             }
 
 
@@ -64,7 +65,6 @@ export default class Resources extends EventEmitter {
             this.trigger('ready')
         })
 
-        this.setUpMatrices()
     }
 
     setUpMatrices() {

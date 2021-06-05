@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import gsap from 'gsap'
-import { Power1 } from 'gsap/gsap-core'
+import { Power1, Power2 } from 'gsap/gsap-core'
 
 export default class Camera {
     /**
@@ -20,7 +20,8 @@ export default class Camera {
         // Setup
         this.FOV = 50
         this.NEAR = 0.1
-        this.FAR = 10
+        this.FAR = 20
+        this.topFOV = this.FOV * this.sizes.viewport.width / this.sizes.viewport.height
 
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = false
@@ -28,22 +29,27 @@ export default class Camera {
         if (this.debug) {
             this.debugFolder = this.debug.addFolder("Camera")
         }
-
+        this.setZoom()
         this.setAngle()
         this.setInstance()
-        this.setOrbitControls()
+        this.setControls()
+    }
+
+    setZoom() {
+        this.distance = 5
     }
 
     setAngle() {
         // Set Up
-        this.position = new THREE.Vector3(0, 0, 5)
         this.target = new THREE.Vector3(0, 0, 0)
+        this.rotationAngle = -Math.PI
+
+
 
         // Debug
         if (this.debug) {
-            this.debugFolder.add(this.position, 'x', -5, 5, 0.001)
-            this.debugFolder.add(this.position, 'y', -5, 5, 0.001)
-            this.debugFolder.add(this.position, 'z', -5, 5, 0.001)
+            this.debugFolder.add(this, 'rotationAngle', -Math.PI, Math.PI, 0.001)
+            this.debugFolder.add(this, 'distance', 0, 10, 0.001)
         }
     }
 
@@ -56,46 +62,69 @@ export default class Camera {
         )
 
         this.instance.up.set(0, 1, 0)
-        this.instance.position.copy(this.position)
         this.instance.lookAt(new THREE.Vector3(0, 0, 0))
 
         this.container.add(this.instance)
 
         // Resize event
         this.sizes.on('resize', () => {
+            this.topFOV = this.FOV * this.sizes.viewport.width / this.sizes.viewport.height
             this.instance.aspect = this.sizes.viewport.width / this.sizes.viewport.height
             this.instance.updateProjectionMatrix()
         })
 
-
+        this.time.on('tick', () => {
+            this.instance.position.x = Math.sin(this.rotationAngle) * this.distance
+            this.instance.position.z = Math.cos(this.rotationAngle) * this.distance
+            this.instance.lookAt(this.target)
+        })
     }
 
+    setControls() {
+        this.movementFunction = {
+            ArrowRight: () => {
+                gsap.to(this, {
+                    rotationAngle: this.rotationAngle + Math.PI * 0.125,
+                    duration: 1,
+                    ease: Power2,
+                })
+            }
+            ,
+            ArrowLeft: () => gsap.to(this, {
+                rotationAngle: this.rotationAngle - Math.PI * 0.125,
+                duration: 1,
+                ease: Power2,
+            }),
+            ArrowUp: () => {
+                gsap.to(this.instance.position, {
+                    y: this.instance.position.y + 1.5,
+                    duration: 1,
+                    ease: Power2,
+                })
+                gsap.to(this.target, {
+                    y: this.target.y + 1.5,
+                    duration: 1,
+                    ease: Power2,
+                })
+            },
+            ArrowDown: () => {
+                gsap.to(this.instance.position, {
+                    y: this.instance.position.y - 1.5,
+                    duration: 1,
+                    ease: Power2,
+                })
+                gsap.to(this.target, {
+                    y: this.target.y - 1.5,
+                    duration: 1,
+                    ease: Power2,
+                })
 
-    setOrbitControls() {
-        // Setuo
-        this.orbitControls = new OrbitControls(this.instance, this.renderer.domElement)
-        this.orbitControls.enabled = true
-        this.orbitControls.enableKeys = false
-        this.orbitControls.zoomSpeed = 0.5
-
-        this.flag = true
-        // Time tick
-        this.time.on('tick', () => {
-            if (this.orbitControls.enabled) {
-                this.orbitControls.update()
-                if (this.flag) {
-                    this.instance.lookAt(new THREE.Vector3(3.3, 0, 0))
-                    this.flag = false
-                }
-            } else {
-                this.instance.position.copy(this.position)
-                this.instance.lookAt(this.target)
+            },
+        }
+        window.addEventListener('keydown', event => {
+            if (Object.keys(this.movementFunction).includes(event.key)) {
+                this.movementFunction[event.key]()
             }
         })
-
-        // Debug
-        if (this.debug) {
-            this.debugFolder.add(this.orbitControls, 'enabled').name("Enable OrbitControls")
-        }
     }
 }
