@@ -43,39 +43,9 @@ export default class DOM {
                 contact: new THREE.Vector3(0, -1.35, 0),
             }
 
-
-            this.setPositions()
             this.setHomePage()
             this.setMenu()
             this.setAnimations()
-        })
-    }
-
-    setPositions() {
-        this.time.on("tick", () => {
-            // Home
-            this.menuPositions.home.x = this.world.dnaObject.position.x //+ Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.85) * 0.5
-            this.menuPositions.home.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.85) * 0.5
-
-            // Technologies
-            this.menuPositions.tech.x = this.world.dnaObject.position.x //+ Math.sin(this.time.elapsed * 0.0002 - Math.PI * 1.325) * 0.5
-            this.menuPositions.tech.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.325) * 0.5
-            this.menuPositions.tech.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.325) * 0.5
-
-            // Projects
-            this.menuPositions.projects.x = this.world.dnaObject.position.x //- Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.6) * 0.5
-            this.menuPositions.projects.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.6) * 0.5
-            this.menuPositions.projects.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.6) * 0.5
-
-            // WhoAmI
-            this.menuPositions.whoami.x = this.world.dnaObject.position.x //- Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.9) * 0.5
-            this.menuPositions.whoami.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.9) * 0.5
-            this.menuPositions.whoami.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.9) * 0.5
-
-            // Contact
-            this.menuPositions.contact.x = this.world.dnaObject.position.x //- Math.sin(this.time.elapsed * 0.0002 - Math.PI * 1.3) * 0.5
-            this.menuPositions.contact.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.3) * 0.5
-            this.menuPositions.contact.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.3) * 0.5
         })
     }
 
@@ -132,41 +102,43 @@ export default class DOM {
     setMenu() {
         this.buttons = [
             {
+                name: 'home',
                 element: document.querySelector('.home'),
                 position: this.menuPositions.home
             },
             {
+                name: 'tech',
                 element: document.querySelector('.tech'),
                 position: this.menuPositions.tech
             },
             {
+                name: 'projects',
                 element: document.querySelector('.projects'),
                 position: this.menuPositions.projects
             },
             {
+                name: 'whiami',
                 element: document.querySelector('.whoami'),
                 position: this.menuPositions.whoami
             },
             {
+                name: 'contact',
                 element: document.querySelector('.contact'),
                 position: this.menuPositions.contact
             },
         ]
 
-        this.counter = 0
         this.time.on('tick', () => {
-            // if (this.counter % 600 == 0) {
             for (const button of this.buttons) {
                 const techPosition = button.position.clone()
                 techPosition.project(this.camera.instance)
                 const translateY = `translateY(${(-techPosition.y + 1) * this.sizes.height * 0.5}px)`
                 const translateX = `translateX(${(techPosition.x + 1) * this.sizes.width * 0.5}px)`
                 button.element.style.transform = translateX + translateY
+                // button.position.y = button.position.y + this.camera.instance.position.y
+                button.position.x = this.world.dnaObject.position.x //+ Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.85) * 0.5
+                button.position.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.85) * 0.5
             }
-
-            // }
-            this.counter++
-
         })
 
     }
