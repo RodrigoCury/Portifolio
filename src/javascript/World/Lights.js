@@ -34,6 +34,7 @@ export default class Lights {
 
         this.setDirectionalLights()
         this.setAmbientlight()
+        this.setSpotLight()
     }
 
     setDirectionalLights() {
@@ -81,5 +82,16 @@ export default class Lights {
             this.debugFolder.add(this.items.ambientlight, 'intensity', 0, 5, 0.001).name("Ambient intensity")
         }
         this.container.add(this.items.ambientlight)
+    }
+
+    setSpotLight() {
+        this.items.spotLight = new THREE.SpotLight(
+            this.colors.white,
+            3,
+            7,
+            Math.PI / 5,
+            .3,
+            0
+        )
     }
 }

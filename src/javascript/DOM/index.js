@@ -1,4 +1,5 @@
 import * as THREE from "three"
+import gsap from 'gsap'
 
 export default class DOM {
     /**
@@ -41,6 +42,7 @@ export default class DOM {
             this.setPositions()
             this.setHomePage()
             this.setMenu()
+            this.setAnimations()
         })
     }
 
@@ -132,5 +134,31 @@ export default class DOM {
 
         })
 
+    }
+
+    setAnimations() {
+        console.log("HERE");
+        this.movementFunction = {
+            ArrowLeft: () => {
+                Object.values(this.positions).forEach(position => {
+                    gsap.to(position, {
+                        y: position.y - 3.5
+                    })
+                })
+            }
+            ,
+            ArrowRight: () => {
+                Object.values(this.positions).forEach(position => {
+                    gsap.to(position, {
+                        y: position.y + 3.5
+                    })
+                })
+            },
+        }
+        window.addEventListener('keydown', event => {
+            if (this.movementFunction[event.key]) {
+                this.movementFunction[event.key]()
+            }
+        })
     }
 }
