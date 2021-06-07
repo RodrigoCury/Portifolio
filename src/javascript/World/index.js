@@ -35,12 +35,6 @@ export default class {
 
     }
 
-    start() {
-        window.setTimeout(function () {
-            this.camera.pan.enable()
-        }, 2000)
-    }
-
     setAxes() {
         // Debug
         if (this.debug) {
@@ -72,6 +66,13 @@ export default class {
             this.setPositions()
             this.setupLogos()
             this.setupISS()
+            this.container.traverse(child => {
+                if (child instanceof THREE.Mesh &&
+                    child.material instanceof THREE.MeshStandardMaterial) {
+                    child.envMapIntensity = 3
+                    console.log(child.envMapIntensity)
+                }
+            })
         })
     }
 

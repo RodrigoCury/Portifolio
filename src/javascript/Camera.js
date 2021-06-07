@@ -30,7 +30,6 @@ export default class Camera {
         this.setZoom()
         this.setAngle()
         this.setInstance()
-        this.setControls()
     }
 
     setZoom() {
@@ -78,48 +77,5 @@ export default class Camera {
         })
     }
 
-    setControls() {
-        this.ease = "back.inOut(2.5)"
-        this.movementFunction = {
-            ArrowRight: () => {
-                gsap.to(this, {
-                    rotationAngle: this.rotationAngle + Math.PI,
-                    duration: 1,
-                    ease: this.ease,
-                })
-                gsap.to(this.target, {
-                    y: this.target.y + 3.5,
-                    duration: 1,
-                    ease: this.ease,
-                })
-                gsap.to(this.instance.position, {
-                    y: this.instance.position.y + 3.5,
-                    duration: 1
-                })
-            }
-            ,
-            ArrowLeft: () => {
-                gsap.to(this, {
-                    rotationAngle: this.rotationAngle - Math.PI,
-                    duration: 1,
-                    ease: this.ease,
-                })
-                gsap.to(this.target, {
-                    y: this.target.y - 3.5,
-                    duration: 1,
-                    ease: this.ease,
-                })
-                gsap.to(this.instance.position, {
-                    y: this.instance.position.y - 3.5,
-                    duration: 1
-                })
 
-            },
-        }
-        window.addEventListener('keydown', event => {
-            if (Object.keys(this.movementFunction).includes(event.key)) {
-                this.movementFunction[event.key]()
-            }
-        })
-    }
 }
