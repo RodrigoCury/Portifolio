@@ -10,6 +10,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 import Camera from './Camera'
 import World from './World/index'
 import DOM from './DOM/index'
+import Animations from './Utils/Animations'
 
 export default class Application {
     /**
@@ -31,7 +32,7 @@ export default class Application {
         this.setPasses()
         this.setWorld()
         this.setDOMElements()
-
+        this.setAnimations()
     }
 
     /**
@@ -237,4 +238,16 @@ export default class Application {
             resources: this.resources,
         })
     }
+
+    setAnimations() {
+        this.animations = new Animations({
+            camera: this.camera,
+            DOM: this.DOM,
+            resources: this.resources,
+            time: this.time,
+            world: this.world,
+            debug: this.debug,
+        })
+    }
+
 }
