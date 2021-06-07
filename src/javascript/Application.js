@@ -74,7 +74,7 @@ export default class Application {
 
         if (this.debug) {
             this.debugObject = {
-                envMapIntensity: 1
+                envMapIntensity: 3
             }
 
             this.traverse = () => {
@@ -118,10 +118,13 @@ export default class Application {
         this.renderer.autoClear = false
 
         // Output Encoding
-        this.renderer.outputEncoding = THREE.sRGBEncoding
+        // this.renderer.outputEncoding = THREE.sRGBEncoding
 
         // Tone Mapping
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping
+
+        // Shadows
+        // this.renderer.shadowMap.enabled = true
 
         // Resize Event
         this.sizes.on('resize', () => this.renderer.setSize(this.sizes.viewport.width, this.sizes.viewport.height))
