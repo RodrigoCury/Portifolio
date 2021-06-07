@@ -23,15 +23,12 @@ html{
 
 .intro{
     position: absolute;
-    height: 10vh;
-    width: 50vw;
-    top: 45vh;
-    left: 60vw;
+    top: 0;
+    left: 0;
 }
 
 .name{
     font-family : 'Caveat';
-    font-size : 10vh;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
