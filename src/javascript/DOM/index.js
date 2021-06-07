@@ -1,5 +1,6 @@
 import * as THREE from "three"
 import gsap from 'gsap'
+import { Vector3 } from "three"
 
 export default class DOM {
     /**
@@ -23,13 +24,8 @@ export default class DOM {
         // Setup
         this.body = document.querySelector('body')
 
-        this.positions = {
-            home: new THREE.Vector3(0, 1.2, 0),
-            tech: new THREE.Vector3(0, 0.47, 0),
-            projects: new THREE.Vector3(0, -0.135, 0),
-            whoami: new THREE.Vector3(0, -0.75, 0),
-            contact: new THREE.Vector3(0, -1.35, 0),
-        }
+
+
 
 
         this.colors = {
@@ -39,6 +35,15 @@ export default class DOM {
         }
 
         this.resources.on('ready', () => {
+            this.menuPositions = {
+                home: new THREE.Vector3(0, 1.1, 0),
+                tech: new THREE.Vector3(0, 0.47, 0),
+                projects: new THREE.Vector3(0, -0.135, 0),
+                whoami: new THREE.Vector3(0, -0.75, 0),
+                contact: new THREE.Vector3(0, -1.35, 0),
+            }
+
+
             this.setPositions()
             this.setHomePage()
             this.setMenu()
@@ -49,39 +54,56 @@ export default class DOM {
     setPositions() {
         this.time.on("tick", () => {
             // Home
-            this.positions.home.x = this.world.dnaObject.position.x //+ Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.85) * 0.5
-            this.positions.home.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.85) * 0.5
-            // this.positions.home.y += this.camera.instance.position.y
+            this.menuPositions.home.x = this.world.dnaObject.position.x //+ Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.85) * 0.5
+            this.menuPositions.home.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.85) * 0.5
 
             // Technologies
-            this.positions.tech.x = this.world.dnaObject.position.x //+ Math.sin(this.time.elapsed * 0.0002 - Math.PI * 1.325) * 0.5
-            this.positions.tech.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.325) * 0.5
-            this.positions.tech.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.325) * 0.5
+            this.menuPositions.tech.x = this.world.dnaObject.position.x //+ Math.sin(this.time.elapsed * 0.0002 - Math.PI * 1.325) * 0.5
+            this.menuPositions.tech.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.325) * 0.5
+            this.menuPositions.tech.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.325) * 0.5
 
             // Projects
-            this.positions.projects.x = this.world.dnaObject.position.x //- Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.6) * 0.5
-            this.positions.projects.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.6) * 0.5
-            this.positions.projects.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.6) * 0.5
+            this.menuPositions.projects.x = this.world.dnaObject.position.x //- Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.6) * 0.5
+            this.menuPositions.projects.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.6) * 0.5
+            this.menuPositions.projects.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.6) * 0.5
 
             // WhoAmI
-            this.positions.whoami.x = this.world.dnaObject.position.x //- Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.9) * 0.5
-            this.positions.whoami.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.9) * 0.5
-            this.positions.whoami.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.9) * 0.5
+            this.menuPositions.whoami.x = this.world.dnaObject.position.x //- Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.9) * 0.5
+            this.menuPositions.whoami.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.9) * 0.5
+            this.menuPositions.whoami.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.9) * 0.5
 
             // Contact
-            this.positions.contact.x = this.world.dnaObject.position.x //- Math.sin(this.time.elapsed * 0.0002 - Math.PI * 1.3) * 0.5
-            this.positions.contact.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.3) * 0.5
-            this.positions.contact.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.3) * 0.5
+            this.menuPositions.contact.x = this.world.dnaObject.position.x //- Math.sin(this.time.elapsed * 0.0002 - Math.PI * 1.3) * 0.5
+            this.menuPositions.contact.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.3) * 0.5
+            this.menuPositions.contact.z = this.world.dnaObject.position.z //- Math.cos(this.time.elapsed * 0.0002 - Math.PI * 1.3) * 0.5
         })
     }
 
     setHomePage() {
+        this.homeDivPosition = new Vector3(
+            -this.camera.instance.position.distanceTo(
+                new THREE.Vector3(0, 0, 0)) * Math.tan(this.camera.topFOV / 2 * 0.10 * Math.PI / 180
+                ),
+            0,
+            0)
+        this.homeDivProjection = this.homeDivPosition.clone()
+        this.homeDivProjection.project(this.camera.instance)
+
+
         // TittleDiv
         this.mainDIV = document.querySelector('.intro')
+        const translateY = `translateY(${(-this.homeDivProjection.y + .75) * this.sizes.height * 0.5}px) `
+        const translateX = `translateX(${(this.homeDivProjection.x + 1) * this.sizes.width * 0.5}px)`
+        this.mainDIV.style.transform = translateY + translateX
+        this.mainDIV.style.height = `${this.sizes.height / 3}px`
+
 
         // Title
         this.title = document.querySelector('.name')
+        this.title.style.fontSize = `${this.sizes.height / 7.5}px`
+
         this.subTitle = document.querySelector('.subtitle')
+        this.subTitle.style.fontSize = `${this.sizes.height / 7.5 * 0.22}px`
 
 
         if (this.debug) {
@@ -92,29 +114,42 @@ export default class DOM {
                 this.subTitle.style.color = this.colors.subTitle
             })
         }
+
+        window.addEventListener('resize', event => {
+            this.title.style.fontSize = `${this.sizes.height / 7.5}px`
+            this.subTitle.style.fontSize = `${this.sizes.height / 7.5 * 0.22}px`
+        })
+
+        this.time.on("tick", () => {
+            const translateY = `translateY(${(-this.homeDivProjection.y + .75) * this.sizes.height * 0.5}px) `
+            const translateX = `translateX(${(this.homeDivProjection.x + 1) * this.sizes.width * 0.5}px)`
+            this.mainDIV.style.transform = translateY + translateX
+            this.homeDivProjection = this.homeDivPosition.clone()
+            this.homeDivProjection.project(this.camera.instance)
+        })
     }
 
     setMenu() {
         this.buttons = [
             {
                 element: document.querySelector('.home'),
-                position: this.positions.home
+                position: this.menuPositions.home
             },
             {
                 element: document.querySelector('.tech'),
-                position: this.positions.tech
+                position: this.menuPositions.tech
             },
             {
                 element: document.querySelector('.projects'),
-                position: this.positions.projects
+                position: this.menuPositions.projects
             },
             {
                 element: document.querySelector('.whoami'),
-                position: this.positions.whoami
+                position: this.menuPositions.whoami
             },
             {
                 element: document.querySelector('.contact'),
-                position: this.positions.contact
+                position: this.menuPositions.contact
             },
         ]
 
@@ -137,10 +172,9 @@ export default class DOM {
     }
 
     setAnimations() {
-        console.log("HERE");
         this.movementFunction = {
             ArrowLeft: () => {
-                Object.values(this.positions).forEach(position => {
+                Object.values(this.menuPositions).forEach(position => {
                     gsap.to(position, {
                         y: position.y - 3.5
                     })
@@ -148,7 +182,7 @@ export default class DOM {
             }
             ,
             ArrowRight: () => {
-                Object.values(this.positions).forEach(position => {
+                Object.values(this.menuPositions).forEach(position => {
                     gsap.to(position, {
                         y: position.y + 3.5
                     })
