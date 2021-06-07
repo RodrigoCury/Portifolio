@@ -83,39 +83,35 @@ export default class Camera {
         this.movementFunction = {
             ArrowRight: () => {
                 gsap.to(this, {
-                    rotationAngle: this.rotationAngle + Math.PI * 0.125,
+                    rotationAngle: this.rotationAngle + Math.PI,
                     duration: 1,
                     ease: this.ease,
+                })
+                gsap.to(this.target, {
+                    y: this.target.y + 3.5,
+                    duration: 1,
+                    ease: this.ease,
+                })
+                gsap.to(this.instance.position, {
+                    y: this.instance.position.y + 3.5,
+                    duration: 1
                 })
             }
             ,
-            ArrowLeft: () => gsap.to(this, {
-                rotationAngle: this.rotationAngle - Math.PI * 0.125,
-                duration: 1,
-                ease: this.ease,
-            }),
-            ArrowUp: () => {
-                gsap.to(this.instance.position, {
-                    y: this.instance.position.y + 1.5,
+            ArrowLeft: () => {
+                gsap.to(this, {
+                    rotationAngle: this.rotationAngle - Math.PI,
                     duration: 1,
                     ease: this.ease,
                 })
                 gsap.to(this.target, {
-                    y: this.target.y + 1.5,
+                    y: this.target.y - 3.5,
                     duration: 1,
                     ease: this.ease,
                 })
-            },
-            ArrowDown: () => {
                 gsap.to(this.instance.position, {
-                    y: this.instance.position.y - 1.5,
-                    duration: 1,
-                    ease: this.ease,
-                })
-                gsap.to(this.target, {
-                    y: this.target.y - 1.5,
-                    duration: 1,
-                    ease: this.ease,
+                    y: this.instance.position.y - 3.5,
+                    duration: 1
                 })
 
             },
