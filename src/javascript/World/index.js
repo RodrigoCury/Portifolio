@@ -44,9 +44,9 @@ export default class {
     setAxes() {
         // Debug
         if (this.debug) {
-            this.axes = new THREE.AxesHelper(1)
-            this.container.add(this.axes)
-            this.debugFolder.add(this.axes, 'visible')
+            // this.axes = new THREE.AxesHelper(1)
+            // this.container.add(this.axes)
+            // this.debugFolder.add(this.axes, 'visible')
         }
     }
 
@@ -140,6 +140,7 @@ export default class {
         this.resources.items.html.scene.rotation.x = Math.PI / 2
         this.resources.items.jsLogo.scene.position.set(1, 1.5, 3)
         this.resources.items.jsLogo.scene.rotation.x = Math.PI / 2
+        this.resources.items.jsLogo.scene.scale.set(0.9, 0.9, 0.9)
         this.resources.items.threeLogo.scene.position.set(3.5, 0, 3)
         this.resources.items.threeLogo.scene.rotation.x = Math.PI / 2
         this.resources.items.djangoLogo.scene.position.set(-3.6, 0, 3)
