@@ -72,6 +72,25 @@ export default class Application {
 
         })
 
+        if (this.debug) {
+            this.debugObject = {
+                envMapIntensity: 1
+            }
+
+            this.traverse = () => {
+                this.scene.traverse(child => {
+                    if (child instanceof THREE.Mesh &&
+                        child.material instanceof THREE.MeshStandardMaterial) {
+                        child.material.envMapIntensity = this.debugObject.envMapIntensity
+                        child.material.needsUpdate = true
+                    }
+                })
+            }
+
+            this.debug.add(this.debugObject, 'envMapIntensity').onChange(this.traverse)
+            this.debug.add(this, 'traverse')
+        }
+
         // Renderer 
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.$canvas,

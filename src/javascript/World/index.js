@@ -68,13 +68,15 @@ export default class {
 
     setResources() {
         this.setDNA()
+        // this.setupLogos()
+        this.setupISS()
     }
+
     setDNA() {
         this.resources.on('ready', () => {
             // DNA Object
             this.dnaStrand = {}
 
-            // Materials
             /**
              * SEPARATE MATERIALS
              */
@@ -120,6 +122,29 @@ export default class {
         })
 
     }
+
+    setupLogos() {
+
+        const ligth = new THREE.PointLight('#fff', 1)
+        ligth.position.z = 2
+        this.container.add(ligth)
+        this.resources.on("ready", () => {
+            console.log(this.resources.items)
+            this.resources.items.pyLogo.scene.rotation.x = -Math.PI / 2
+            this.container.add(this.resources.items.pyLogo.scene)
+        })
+    }
+
+    setupISS() {
+        this.resources.on("ready", () => {
+            this.resources.items.iss.scene.scale.set(0.5, 0.5, 0.5)
+            this.resources.items.iss.scene.rotation.z = -Math.PI / 2
+            console.log(this.resources.items.iss.scene.children)
+            this.container.add(this.resources.items.iss.scene)
+        })
+    }
+
+
     setPositions() {
         this.resources.on('ready', () => {
             this.dnaStrandDistance = this.camera.instance.position.distanceTo(new THREE.Vector3(0, 0, 0)) * Math.tan(this.camera.topFOV / 2 * 0.70 * Math.PI / 180)

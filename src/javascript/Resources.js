@@ -18,7 +18,17 @@ import px from '../textures/nebulaEnvMap/px.png'
 import py from '../textures/nebulaEnvMap/py.png'
 import pz from '../textures/nebulaEnvMap/pz.png'
 
-import DNASource from '../models/dna.gltf'
+// Logos
+import pyLogo from '../models/logos/pyLogo.glb'
+import biopyLogo from '../models/logos/biopyLogo.glb'
+import css from '../models/logos/css.glb'
+import html from '../models/logos/html.glb'
+import djangoLogo from '../models/logos/djangoLogo.glb'
+import jsLogo from '../models/logos/jsLogo.glb'
+import threeLogo from '../models/logos/threeLogo.glb'
+
+// ISS
+import iss from '../models/iss/iss.glb'
 
 /**
  * Resources Class
@@ -40,8 +50,21 @@ export default class Resources extends EventEmitter {
 
         // Setup all loads
         this.loader.load([
-            { name: 'DNAStrand', source: DNASource },
-            { name: 'envMap', source: [px, nx, py, ny, pz, nz] }
+
+            // EnvMaps
+            { name: 'envMap', source: [px, nx, py, ny, pz, nz] },
+
+            // Logos
+            { name: 'pyLogo', source: pyLogo },
+            { name: 'biopyLogo', source: biopyLogo },
+            { name: 'css', source: css },
+            { name: 'html', source: html },
+            { name: 'djangoLogo', source: djangoLogo },
+            { name: 'jsLogo', source: jsLogo },
+            { name: 'threeLogo', source: threeLogo },
+
+            // 3D Models
+            { name: 'iss', source: iss }
         ])
 
         // Setup Triggers and put loaded resoucers on items Object
