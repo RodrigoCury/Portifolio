@@ -65,9 +65,9 @@ export default class Lights {
                 this.items.redDirectionalLight.color = new THREE.Color(this.colors.redNebula)
             })
 
-            this.items.redDirectionalLightHelper = new THREE.DirectionalLightHelper(this.items.redDirectionalLight, 2)
-            this.items.blueDirectionalLightHelper = new THREE.DirectionalLightHelper(this.items.blueDirectionalLight, 2)
-            this.container.add(this.items.blueDirectionalLightHelper, this.items.redDirectionalLightHelper)
+            // this.items.redDirectionalLightHelper = new THREE.DirectionalLightHelper(this.items.redDirectionalLight, 2)
+            // this.items.blueDirectionalLightHelper = new THREE.DirectionalLightHelper(this.items.blueDirectionalLight, 2)
+            // this.container.add(this.items.blueDirectionalLightHelper, this.items.redDirectionalLightHelper)
         }
 
         this.container.add(
