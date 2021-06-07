@@ -64,10 +64,6 @@ export default class Lights {
             this.debugFolder.addColor(this.colors, 'redNebula').onChange(() => {
                 this.items.redDirectionalLight.color = new THREE.Color(this.colors.redNebula)
             })
-
-            // this.items.redDirectionalLightHelper = new THREE.DirectionalLightHelper(this.items.redDirectionalLight, 2)
-            // this.items.blueDirectionalLightHelper = new THREE.DirectionalLightHelper(this.items.blueDirectionalLight, 2)
-            // this.container.add(this.items.blueDirectionalLightHelper, this.items.redDirectionalLightHelper)
         }
 
         this.container.add(
@@ -87,7 +83,7 @@ export default class Lights {
     setSpotLight() {
         this.items.spotLight = new THREE.SpotLight(
             this.colors.white,
-            3,
+            5,
             7,
             Math.PI / 5,
             .3,
