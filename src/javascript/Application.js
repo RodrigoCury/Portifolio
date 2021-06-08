@@ -1,16 +1,30 @@
-import Time from './Utils/Time'
+// Utils
+import Animations from './Utils/Animations'
+import Raycasting from './Utils/Raycasting'
 import Sizes from './Utils/Sizes'
-import Resources from './Resources'
+import Time from './Utils/Time'
 
+
+// Three
 import * as THREE from 'three'
-import * as dat from 'dat.gui'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 
+// Debug
+import * as dat from 'dat.gui'
+
+// Root
+import Resources from './Resources'
 import Camera from './Camera'
-import World from './World/index'
+
+// DOM
 import DOM from './DOM/index'
-import Animations from './World/Animations'
+
+
+// World
+import World from './World/index'
+
+
 
 export default class Application {
     /**
@@ -33,6 +47,7 @@ export default class Application {
         this.setWorld()
         this.setDOMElements()
         this.setAnimations()
+        this.setRaycaster()
     }
 
     /**
@@ -239,6 +254,17 @@ export default class Application {
         })
     }
 
+    setRaycaster() {
+        this.raycasting = new Raycasting({
+            camera: this.camera,
+            resources: this.resources,
+            time: this.time,
+            world: this.world,
+            DOM: this.DOM,
+            debug: this.debug,
+        })
+    }
+
     setAnimations() {
         this.animations = new Animations({
             camera: this.camera,
@@ -249,5 +275,6 @@ export default class Application {
             debug: this.debug,
         })
     }
+
 
 }
