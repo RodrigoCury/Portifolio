@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import Lights from './Lights'
 import Materials from './Materials'
-
+import Areas from './Areas'
 
 export default class {
     constructor(_options) {
@@ -26,7 +26,6 @@ export default class {
         // Setup
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = true
-
 
         this.setLights()
         this.setMaterials()
@@ -61,18 +60,10 @@ export default class {
 
     setResources() {
         this.resources.on('ready', () => {
-
             this.setDNA()
             this.setPositions()
             this.setupLogos()
             this.setupISS()
-            this.container.traverse(child => {
-                if (child instanceof THREE.Mesh &&
-                    child.material instanceof THREE.MeshStandardMaterial) {
-                    child.envMapIntensity = 3
-                    console.log(child.envMapIntensity)
-                }
-            })
         })
     }
 
@@ -131,6 +122,8 @@ export default class {
         this.logoContainer.position.y = -3.5
         this.logoContainer.rotation.y = Math.PI * 0.25
 
+        // Set Raycaster Areas
+        this.logosArea = Areas.addArea()
         /**
          * TOP
          */
@@ -138,39 +131,46 @@ export default class {
         // Set Python Logo
         this.resources.items.pyLogo.scene.position.set(-1, 2, 3)
         this.resources.items.pyLogo.scene.rotation.x = Math.PI / 2
+        this.logosArea.addToArea(2, 2, this.resources.items.pyLogo.scene, 'python')
 
         // Set Javascript Logo
         this.resources.items.jsLogo.scene.position.set(1, 2, 3)
         this.resources.items.jsLogo.scene.rotation.x = Math.PI / 2
         this.resources.items.jsLogo.scene.scale.set(0.9, 0.9, 0.9)
+        this.logosArea.addToArea(2, 2, this.resources.items.jsLogo.scene, 'javascript')
 
         /**
          * Middle
          */
 
+        // Django Logo
+        this.resources.items.djangoLogo.scene.position.set(-2, 0, 3)
+        this.resources.items.djangoLogo.scene.rotation.x = Math.PI / 2
+        this.logosArea.addToArea(2, 2, this.resources.items.djangoLogo.scene, 'django')
+
         // Set BioPython Logo
         this.resources.items.biopyLogo.scene.position.set(0, 0, 3)
         this.resources.items.biopyLogo.scene.rotation.x = Math.PI / 2
+        this.logosArea.addToArea(2, 2, this.resources.items.biopyLogo.scene, 'biopython')
 
         // Set THREE.js Logo
         this.resources.items.threeLogo.scene.position.set(2, 0, 3)
         this.resources.items.threeLogo.scene.rotation.x = Math.PI / 2
-
-        // Django Logo
-        this.resources.items.djangoLogo.scene.position.set(-2, 0, 3)
-        this.resources.items.djangoLogo.scene.rotation.x = Math.PI / 2
+        this.logosArea.addToArea(2, 2, this.resources.items.threeLogo.scene, 'three')
 
         /**
          * Bottom
          */
 
-        // Set CSS Logo
-        this.resources.items.css.scene.position.set(1, -2, 3)
-        this.resources.items.css.scene.rotation.x = Math.PI / 2
-
         // Set HTML Logo
         this.resources.items.html.scene.position.set(-1, -2, 3)
         this.resources.items.html.scene.rotation.x = Math.PI / 2
+        this.logosArea.addToArea(2, 2, this.resources.items.html.scene, 'html')
+
+        // Set CSS Logo
+        this.resources.items.css.scene.position.set(1, -2, 3)
+        this.resources.items.css.scene.rotation.x = Math.PI / 2
+        this.logosArea.addToArea(2, 2, this.resources.items.css.scene, 'css')
 
 
 
@@ -186,6 +186,7 @@ export default class {
             this.resources.items.jsLogo.scene,
             this.resources.items.threeLogo.scene,
             this.resources.items.djangoLogo.scene,
+            this.logosArea
 
         )
         this.container.add(this.logoContainer)
