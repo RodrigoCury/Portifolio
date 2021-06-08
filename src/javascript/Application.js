@@ -10,7 +10,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 import Camera from './Camera'
 import World from './World/index'
 import DOM from './DOM/index'
-import Animations from './Utils/Animations'
+import Animations from './World/Animations'
 
 export default class Application {
     /**
