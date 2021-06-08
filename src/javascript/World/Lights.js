@@ -73,7 +73,7 @@ export default class Lights {
     }
 
     setAmbientlight() {
-        this.items.ambientlight = new THREE.AmbientLight(this.colors.white, 0.2)
+        this.items.ambientlight = new THREE.AmbientLight(this.colors.white, 0.8)
         if (this.debug) {
             this.debugFolder.add(this.items.ambientlight, 'intensity', 0, 5, 0.001).name("Ambient intensity")
         }
@@ -84,7 +84,7 @@ export default class Lights {
         this.items.spotLight = new THREE.SpotLight(
             this.colors.white,
             5,
-            7,
+            6,
             Math.PI / 5,
             .3,
             0

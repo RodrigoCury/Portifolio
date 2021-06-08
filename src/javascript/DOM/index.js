@@ -24,10 +24,6 @@ export default class DOM {
         // Setup
         this.body = document.querySelector('body')
 
-
-
-
-
         this.colors = {
             title: "#ffffff",
             subTitle: "#a0a0a0",
@@ -35,17 +31,8 @@ export default class DOM {
         }
 
         this.resources.on('ready', () => {
-            this.menuPositions = {
-                home: new THREE.Vector3(0, 1.1, 0),
-                tech: new THREE.Vector3(0, 0.47, 0),
-                projects: new THREE.Vector3(0, -0.135, 0),
-                whoami: new THREE.Vector3(0, -0.75, 0),
-                contact: new THREE.Vector3(0, -1.35, 0),
-            }
-
             this.setHomePage()
             this.setMenu()
-            this.setAnimations()
         })
     }
 
@@ -104,29 +91,38 @@ export default class DOM {
             {
                 name: 'home',
                 element: document.querySelector('.home'),
-                position: this.menuPositions.home
+                position: new THREE.Vector3(),
+                offset: 1.1,
             },
             {
                 name: 'tech',
                 element: document.querySelector('.tech'),
-                position: this.menuPositions.tech
+                position: new THREE.Vector3(),
+                offset: 0.47,
             },
             {
                 name: 'projects',
                 element: document.querySelector('.projects'),
-                position: this.menuPositions.projects
+                position: new THREE.Vector3(),
+                offset: -0.135,
             },
             {
                 name: 'whiami',
                 element: document.querySelector('.whoami'),
-                position: this.menuPositions.whoami
+                position: new THREE.Vector3(),
+                offset: -0.75,
             },
             {
                 name: 'contact',
                 element: document.querySelector('.contact'),
-                position: this.menuPositions.contact
+                position: new THREE.Vector3(),
+                offset: -1.35,
             },
         ]
+
+        for (const button of this.buttons) {
+            button.position.y = button.offset
+        }
 
         this.time.on('tick', () => {
             for (const button of this.buttons) {
@@ -135,36 +131,10 @@ export default class DOM {
                 const translateY = `translateY(${(-techPosition.y + 1) * this.sizes.height * 0.5}px)`
                 const translateX = `translateX(${(techPosition.x + 1) * this.sizes.width * 0.5}px)`
                 button.element.style.transform = translateX + translateY
-                // button.position.y = button.position.y + this.camera.instance.position.y
                 button.position.x = this.world.dnaObject.position.x //+ Math.sin(this.time.elapsed * 0.0002 - Math.PI * 0.85) * 0.5
                 button.position.z = this.world.dnaObject.position.z //+ Math.cos(this.time.elapsed * 0.0002 - Math.PI * 0.85) * 0.5
             }
         })
 
-    }
-
-    setAnimations() {
-        this.movementFunction = {
-            ArrowLeft: () => {
-                Object.values(this.menuPositions).forEach(position => {
-                    gsap.to(position, {
-                        y: position.y - 3.5
-                    })
-                })
-            }
-            ,
-            ArrowRight: () => {
-                Object.values(this.menuPositions).forEach(position => {
-                    gsap.to(position, {
-                        y: position.y + 3.5
-                    })
-                })
-            },
-        }
-        window.addEventListener('keydown', event => {
-            if (this.movementFunction[event.key]) {
-                this.movementFunction[event.key]()
-            }
-        })
     }
 }

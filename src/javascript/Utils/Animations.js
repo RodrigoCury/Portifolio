@@ -48,67 +48,60 @@ export default class Animations {
         }
 
         this.animations = {
-            home: (element) => {
-                const y = 0
+            camera: (element, rotationAngle, ease, y, cameraDuration, buttonDuration) => {
                 gsap.to(this.camera, {
-                    rotationAngle: -Math.PI,
-                    duration: this.duration.normal,
-                    ease: this.ease.power4
+                    rotationAngle: rotationAngle,
+                    duration: cameraDuration,
+                    ease: ease
                 })
                 gsap.to(this.camera.instance.position, {
-                    y,
-                    duration: this.duration.normal,
-                    ease: this.ease.power4
+                    y: y,
+                    duration: cameraDuration,
+                    ease: ease
                 })
                 gsap.to(this.camera.target, {
-                    y,
-                    duration: this.duration.normal,
-                    ease: this.ease.power3
+                    y: y,
+                    duration: cameraDuration,
+                    ease: ease
                 })
                 this.DOM.buttons.forEach(btn => {
                     gsap.to(btn.position, {
-                        y,
-                        duration: this.duration.slow,
+                        y: y + btn.offset,
+                        duration: buttonDuration,
                         ease: this.ease.power3
                     })
                 })
                 this.selectedBtn(element)
             },
-            tech: (element) => {
-                const y = -3.5
-                gsap.to(this.camera, {
-                    rotationAngle: 0,
-                    duration: this.duration.normal,
-                    ease: this.ease.power3
-                })
-                gsap.to(this.camera.instance.position, {
-                    y,
-                    duration: this.duration.normal,
-                    ease: this.ease.power3
-                })
-                gsap.to(this.camera.target, {
-                    y,
-                    duration: this.duration.normal,
-                    ease: this.ease.power3
-                })
-                this.selectedBtn(element)
-                this.DOM.buttons.forEach(btn => {
-                    gsap.to(btn.position, {
-                        y: btn.position.y + y,
-                        duration: this.duration.slow,
-                        ease: this.ease.power3
-                    })
-                })
-            }
         }
     }
 
     setEventListeners() {
+        this.menuIndex = 0
         this.DOM.buttons[0].element.addEventListener('click', () => {
-            this.animations.home(this.DOM.buttons[0].element)
+            this.animations.camera(
+                this.DOM.buttons[0].element,
+                -Math.PI,
+                this.ease.power3,
+                0,
+                this.duration.slow,
+                this.duration.normal
+            )
+
+            this.menuIndex = 0
         })
         this.DOM.buttons[1].element.addEventListener('click', () => {
-            this.animations.tech(this.DOM.buttons[1].element)
+            this.animations.camera(
+                this.DOM.buttons[1].element,
+                -Math.PI * 1.5,
+                this.ease.circ,
+                -3.5,
+                this.duration.slow,
+                this.duration.normal,
+            )
+
+            this.menuIndex = 1
         })
+        this.DOM.buttons[2]
     }
 }

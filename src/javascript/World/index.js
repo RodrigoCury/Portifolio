@@ -38,9 +38,9 @@ export default class {
     setAxes() {
         // Debug
         if (this.debug) {
-            // this.axes = new THREE.AxesHelper(1)
-            // this.container.add(this.axes)
-            // this.debugFolder.add(this.axes, 'visible')
+            this.axes = new THREE.AxesHelper(1)
+            this.container.add(this.axes)
+            this.debugFolder.add(this.axes, 'visible')
         }
     }
 
@@ -124,28 +124,59 @@ export default class {
     }
 
     setupLogos() {
+        //Set Logo Container
         this.logoContainer = new THREE.Object3D()
-        this.logoContainer.position.z = -8
-        this.logoContainer.position.x = 5
+        this.logoContainer.position.z = -5
+        this.logoContainer.position.x = -8
         this.logoContainer.position.y = -3.5
-        this.logoContainer.rotation.y = -Math.PI * 0.25
+        this.logoContainer.rotation.y = Math.PI * 0.25
 
+        /**
+         * TOP
+         */
 
-        this.resources.items.pyLogo.scene.position.set(-1, 1.5, 3)
+        // Set Python Logo
+        this.resources.items.pyLogo.scene.position.set(-1, 2, 3)
         this.resources.items.pyLogo.scene.rotation.x = Math.PI / 2
-        this.resources.items.biopyLogo.scene.position.set(0, -1, 3)
-        this.resources.items.biopyLogo.scene.rotation.x = Math.PI / 2
-        this.resources.items.css.scene.position.set(1, -1.5, 3)
-        this.resources.items.css.scene.rotation.x = Math.PI / 2
-        this.resources.items.html.scene.position.set(-1, -3.7, 3)
-        this.resources.items.html.scene.rotation.x = Math.PI / 2
-        this.resources.items.jsLogo.scene.position.set(1, 1.5, 3)
+
+        // Set Javascript Logo
+        this.resources.items.jsLogo.scene.position.set(1, 2, 3)
         this.resources.items.jsLogo.scene.rotation.x = Math.PI / 2
         this.resources.items.jsLogo.scene.scale.set(0.9, 0.9, 0.9)
-        this.resources.items.threeLogo.scene.position.set(3.5, 0, 3)
+
+        /**
+         * Middle
+         */
+
+        // Set BioPython Logo
+        this.resources.items.biopyLogo.scene.position.set(0, 0, 3)
+        this.resources.items.biopyLogo.scene.rotation.x = Math.PI / 2
+
+        // Set THREE.js Logo
+        this.resources.items.threeLogo.scene.position.set(2, 0, 3)
         this.resources.items.threeLogo.scene.rotation.x = Math.PI / 2
-        this.resources.items.djangoLogo.scene.position.set(-3.6, 0, 3)
+
+        // Django Logo
+        this.resources.items.djangoLogo.scene.position.set(-2, 0, 3)
         this.resources.items.djangoLogo.scene.rotation.x = Math.PI / 2
+
+        /**
+         * Bottom
+         */
+
+        // Set CSS Logo
+        this.resources.items.css.scene.position.set(1, -2, 3)
+        this.resources.items.css.scene.rotation.x = Math.PI / 2
+
+        // Set HTML Logo
+        this.resources.items.html.scene.position.set(-1, -2, 3)
+        this.resources.items.html.scene.rotation.x = Math.PI / 2
+
+
+
+        /**
+         *  Add Logos to Logo Container
+         */
 
         this.logoContainer.add(
             this.resources.items.pyLogo.scene,
@@ -164,7 +195,7 @@ export default class {
     setupISS() {
         this.resources.items.iss.scene.scale.set(0.3, 0.3, 0.3)
         this.resources.items.iss.scene.rotation.z = -Math.PI / 2
-        this.resources.items.iss.scene.position.set(0, -3, 7)
+        this.resources.items.iss.scene.position.set(0, -1, 7)
         this.logoContainer.add(this.resources.items.iss.scene)
 
         this.lights.items.spotLight.position.copy(this.resources.items.iss.scene.position)
@@ -175,15 +206,10 @@ export default class {
             this.lights.items.spotLight.target,
         )
 
-        if (this.debug) {
-            const spotLightHelper = new THREE.SpotLightHelper(this.lights.items.spotLight)
-            spotLightHelper.matrixWorldNeedsUpdate = true
-            // this.container.add(spotLightHelper)
-        }
-
         this.time.on('tick', () => {
             this.lights.items.spotLight.target.position.x = Math.cos(this.time.elapsed * 0.0007) * 6
             this.lights.items.spotLight.target.position.y = 2.5 + Math.sin(this.time.elapsed * 0.0005) * 5
+
         })
 
     }
