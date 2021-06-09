@@ -59,7 +59,7 @@ export default class Materials {
                 uColor: { value: new Color('#1B4294') },
                 uGlitchSpeed: { value: 0.22 },
                 uGlitchIntensity: { value: 0.1 },
-                uBarSpeed: { value: 0.0001 },
+                uBarSpeed: { value: 0.001 },
                 uBarDistance: { value: 45 },
                 uAlpha: { value: 0.5 },
                 uFlickerSpeed: { value: 0.62 },
