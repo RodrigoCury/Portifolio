@@ -1,48 +1,23 @@
 precision mediump float;
+uniform float uAlpha;
+uniform float uBarDistance;
+uniform float uBarSpeed;
+uniform float uFlickerSpeed;
+uniform vec3 uRimColor;
+uniform float uRimPower;
+uniform float uGlowDistance;
+uniform float uGlowSpeed;
 
-// varying vec2 vUv;
-// varying vec2 vColor;
+varying vec3 vColor;
+varying vec2 vUv;
+varying float vTime;
+varying vec4 vModelPosition;
+varying vec3 vWorldNormal;
+varying vec3 vViewDir;
 
-void main(){
-    gl_FragColor = vec4(0.16, 0.57, 0.96, 1.0);
-}
-
-/**
-uniform vec4 m_MainColor;
-uniform float g_Time;
-
-#ifdef ISTEXTURED
-    uniform sampler2D m_MainTexture;
-#endif
-#ifdef HASBARS
-    uniform float m_BarSpeed;
-    uniform float m_BarDistance;
-#endif
-#ifdef HASALPHA
-    uniform float m_Alpha;
-#endif
-#ifdef SHOULDFLICKER
-    uniform float m_FlickerSpeed;
-#endif
-#ifdef HASRIM
-    uniform vec4 m_RimColor;
-    uniform float m_RimPower;
-#endif
-#ifdef HASGLOW
-    uniform float m_GlowSpeed;
-    uniform float m_GlowDistance;
-#endif
-
-in vec3 vertexWorldPos;
-in vec3 vertexModelPos;
-in vec3 worldNormal;
-in vec3 viewDir;
-in vec2 texCoord;
-
-//thanks, github
 float rand(float n){
     return fract(sin(n) * 43758.5453123);
-}
+    }
 
 float noise(float p){
     float fl = floor(p);
@@ -51,49 +26,30 @@ float noise(float p){
 }
 
 void main(){
-    
-    //Texture
-    vec4 texColor = vec4(1.0);
-    #ifdef ISTEXTURED
-        texColor = texture2D(m_MainTexture, texCoord);
-    #endif
+    vec4 color = vec4(vColor, 1.0);
+    // Bars
+    float val = vTime * uBarSpeed + vModelPosition.y * uBarDistance;
+    float bars = step(val - floor(val), 0.5) * 0.65;
 
-    //Scan effect
-    float bars = 0.0;
-    #ifdef HASBARS
-        float val = g_Time * m_BarSpeed + vertexWorldPos.y * m_BarDistance;
-        bars = step(val - floor(val), 0.5) * 0.65;
-    #endif
+    // Flicker
+    float flicker = clamp(noise(vTime * uFlickerSpeed), 0.65, 1.0);
 
-    //Just plain old alpha
-    float alpha = 1.0;
-    #ifdef HASALPHA
-        alpha = m_Alpha;
-    #endif
+    // Rim
+    float rim = 1.0 - clamp(dot(vViewDir, vWorldNormal), 0.0, 1.0);
+    vec4 rimColor = vec4(uRimColor * pow(rim, uRimPower), 1.0);
 
-    //Flickering
-    float flicker = 1.0;
-    #ifdef SHOULDFLICKER
-        flicker = clamp(noise(g_Time * m_FlickerSpeed), 0.65, 1.0);
-    #endif
-
-    //Rim lighting
-    float rim = 1.0;
-    vec4 rimColor = vec4(0.0);
-    #ifdef HASRIM
-        rim = 1.0 - clamp(dot(viewDir, worldNormal), 0.0, 1.0);
-        rimColor = m_RimColor * pow(rim, m_RimPower);
-    #endif
-
-    //Glow
+    // Glow
     float glow = 0.0;
-    #ifdef HASGLOW
-        float tempGlow = vertexWorldPos.y * m_GlowDistance - g_Time * m_GlowSpeed;
-        glow = tempGlow - floor(tempGlow);
-    #endif
-    
-    vec4 color = texColor * m_MainColor + rimColor + (glow * 0.35 * m_MainColor);
-    color.a = texColor.a * alpha * (bars + rim + glow) * flicker;
-    gl_FragColor = color;
-    }
-*/ 
+    float tempGlow = vModelPosition.y * uGlowDistance - vTime * uGlowSpeed;
+    glow = tempGlow - floor(tempGlow);
+
+    vec2 newUv = vUv + vTime * 0.00002;
+
+    float strength = mod(newUv.y * 60.0, 1.0);
+
+    vec4 newColor = vec4(1.0);
+    newColor = color + rimColor + (glow * 0.35 * color);
+    newColor.a = uAlpha * (bars + rim + glow) * flicker;
+
+    gl_FragColor = newColor;
+}
