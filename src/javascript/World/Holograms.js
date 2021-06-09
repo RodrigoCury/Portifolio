@@ -44,18 +44,17 @@ export default class Holograms {
 
     setupGeometries() {
         this.properties = {
-            font: this.resources.items.shareTechMonoRegular,
-            size: 0.3,
-            height: 0.05,
+            font: this.resources.items.mateSC,
+            size: 0.5,
+            height: 0.1,
             curveSegments: 8,
-            bevelEnabled: 0,
-            bevelThickness: 0,
-            bevelSize: 0,
-            bevelOffset: 0,
-            bevelSegments: 0
+            bevelEnabled: true,
+            bevelThickness: 0.005,
+            bevelSize: 0.005,
+            bevelOffset: 0.005,
+            bevelSegments: 4
         }
         this.texts.forEach(text => {
-            console.log('Here');
             const geometry = new TextBufferGeometry(text, this.properties)
             geometry.computeBoundingBox()
             geometry.translate(
