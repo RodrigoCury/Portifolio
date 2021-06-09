@@ -37,7 +37,16 @@ export default class Raycasting {
         this.resources.on("ready", () => {
             this.time.on("tick", () => {
                 this.raycaster.setFromCamera(this.mouse, this.camera.instance)
-                const intersects = this.raycaster.intersectObjects(this.world.logosArea.children, true)
+                const intersect = this.raycaster.intersectObject(this.world.logosArea, true)
+
+                this.world.holograms.container.children.forEach(child => {
+                    if (typeof intersect[0] !== 'undefined' && child.name == intersect[0].object.name) {
+                        child.visible = true
+                    } else {
+                        child.visible = false
+                    }
+                })
+
             })
         })
     }

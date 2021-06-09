@@ -142,13 +142,13 @@ export default class {
         // Set Python Logo
         this.resources.items.pyLogo.scene.position.set(-1, 2, 0)
         this.resources.items.pyLogo.scene.rotation.x = Math.PI / 2
-        this.logosArea.addToArea(2, 2, this.resources.items.pyLogo.scene, 'python')
+        this.logosArea.addToArea(2, 2, this.resources.items.pyLogo.scene, 'Python')
 
         // Set Javascript Logo
         this.resources.items.jsLogo.scene.position.set(1, 2, 0)
         this.resources.items.jsLogo.scene.rotation.x = Math.PI / 2
         this.resources.items.jsLogo.scene.scale.set(0.9, 0.9, 0.9)
-        this.logosArea.addToArea(2, 2, this.resources.items.jsLogo.scene, 'javascript')
+        this.logosArea.addToArea(2, 2, this.resources.items.jsLogo.scene, 'Javascript')
 
         /**
          * Middle
@@ -157,17 +157,17 @@ export default class {
         // Django Logo
         this.resources.items.djangoLogo.scene.position.set(-2, 0, 0)
         this.resources.items.djangoLogo.scene.rotation.x = Math.PI / 2
-        this.logosArea.addToArea(2, 2, this.resources.items.djangoLogo.scene, 'django')
+        this.logosArea.addToArea(2, 2, this.resources.items.djangoLogo.scene, 'Django')
 
         // Set BioPython Logo
         this.resources.items.biopyLogo.scene.position.set(0, 0, 0)
         this.resources.items.biopyLogo.scene.rotation.x = Math.PI / 2
-        this.logosArea.addToArea(2, 2, this.resources.items.biopyLogo.scene, 'biopython')
+        this.logosArea.addToArea(2, 2, this.resources.items.biopyLogo.scene, 'Biopython')
 
         // Set THREE.js Logo
         this.resources.items.threeLogo.scene.position.set(2, 0, 0)
         this.resources.items.threeLogo.scene.rotation.x = Math.PI / 2
-        this.logosArea.addToArea(2, 2, this.resources.items.threeLogo.scene, 'three')
+        this.logosArea.addToArea(2, 2, this.resources.items.threeLogo.scene, 'Three.js')
 
         /**
          * Bottom
@@ -176,12 +176,12 @@ export default class {
         // Set HTML Logo
         this.resources.items.html.scene.position.set(-1, -2, 0)
         this.resources.items.html.scene.rotation.x = Math.PI / 2
-        this.logosArea.addToArea(2, 2, this.resources.items.html.scene, 'html')
+        this.logosArea.addToArea(2, 2, this.resources.items.html.scene, 'HTML')
 
         // Set CSS Logo
         this.resources.items.css.scene.position.set(1, -2, 0)
         this.resources.items.css.scene.rotation.x = Math.PI / 2
-        this.logosArea.addToArea(2, 2, this.resources.items.css.scene, 'css')
+        this.logosArea.addToArea(2, 2, this.resources.items.css.scene, 'CSS')
 
 
 
