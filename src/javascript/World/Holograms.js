@@ -40,8 +40,6 @@ export default class Holograms {
                 this.setupGeometries()
             })
         }
-
-        console.log
     }
 
     setupGeometries() {
@@ -71,7 +69,7 @@ export default class Holograms {
                 this.materials.items.holoMaterial
             )
             mesh.name = text
-            // mesh.visible = true
+            mesh.visible = false
             mesh.position.set(-2, 0, 4)
             mesh.rotation.y = Math.PI / 2
             this.container.add(mesh)
