@@ -79,7 +79,6 @@ export default class Materials {
 
             // wireframe: true,
         })
-        console.log(this.items.holoMaterial.uniforms)
         this.time.on("tick", () => {
             this.items.holoMaterial.uniforms.uTime.value = this.time.elapsed
         })
