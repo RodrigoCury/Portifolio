@@ -32,7 +32,7 @@ export default class Raycasting {
     setRaycast() {
         // Setup Raycaster
         this.raycaster = new Raycaster()
-        console.log(this.raycaster)
+
         // Update Raycaster Position
         this.resources.on("ready", () => {
             this.time.on("tick", () => {

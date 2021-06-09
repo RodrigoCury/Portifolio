@@ -5,10 +5,6 @@ export default class Areas {
     /**
      * Constructor
      */
-
-    constructor(_options) {
-    }
-
     static addArea() {
         const newArea = new THREE.Object3D()
 

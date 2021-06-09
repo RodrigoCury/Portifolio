@@ -1,22 +1,36 @@
 import Loader from './Utils/Loader'
 import EventEmitter from './Utils/EventEmitter'
 import { Texture } from 'three'
-/**
- * Load Matrices
- */
 
+/**
+ * Load position Matrices
+ */
 import DNAStrand from '../models/matrices/dnaMatrices.json'
 
 /** 
  * Load Resources here
  *      jpgs, png, glbs, gltfs
  */
+// CubeMap
 import nx from '../textures/nebulaEnvMap/nx.png'
 import ny from '../textures/nebulaEnvMap/ny.png'
 import nz from '../textures/nebulaEnvMap/nz.png'
 import px from '../textures/nebulaEnvMap/px.png'
 import py from '../textures/nebulaEnvMap/py.png'
 import pz from '../textures/nebulaEnvMap/pz.png'
+
+// Textures
+
+/**
+ * Fonts
+ */
+const shareTechMonoRegular = '/fonts/shareTechMonoRegular.json'
+const mateSC = '/fonts/mateSC.json'
+
+
+/**
+ * 3D Models
+ */
 
 // Logos
 import pyLogo from '../models/logos/pyLogo.glb'
@@ -52,7 +66,14 @@ export default class Resources extends EventEmitter {
         this.loader.load([
 
             // EnvMaps
-            { name: 'envMap', source: [px, nx, py, ny, pz, nz] },
+            { name: 'envMap', source: [px, nx, py, ny, pz, nz], type: 'cubeTexture' },
+
+            // Textures
+
+            // Fonts
+
+            { name: 'shareTechMonoRegular', source: shareTechMonoRegular, type: "font" },
+            { name: 'mateSC', source: mateSC, type: "font" },
 
             // Logos
             { name: 'pyLogo', source: pyLogo },

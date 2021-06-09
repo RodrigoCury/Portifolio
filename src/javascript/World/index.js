@@ -54,7 +54,8 @@ export default class {
     setMaterials() {
         this.materials = new Materials({
             resources: this.resources,
-            debug: this.debug
+            debug: this.debug,
+            time: this.time,
         })
     }
 
@@ -64,6 +65,7 @@ export default class {
             this.setPositions()
             this.setupLogos()
             this.setupISS()
+            this.setupHolograms()
         })
     }
 
@@ -213,6 +215,26 @@ export default class {
 
         })
 
+    }
+
+    setupHolograms() {
+        this.holo = {}
+        this.holo.properties = {
+            font: this.resources.items.shareTechMonoRegular,
+            size: 0.3,
+            height: 0.01,
+            curveSegments: 8,
+            bevelEnabled: 0,
+            bevelThickness: 0,
+            bevelSize: 0,
+            bevelOffset: 0,
+            bevelSegments: 0
+        }
+        this.holo.geometries = new THREE.TextBufferGeometry('Javascript', this.holo.properties)
+        this.holo.mesh = new THREE.Mesh(this.holo.geometries, this.materials.items.holoMaterial)
+        this.holo.mesh.rotation.y = Math.PI
+        this.holo.mesh.position.y = 1
+        this.container.add(this.holo.mesh)
     }
 
 

@@ -1,5 +1,5 @@
 import EventEmitter from './EventEmitter'
-import { CubeTextureLoader, sRGBEncoding } from 'three'
+import { CubeTextureLoader, FontLoader } from 'three'
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
@@ -25,6 +25,19 @@ export default class Resources extends EventEmitter {
     setLoaders() {
 
         this.loaders = []
+
+        // Font
+        this.loaders.push({
+            name: "FontLoader",
+            extentions: [],
+            action: _resource => {
+                const fontLoader = new FontLoader()
+                fontLoader.load(_resource.source,
+                    _data => {
+                        this.fileLoadEnd(_resource, _data)
+                    })
+            }
+        })
 
         // Cube Texture
         this.loaders.push({
@@ -100,15 +113,20 @@ export default class Resources extends EventEmitter {
     load(_resources = []) {
         for (const _resource of _resources) {
             this.toLoad++
-
-            if (typeof _resource.source !== 'string' && _resource.source.length == 6) {
+            if (_resource.type === 'cubeTexture') {
                 const loader = this.loaders.find(_loader => _loader.name === 'CubeTexture')
                 if (loader) {
                     loader.action(_resource)
                 } else {
                     console.warn(`Can't find loader for ${_resource}`)
                 }
-
+            } else if (_resource.type == 'font') {
+                const loader = this.loaders.find(_loader => _loader.name === 'FontLoader')
+                if (loader) {
+                    loader.action(_resource)
+                } else {
+                    console.warn(`Can't find loader for ${_resource}`)
+                }
             } else {
                 const extentionMatch = _resource.source.match(/\.([a-z]+)$/)
 

@@ -1,4 +1,7 @@
-import * as THREE from 'three'
+import { MeshBasicMaterial, MeshStandardMaterial, ShaderMaterial, Vector3 } from 'three'
+import holoVertex from '../../shaders/holo/vertex.glsl'
+import holoFragment from '../../shaders/holo/fragment.glsl'
+
 
 export default class Materials {
     /**
@@ -9,6 +12,7 @@ export default class Materials {
         // Options
         this.resources = _options.resources
         this.debug = _options.debug
+        this.time = _options.time
 
         // Debug 
         if (this.debug) {
@@ -20,11 +24,11 @@ export default class Materials {
         this.items = {}
 
         this.setBases()
-        this.setMatcaps()
+        this.setHolo()
     }
 
     setBases() {
-        this.items.dnaMaterial = new THREE.MeshStandardMaterial({
+        this.items.dnaMaterial = new MeshStandardMaterial({
             color: "#723663",
             wireframe: false,
             metalness: 1.0,
@@ -35,18 +39,24 @@ export default class Materials {
             this.debugFolder.add(this.items.dnaMaterial, 'metalness', 0, 1, 0.001).name("Standard Metalness")
             this.debugFolder.add(this.items.dnaMaterial, 'roughness', 0, 1, 0.001).name("Standard Roughness")
         }
+        this.items.basic = new MeshBasicMaterial({
+            color: '#f00'
+        })
+
     }
 
-    setMatcaps() {
-        this.items.dnaMatcap = new THREE.MeshMatcapMaterial({
-            color: "#FFF"
-        })
-        this.resources.on('ready', () => {
-            this.items.dnaMatcap.matcap = this.resources.items.toonBMatcapTexture
-        })
+    setHolo() {
+        this.items.holoMaterial = new ShaderMaterial({
+            uniforms: {
+                uTime: { value: this.time.elapsed },
+                uColor: new Vector3(0.16, 0.57, 0.96)
+            },
 
-        this.items.normal = new THREE.MeshLambertMaterial({
-            color: '#fff'
+            vertexShader: holoVertex,
+
+            fragmentShader: holoFragment,
+
+            transparent: true
         })
     }
 }
