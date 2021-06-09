@@ -43,11 +43,6 @@ export default class Camera {
 
 
 
-        // Debug
-        if (this.debug) {
-            this.debugFolder.add(this, 'rotationAngle', -Math.PI, Math.PI, 0.001)
-            this.debugFolder.add(this, 'distance', 0, 10, 0.001)
-        }
     }
 
     setInstance() {
@@ -75,7 +70,14 @@ export default class Camera {
             this.instance.position.z = Math.cos(this.rotationAngle) * this.distance
             this.instance.lookAt(this.target)
         })
-    }
+        // Debug
+        if (this.debug) {
+            this.debugFolder.add(this, 'rotationAngle', -Math.PI, Math.PI, 0.001)
+            this.debugFolder.add(this, 'distance', 0, 10, 0.001)
+            this.debugFolder.add(this.target, 'y', 0, 10, 1)
+            this.debugFolder.add(this.instance.position, 'y', 0, 10, 1)
 
+        }
+    }
 
 }
