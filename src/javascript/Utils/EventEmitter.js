@@ -192,4 +192,12 @@ export default class {
 
         return newName
     }
+
+    beenTriggered(_trigger) {
+        if ((typeof _trigger !== 'undefined' || _trigger !== '') && this.triggered.includes(_trigger)) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
