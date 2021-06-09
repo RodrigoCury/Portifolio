@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import Lights from './Lights'
 import Materials from './Materials'
 import Areas from './Areas'
+import Holograms from './Holograms'
+import { AxesHelper } from 'three'
 
 export default class {
     constructor(_options) {
@@ -119,10 +121,17 @@ export default class {
     setupLogos() {
         //Set Logo Container
         this.logoContainer = new THREE.Object3D()
-        this.logoContainer.position.z = -5
-        this.logoContainer.position.x = -8
+        this.logoContainer.position.z = -3.25
+        this.logoContainer.position.x = -3.25
         this.logoContainer.position.y = -3.5
         this.logoContainer.rotation.y = Math.PI * 0.25
+
+        if (this.debug) {
+            this.debugFolder.add(this.logoContainer.position, "z", -10, 10, 0.01).name("logoC Z")
+            this.debugFolder.add(this.logoContainer.position, "y", -10, 10, 0.01).name("logoC Y")
+            this.debugFolder.add(this.logoContainer.position, "x", -10, 10, 0.01).name("logoC X")
+            this.debugFolder.add(this.logoContainer.rotation, "y", -Math.PI, Math.PI, 0.01).name("logoC Rot")
+        }
 
         // Set Raycaster Areas
         this.logosArea = Areas.addArea()
@@ -131,12 +140,12 @@ export default class {
          */
 
         // Set Python Logo
-        this.resources.items.pyLogo.scene.position.set(-1, 2, 3)
+        this.resources.items.pyLogo.scene.position.set(-1, 2, 0)
         this.resources.items.pyLogo.scene.rotation.x = Math.PI / 2
         this.logosArea.addToArea(2, 2, this.resources.items.pyLogo.scene, 'python')
 
         // Set Javascript Logo
-        this.resources.items.jsLogo.scene.position.set(1, 2, 3)
+        this.resources.items.jsLogo.scene.position.set(1, 2, 0)
         this.resources.items.jsLogo.scene.rotation.x = Math.PI / 2
         this.resources.items.jsLogo.scene.scale.set(0.9, 0.9, 0.9)
         this.logosArea.addToArea(2, 2, this.resources.items.jsLogo.scene, 'javascript')
@@ -146,17 +155,17 @@ export default class {
          */
 
         // Django Logo
-        this.resources.items.djangoLogo.scene.position.set(-2, 0, 3)
+        this.resources.items.djangoLogo.scene.position.set(-2, 0, 0)
         this.resources.items.djangoLogo.scene.rotation.x = Math.PI / 2
         this.logosArea.addToArea(2, 2, this.resources.items.djangoLogo.scene, 'django')
 
         // Set BioPython Logo
-        this.resources.items.biopyLogo.scene.position.set(0, 0, 3)
+        this.resources.items.biopyLogo.scene.position.set(0, 0, 0)
         this.resources.items.biopyLogo.scene.rotation.x = Math.PI / 2
         this.logosArea.addToArea(2, 2, this.resources.items.biopyLogo.scene, 'biopython')
 
         // Set THREE.js Logo
-        this.resources.items.threeLogo.scene.position.set(2, 0, 3)
+        this.resources.items.threeLogo.scene.position.set(2, 0, 0)
         this.resources.items.threeLogo.scene.rotation.x = Math.PI / 2
         this.logosArea.addToArea(2, 2, this.resources.items.threeLogo.scene, 'three')
 
@@ -165,12 +174,12 @@ export default class {
          */
 
         // Set HTML Logo
-        this.resources.items.html.scene.position.set(-1, -2, 3)
+        this.resources.items.html.scene.position.set(-1, -2, 0)
         this.resources.items.html.scene.rotation.x = Math.PI / 2
         this.logosArea.addToArea(2, 2, this.resources.items.html.scene, 'html')
 
         // Set CSS Logo
-        this.resources.items.css.scene.position.set(1, -2, 3)
+        this.resources.items.css.scene.position.set(1, -2, 0)
         this.resources.items.css.scene.rotation.x = Math.PI / 2
         this.logosArea.addToArea(2, 2, this.resources.items.css.scene, 'css')
 
@@ -198,7 +207,7 @@ export default class {
     setupISS() {
         this.resources.items.iss.scene.scale.set(0.3, 0.3, 0.3)
         this.resources.items.iss.scene.rotation.z = -Math.PI / 2
-        this.resources.items.iss.scene.position.set(0, -1, 7)
+        this.resources.items.iss.scene.position.set(0, -1, 4)
         this.logoContainer.add(this.resources.items.iss.scene)
 
         this.lights.items.spotLight.position.copy(this.resources.items.iss.scene.position)
@@ -207,6 +216,7 @@ export default class {
         this.logoContainer.add(
             this.lights.items.spotLight,
             this.lights.items.spotLight.target,
+            new AxesHelper()
         )
 
         this.time.on('tick', () => {
@@ -218,23 +228,12 @@ export default class {
     }
 
     setupHolograms() {
-        this.holo = {}
-        this.holo.properties = {
-            font: this.resources.items.shareTechMonoRegular,
-            size: 0.3,
-            height: 0.01,
-            curveSegments: 8,
-            bevelEnabled: 0,
-            bevelThickness: 0,
-            bevelSize: 0,
-            bevelOffset: 0,
-            bevelSegments: 0
-        }
-        this.holo.geometries = new THREE.TextBufferGeometry('Javascript', this.holo.properties)
-        this.holo.mesh = new THREE.Mesh(this.holo.geometries, this.materials.items.holoMaterial)
-        this.holo.mesh.rotation.y = Math.PI
-        this.holo.mesh.position.y = 1
-        this.container.add(this.holo.mesh)
+        this.holograms = new Holograms({
+            debug: this.debug,
+            materials: this.materials,
+            resources: this.resources,
+        })
+        this.logoContainer.add(this.holograms.container)
     }
 
 
