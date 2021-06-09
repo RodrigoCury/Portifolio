@@ -1,4 +1,4 @@
-import { Mesh, Object3D, TextBufferGeometry } from 'three'
+import { ConeBufferGeometry, Mesh, Object3D, TextBufferGeometry } from 'three'
 
 export default class Holograms {
     /**
@@ -35,9 +35,11 @@ export default class Holograms {
 
         if (this.resources.beenTriggered("ready")) {
             this.setupGeometries()
+            this.setupLightCone()
         } else {
             this.resources.on("ready", () => {
                 this.setupGeometries()
+                this.setupLightCone()
             })
         }
     }
@@ -73,7 +75,7 @@ export default class Holograms {
             mesh.rotation.y = Math.PI / 2
             this.container.add(mesh)
 
-            if (this.debug) {
+            if (false) {
                 this.debugFolder.add(mesh.position, 'x', -5, 5, 0.01).name(`${text} X`)
                 this.debugFolder.add(mesh.position, 'y', -5, 5, 0.01).name(`${text} Y`)
                 this.debugFolder.add(mesh.position, 'z', -5, 5, 0.01).name(`${text} Z`)
@@ -81,5 +83,27 @@ export default class Holograms {
             }
 
         })
+    }
+
+    setupLightCone() {
+        console.log('Here')
+        this.cone = new Mesh(
+            new ConeBufferGeometry(1, 1, 16, 1, true,),
+            this.materials.items.beamMaterial
+        )
+        this.cone.visible = false
+        this.cone.position.set(-1.4, -0.75, 4)
+        this.cone.rotation.set(0, Math.PI, 2)
+
+
+        if (this.debug) {
+            this.debugFolder.add(this.cone.position, 'x', -5, 5, 0.01).name(`X`)
+            this.debugFolder.add(this.cone.position, 'y', -5, 5, 0.01).name(`Y`)
+            this.debugFolder.add(this.cone.position, 'z', -5, 5, 0.01).name(`Z`)
+            this.debugFolder.add(this.cone.rotation, 'x', -Math.PI, Math.PI, 0.01).name(`rot x`)
+            this.debugFolder.add(this.cone.rotation, 'y', -Math.PI, Math.PI, 0.01).name(`rot y`)
+            this.debugFolder.add(this.cone.rotation, 'z', -Math.PI, Math.PI, 0.01).name(`rot z`)
+        }
+        console.log(this.cone)
     }
 }

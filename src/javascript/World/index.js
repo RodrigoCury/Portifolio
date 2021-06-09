@@ -216,7 +216,6 @@ export default class {
         this.logoContainer.add(
             this.lights.items.spotLight,
             this.lights.items.spotLight.target,
-            new AxesHelper()
         )
 
         this.time.on('tick', () => {
@@ -233,7 +232,7 @@ export default class {
             materials: this.materials,
             resources: this.resources,
         })
-        this.logoContainer.add(this.holograms.container)
+        this.logoContainer.add(this.holograms.container, this.holograms.cone)
     }
 
 
