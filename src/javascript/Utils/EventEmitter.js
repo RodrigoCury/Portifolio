@@ -5,6 +5,7 @@ export default class {
     constructor() {
         this.callbacks = {}
         this.callbacks.base = {}
+        this.triggered = []
     }
 
     /**
@@ -111,6 +112,8 @@ export default class {
             console.warn('wrong name')
             return false
         }
+
+        this.triggered.push(_name)
 
         const that = this
         let finalResult = null
