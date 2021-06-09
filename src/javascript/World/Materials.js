@@ -1,6 +1,8 @@
 import { Color, MeshBasicMaterial, MeshStandardMaterial, ShaderMaterial, Vector3 } from 'three'
-import holoVertex from '../../shaders/holo/vertex.glsl'
-import holoFragment from '../../shaders/holo/fragment.glsl'
+import holoVertex from '../../shaders/holoLetters/vertex.glsl'
+import holoFragment from '../../shaders/holoLetters/fragment.glsl'
+import beamVertex from '../../shaders/holoBeam/vertex.glsl'
+import beamFragment from '../../shaders/holoBeam/fragment.glsl'
 
 
 export default class Materials {
@@ -79,12 +81,36 @@ export default class Materials {
 
             // wireframe: true,
         })
+        this.items.beamMaterial = new ShaderMaterial({
+            uniforms: {
+                uTime: { value: this.time.elapsed },
+                uColor: { value: new Color('#1B4294') },
+                uGlitchSpeed: { value: 0.22 },
+                uGlitchIntensity: { value: 0.1 },
+                uBarSpeed: { value: 0.001 },
+                uBarDistance: { value: 45 },
+                uAlpha: { value: 0.5 },
+                uFlickerSpeed: { value: 0.62 },
+                uRimColor: { value: new Color("#0E278D") },
+                uRimPower: { value: 0.3 },
+                uGlowDistance: { value: 0.5 },
+                uGlowSpeed: { value: .001 },
+            },
+
+            vertexShader: beamVertex,
+
+            fragmentShader: beamFragment,
+
+            transparent: true,
+        })
+
         this.time.on("tick", () => {
             this.items.holoMaterial.uniforms.uTime.value = this.time.elapsed
+            this.items.beamMaterial.uniforms.uTime.value = this.time.elapsed
         })
         if (this.debug) {
             this.holoFolder = this.debug.addFolder("Hologram")
-            this.holoFolder.open()
+            // this.holoFolder.open()
             this.holoFolder.add(this.items.holoMaterial.uniforms.uGlitchSpeed, 'value', 0, 3, 0.01).name("GlitchSpeed")
             this.holoFolder.add(this.items.holoMaterial.uniforms.uGlitchIntensity, 'value', 0, 3, 0.01).name("GlitchIntensity")
             this.holoFolder.add(this.items.holoMaterial.uniforms.uBarDistance, 'value', 10, 60, 1).name("BarDistance")
