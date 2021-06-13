@@ -68,6 +68,7 @@ export default class {
             this.setupLogos()
             this.setupISS()
             this.setupHolograms()
+            this.setupProjects()
         })
     }
 
@@ -233,6 +234,52 @@ export default class {
             resources: this.resources,
         })
         this.logoContainer.add(this.holograms.container, this.holograms.cone)
+    }
+
+    setupProjects() {
+        this.projectsContainer = new THREE.Object3D()
+        this.projectsContainer.position.set(7.5, -11, -1.25)
+
+        this.resources.items.astronaut.scene.rotation.y = -2.3
+        this.resources.items.astronaut.scene.position.set(1.8, -1.79, 6.8)
+
+
+
+        // Add to containers
+        this.projectsContainer.add(this.resources.items.astronaut.scene)
+        this.container.add(this.projectsContainer)
+
+
+
+        /**
+         * Debug
+         */
+        if (this.debug) {
+            //Debug Object
+            this.debugObject = {
+                astronautScale: 0.1,
+            }
+
+            // Container
+            this.projectsFolder = this.debug.addFolder("Projects")
+            this.projectsFolder.add(this.projectsContainer.position, 'x', -15, 15, 0.01).name("Container X")
+            this.projectsFolder.add(this.projectsContainer.position, 'y', -15, 15, 0.01).name("Container Y")
+            this.projectsFolder.add(this.projectsContainer.position, 'z', -15, 15, 0.01).name("Container Z")
+
+            // Astronaut
+            this.projectsFolder.add(this.resources.items.astronaut.scene.position, 'x', -15, 15, 0.01).name("Anaut X")
+            this.projectsFolder.add(this.resources.items.astronaut.scene.position, 'y', -15, 15, 0.01).name("Anaut Y")
+            this.projectsFolder.add(this.resources.items.astronaut.scene.position, 'z', -15, 15, 0.01).name("Anaut Z")
+            this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'y', -Math.PI, Math.PI, 0.01).name("Anaut Rot")
+            this.projectsFolder.add(this.debugObject, 'astronautScale').name("Anaut Scale")
+                .onChange(() => {
+                    this.resources.items.astronaut.scene.scale.set(
+                        this.debugObject.astronautScale,
+                        this.debugObject.astronautScale,
+                        this.debugObject.astronautScale,
+                    )
+                })
+        }
     }
 
 
