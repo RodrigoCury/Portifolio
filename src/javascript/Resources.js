@@ -44,6 +44,10 @@ import threeLogo from '../models/logos/threeLogo.glb'
 // ISS
 import iss from '../models/iss/iss.gltf'
 
+// Astronaut
+import astronaut from '../models/astronaut/astronautMatOnly.glb'
+
+
 /**
  * Resources Class
  */
@@ -85,7 +89,8 @@ export default class Resources extends EventEmitter {
             { name: 'threeLogo', source: threeLogo },
 
             // 3D Models
-            { name: 'iss', source: iss }
+            { name: 'iss', source: iss },
+            { name: 'astronaut', source: astronaut },
         ])
 
         // Setup Triggers and put loaded resoucers on items Object
