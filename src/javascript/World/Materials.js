@@ -77,7 +77,7 @@ export default class Materials {
 
             transparent: true,
 
-            side: 2,
+            side: 1,
 
             // wireframe: true,
         })

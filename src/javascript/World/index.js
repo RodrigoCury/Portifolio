@@ -4,6 +4,7 @@ import Materials from './Materials'
 import Areas from './Areas'
 import Holograms from './Holograms'
 import { AxesHelper } from 'three'
+import Texts from './Text'
 
 export default class {
     constructor(_options) {
@@ -30,6 +31,7 @@ export default class {
         this.container.matrixAutoUpdate = true
 
         this.setLights()
+        this.setTextGeometries()
         this.setMaterials()
         this.setAxes()
         this.setResources()
@@ -53,6 +55,13 @@ export default class {
         this.container.add(this.lights.container)
     }
 
+    setTextGeometries() {
+        this.text = new Texts({
+            resources: this.resources,
+            debug: this.debug,
+        })
+    }
+
     setMaterials() {
         this.materials = new Materials({
             resources: this.resources,
@@ -63,60 +72,11 @@ export default class {
 
     setResources() {
         this.resources.on('ready', () => {
-            this.setDNA()
-            this.setPositions()
             this.setupLogos()
             this.setupISS()
             this.setupHolograms()
             this.setupProjects()
         })
-    }
-
-    setDNA() {
-        // DNA Object
-        this.dnaStrand = {}
-
-        /**
-         * SEPARATE MATERIALS
-         */
-        const strandSphereGeometry = new THREE.SphereBufferGeometry(0.05, 8, 8)
-        const cylinderGeometry = new THREE.CylinderBufferGeometry(0.0125, 0.0125, 0.8, 8, 1, false)
-
-
-        // Setting Up Instanced Meshes
-        this.dnaStrand.spheresMesh = new THREE.InstancedMesh(
-            strandSphereGeometry,
-            this.materials.items.dnaMaterial,
-            240)
-
-        this.dnaStrand.cylindersMesh = new THREE.InstancedMesh(
-            cylinderGeometry,
-            this.materials.items.dnaMaterial,
-            120)
-
-        // Setting Usage for WebGL
-        this.dnaStrand.spheresMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
-        this.dnaStrand.cylindersMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
-
-        // looping through all Spheres Mactrices to populate the scenes
-        const matrix = new THREE.Matrix4()
-        for (let m in this.resources.items.matrices.DNAStrandMatrices.sphereMatrices) {
-            matrix.elements = this.resources.items.matrices.DNAStrandMatrices.sphereMatrices[m]
-            this.dnaStrand.spheresMesh.setMatrixAt(m, matrix)
-        }
-
-        // looping through all Spheres Mactrices to populate the scenes
-        for (let m in this.resources.items.matrices.DNAStrandMatrices.cylindersMatrices) {
-            matrix.elements = this.resources.items.matrices.DNAStrandMatrices.cylindersMatrices[m]
-            this.dnaStrand.cylindersMesh.setMatrixAt(m, matrix)
-        }
-
-        // Merge Both Cylyinders and Spheres on one OBJ
-        this.dnaObject = new THREE.Object3D()
-        this.dnaObject.add(this.dnaStrand.cylindersMesh, this.dnaStrand.spheresMesh)
-
-        // Add to World Container
-        this.container.add(this.dnaObject)
     }
 
     setupLogos() {
@@ -232,6 +192,7 @@ export default class {
             debug: this.debug,
             materials: this.materials,
             resources: this.resources,
+            geometries: this.text,
         })
         this.logoContainer.add(this.holograms.container, this.holograms.cone)
     }
@@ -280,25 +241,5 @@ export default class {
                     )
                 })
         }
-    }
-
-
-
-    setPositions() {
-        this.dnaStrandDistance = this.camera.instance.position.distanceTo(new THREE.Vector3(0, 0, 0)) * Math.tan(this.camera.topFOV / 2 * 0.70 * Math.PI / 180)
-        this.dnaObject.position.x = this.dnaStrandDistance
-
-        this.time.on('tick', () => {
-            this.dnaObject.rotation.y = this.time.elapsed * 0.0002
-            this.dnaObject.position.x = Math.sin(this.camera.rotationAngle - Math.PI / 2) * this.dnaStrandDistance
-            this.dnaObject.position.z = Math.cos(this.camera.rotationAngle - Math.PI / 2) * this.dnaStrandDistance
-            this.dnaObject.position.y = this.camera.instance.position.y
-        })
-
-        // Resize
-        window.addEventListener('resize', () => {
-            // Recalculate Dna distance to V(0,y,0)
-            this.dnaStrandDistance = this.camera.instance.position.distanceTo(new THREE.Vector3(0, 0, 0)) * Math.tan(this.camera.topFOV / 2 * 0.70 * Math.PI / 180)
-        })
     }
 }

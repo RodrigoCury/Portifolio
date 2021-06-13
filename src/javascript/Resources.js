@@ -2,15 +2,11 @@ import Loader from './Utils/Loader'
 import EventEmitter from './Utils/EventEmitter'
 import { Texture } from 'three'
 
-/**
- * Load position Matrices
- */
-import DNAStrand from '../models/matrices/dnaMatrices.json'
-
 /** 
  * Load Resources here
  *      jpgs, png, glbs, gltfs
  */
+
 // CubeMap
 import nx from '../textures/nebulaEnvMap/nx.png'
 import ny from '../textures/nebulaEnvMap/ny.png'
@@ -63,9 +59,6 @@ export default class Resources extends EventEmitter {
         this.loader = new Loader()
         this.items = {}
 
-        // setup instancedMesh Matrices
-        this.setUpMatrices()
-
         // Setup all loads
         this.loader.load([
 
@@ -114,10 +107,5 @@ export default class Resources extends EventEmitter {
             this.trigger('ready')
         })
 
-    }
-
-    setUpMatrices() {
-        this.items.matrices = {}
-        this.items.matrices.DNAStrandMatrices = DNAStrand
     }
 }

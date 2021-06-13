@@ -77,40 +77,5 @@ export default class Animations {
     }
 
     setEventListeners() {
-        this.menuIndex = 0
-        this.DOM.buttons[0].element.addEventListener('click', () => {
-            this.animations.camera(
-                this.DOM.buttons[0].element,
-                -Math.PI,
-                this.ease.power3,
-                0,
-                this.duration.slow,
-                this.duration.normal
-            )
-
-            this.menuIndex = 0
-        })
-        this.DOM.buttons[1].element.addEventListener('click', () => {
-            this.animations.camera(
-                this.DOM.buttons[1].element,
-                -Math.PI * 1.5,
-                this.ease.circ,
-                -3.5,
-                this.duration.slow,
-                this.duration.normal,
-            )
-
-            this.menuIndex = 1
-        })
-        this.DOM.buttons[2].element.addEventListener("click", () => {
-            this.animations.camera(
-                this.DOM.buttons[2].element,
-                -2 * Math.PI - 1.3,
-                this.ease.power4,
-                -10,
-                this.duration.slow,
-                this.duration.normal,
-            )
-        })
     }
 }
