@@ -40,9 +40,6 @@ export default class Camera {
         // Set Up
         this.target = new THREE.Vector3(0, 0, 0)
         this.rotationAngle = -Math.PI
-
-
-
     }
 
     setInstance() {
@@ -74,8 +71,8 @@ export default class Camera {
         if (this.debug) {
             this.debugFolder.add(this, 'rotationAngle', -Math.PI, Math.PI, 0.001)
             this.debugFolder.add(this, 'distance', 0, 10, 0.001)
-            this.debugFolder.add(this.target, 'y', 0, 10, 1)
-            this.debugFolder.add(this.instance.position, 'y', 0, 10, 1)
+            this.debugFolder.add(this.target, 'y', -20, 20, 1).name("target y")
+            this.debugFolder.add(this.instance.position, 'y', -20, 20, 1).name("Cam Y")
 
         }
     }
