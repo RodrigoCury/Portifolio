@@ -102,6 +102,15 @@ export default class Animations {
 
             this.menuIndex = 1
         })
-        this.DOM.buttons[2]
+        this.DOM.buttons[2].element.addEventListener("click", () => {
+            this.animations.camera(
+                this.DOM.buttons[2].element,
+                -2 * Math.PI - 1.3,
+                this.ease.power4,
+                -10,
+                this.duration.slow,
+                this.duration.normal,
+            )
+        })
     }
 }
