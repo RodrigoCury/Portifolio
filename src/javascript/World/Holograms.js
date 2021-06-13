@@ -86,7 +86,6 @@ export default class Holograms {
     }
 
     setupLightCone() {
-        console.log('Here')
         this.cone = new Mesh(
             new ConeBufferGeometry(1, 1, 16, 1, true,),
             this.materials.items.beamMaterial
@@ -104,6 +103,5 @@ export default class Holograms {
             this.debugFolder.add(this.cone.rotation, 'y', -Math.PI, Math.PI, 0.01).name(`rot y`)
             this.debugFolder.add(this.cone.rotation, 'z', -Math.PI, Math.PI, 0.01).name(`rot z`)
         }
-        console.log(this.cone)
     }
 }
