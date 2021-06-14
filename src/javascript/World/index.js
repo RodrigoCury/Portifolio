@@ -3,7 +3,7 @@ import Lights from './Lights'
 import Materials from './Materials'
 import Areas from './Areas'
 import Holograms from './Holograms'
-import { AxesHelper } from 'three'
+import { AxesHelper, PlaneBufferGeometry } from 'three'
 import Texts from './Text'
 
 export default class {
@@ -31,7 +31,7 @@ export default class {
         this.container.matrixAutoUpdate = true
 
         this.setLights()
-        this.setTextGeometries()
+
         this.setMaterials()
         this.setAxes()
         this.setResources()
@@ -55,13 +55,6 @@ export default class {
         this.container.add(this.lights.container)
     }
 
-    setTextGeometries() {
-        this.text = new Texts({
-            resources: this.resources,
-            debug: this.debug,
-        })
-    }
-
     setMaterials() {
         this.materials = new Materials({
             resources: this.resources,
@@ -72,11 +65,37 @@ export default class {
 
     setResources() {
         this.resources.on('ready', () => {
+            this.setTextGeometries()
+            this.setupHomePage()
             this.setupLogos()
             this.setupISS()
             this.setupHolograms()
             this.setupProjects()
         })
+    }
+
+    setTextGeometries() {
+        this.text = new Texts({
+            resources: this.resources,
+            debug: this.debug,
+            materials: this.materials,
+        })
+    }
+
+    setupHomePage() {
+        // this.homeContainer = new THREE.Object3D()
+        // this.homeContainer.rotation.y = Math.PI
+
+        // this.homeBackground = new THREE.Object3D()
+        // this.text.homeText.dev.position.y = 1
+        // this.text.homeText.biotechnology.position.y = -1
+        // this.homeBackground.add(
+        //     this.text.homeText.dev,
+        //     this.text.homeText.fullStack,
+        //     this.text.homeText.biotechnology,
+        // )
+        // this.homeContainer.add(this.text.homeText.name, this.homeBackground)
+        // this.container.add(this.homeContainer)
     }
 
     setupLogos() {

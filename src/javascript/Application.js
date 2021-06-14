@@ -269,6 +269,7 @@ export default class Application {
         this.animations = new Animations({
             camera: this.camera,
             DOM: this.DOM,
+            sizes: this.sizes,
             resources: this.resources,
             time: this.time,
             world: this.world,

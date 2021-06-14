@@ -1,4 +1,5 @@
 import gsap from 'gsap'
+import { Vector2 } from 'three'
 
 export default class Animations {
     /**
@@ -10,6 +11,7 @@ export default class Animations {
         this.camera = _options.camera
         this.DOM = _options.DOM
         this.resources = _options.resources
+        this.sizes = _options.sizes
         this.time = _options.time
         this.world = _options.world
         this.debug = _options.debug
@@ -36,8 +38,8 @@ export default class Animations {
         // Setup
         this.resources.on("ready", () => {
             this.setControls()
-            this.setEventListeners()
         })
+        this.setEventListeners()
     }
     setControls() {
         this.selectedBtn = (element) => {
@@ -77,5 +79,21 @@ export default class Animations {
     }
 
     setEventListeners() {
+        const texts = document.querySelectorAll('.bg-text');
+        const animationDelay = 3000;
+
+        for (const text of texts) {
+            const newDom = '';
+            for (let i = 0; i < text.innerText.length; i++) {
+                newDom += '<span class="bg-text">' + (text.innerText[i] == ' ' ? '&nbsp;' : text.innerText[i]) + '</span>';
+            }
+
+            text.innerHTML = newDom;
+            const length = text.children.length;
+
+            for (let i = 0; i < length; i++) {
+                text.children[i].style['animation-delay'] = animationDelay * i + 'ms';
+            }
+        }
     }
 }

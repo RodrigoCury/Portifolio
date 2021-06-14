@@ -17,11 +17,15 @@ import pz from '../textures/nebulaEnvMap/pz.png'
 
 // Textures
 
+import nebulas from '../textures/matcaps/nebulas.png'
+import ds from '../textures/matcaps/ds.png'
+
 /**
  * Fonts
  */
 const shareTechMonoRegular = '/fonts/shareTechMonoRegular.json'
 const mateSC = '/fonts/mateSC.json'
+const caveat = '/fonts/caveat.json'
 
 
 /**
@@ -66,11 +70,14 @@ export default class Resources extends EventEmitter {
             { name: 'envMap', source: [px, nx, py, ny, pz, nz], type: 'cubeTexture' },
 
             // Textures
+            { name: 'nebulas', source: nebulas, type: 'texture' },
+            { name: 'ds', source: ds, type: 'texture' },
 
             // Fonts
 
             { name: 'shareTechMonoRegular', source: shareTechMonoRegular, type: "font" },
             { name: 'mateSC', source: mateSC, type: "font" },
+            { name: 'caveat', source: caveat, type: "font" },
 
             // Logos
             { name: 'pyLogo', source: pyLogo },
@@ -88,12 +95,6 @@ export default class Resources extends EventEmitter {
 
         // Setup Triggers and put loaded resoucers on items Object
         this.loader.on('fileEnd', (_resource, _data) => {
-            // Texture
-            if (_resource.type === 'texture') {
-                const texture = new Texture(_data)
-                this.items[`${_resource.name}Texture`] = texture
-            }
-
 
             this.items[_resource.name] = _data
 

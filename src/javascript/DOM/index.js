@@ -26,8 +26,14 @@ export default class DOM {
             p: "#ffffff"
         }
 
-        this.resources.on('ready', () => {
-        })
+        this.getDOMElements()
+    }
+
+    getDOMElements() {
+        this.home = document.querySelector('.home')
+        this.homeText = document.querySelector('.home-text')
+        this.homeBg = document.querySelector('.home-bg')
+        this.bgTexts = document.querySelectorAll(".bg-text")
     }
 
 }

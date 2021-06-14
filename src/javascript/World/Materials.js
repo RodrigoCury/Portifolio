@@ -1,4 +1,4 @@
-import { Color, MeshBasicMaterial, MeshStandardMaterial, ShaderMaterial, Vector3 } from 'three'
+import { Color, MeshBasicMaterial, MeshStandardMaterial, ShaderMaterial, PointsMaterial, MeshMatcapMaterial } from 'three'
 import holoVertex from '../../shaders/holoLetters/vertex.glsl'
 import holoFragment from '../../shaders/holoLetters/fragment.glsl'
 import beamVertex from '../../shaders/holoBeam/vertex.glsl'
@@ -27,6 +27,10 @@ export default class Materials {
 
         this.setBases()
         this.setHolo()
+        this.setPointMaterial()
+        this.resources.on('ready', () => {
+            this.setMatcap()
+        })
     }
 
     setBases() {
@@ -130,5 +134,24 @@ export default class Materials {
                 .addColor(this.debugObject, 'uRimColor')
                 .onChange(() => this.items.holoMaterial.uniforms.uRimColor.value = new Color(this.debugObject.uRimColor))
         }
+    }
+
+    setPointMaterial() {
+        this.items.pointMaterial = new PointsMaterial({
+            color: '#aaaaaa',
+            size: 2,
+        })
+    }
+
+    setMatcap() {
+        console.log(this.resources.items)
+        this.items.blackPearl = new MeshMatcapMaterial()
+        this.items.blackPearl.matcap = this.resources.items.nebulas
+        // this.items.blackPearl.wireframe = true
+
+        this.items.blackPearl = new PointsMaterial({
+            color: "white",
+            size: 0.01
+        })
     }
 }

@@ -39,22 +39,21 @@ export default class Raycasting {
                 this.raycaster.setFromCamera(this.mouse, this.camera.instance)
                 const intersect = this.raycaster.intersectObject(this.world.logosArea, true)
 
-                if (this.time.frames % 60 === 0) {
-                    // console.log(intersect);
-                    this.world.holograms.container.children.forEach(child => {
-                        if (typeof intersect[0] !== 'undefined' && child.name == intersect[0].object.name) {
-                            console.log(child)
-                            child.visible = true
-                            this.world.holograms.cone.visible = true
-                        } else {
-                            child.visible = false
-                        }
+                // if (this.time.frames % 60 === 0) {
+                // console.log(intersect);
+                this.world.holograms.container.children.forEach(child => {
+                    if (typeof intersect[0] !== 'undefined' && child.name == intersect[0].object.name) {
+                        child.visible = true
+                        this.world.holograms.cone.visible = true
+                    } else {
+                        child.visible = false
+                    }
 
-                        if (intersect.length === 0) {
-                            this.world.holograms.cone.visible = false
-                        }
-                    })
-                }
+                    if (intersect.length === 0) {
+                        this.world.holograms.cone.visible = false
+                    }
+                })
+                // }
 
             })
         })

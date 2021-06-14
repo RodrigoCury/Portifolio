@@ -1,5 +1,5 @@
 import EventEmitter from './EventEmitter'
-import { CubeTextureLoader, FontLoader } from 'three'
+import { CubeTextureLoader, FontLoader, TextureLoader } from 'three'
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
@@ -59,19 +59,12 @@ export default class Resources extends EventEmitter {
             extentions: ['jpg', 'png'],
             action: _resource => {
 
-                // New Image instance 
-                const image = new Image()
+                const textureLoader = new TextureLoader()
+                textureLoader.load(_resource.source,
+                    _data => {
+                        this.fileLoadEnd(_resource, _data)
+                    })
 
-                // Let Class know that the loading process has finished
-                image.addEventListener('load', () => {
-                    this.fileLoadEnd(_resource, image)
-                })
-
-                image.addEventListener('error', () => {
-                    this.fileLoadEnd(_resource, image)
-                })
-
-                image.src = _resource.source
             }
         })
 
