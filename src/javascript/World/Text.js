@@ -17,11 +17,9 @@ export default class Texts {
 
         if (this.resources.beenTriggered("ready")) {
             this.setHologramGeometries()
-            this.setupHomeTextGeometries()
         } else {
             this.resources.on("ready", () => {
                 this.setHologramGeometries()
-                this.setupHomeTextGeometries()
             })
         }
     }
