@@ -6,7 +6,6 @@ export default class Texts {
      */
 
     constructor(_options) {
-        console.log(_options);
         // Options
         this.resources = _options.resources
         this.materials = _options.materials
@@ -63,43 +62,5 @@ export default class Texts {
             this.holograms.push(geometry)
 
         })
-    }
-
-    setupHomeTextGeometries() {
-        this.homeProperties = {
-            font: this.resources.items.caveat,
-            size: 0.5,
-            height: 0.1,
-            curveSegments: 6,
-            bevelEnabled: false,
-            bevelThickness: 0.01,
-            bevelSize: 0.01,
-            bevelOffset: 0.01,
-            bevelSegments: 4
-        }
-
-        const nameGeometry = new TextBufferGeometry('Rodrigo Cury', this.homeProperties)
-        nameGeometry.computeBoundingBox()
-        nameGeometry.translate(
-            -(nameGeometry.boundingBox.max.x - this.homeProperties.bevelSize) * .5,
-            -(nameGeometry.boundingBox.max.y - this.homeProperties.bevelSize) * .5,
-            -(nameGeometry.boundingBox.max.z - this.homeProperties.bevelThickness) * .5,
-        )
-        nameGeometry.name = 'Rodrigo Cury'
-
-        this.homeProperties.font = this.resources.items.mateSC
-
-        const devGeometry = new TextBufferGeometry('Dev', this.homeProperties)
-
-        const fullStackGeometry = new TextBufferGeometry('FullStack', this.homeProperties)
-
-        const biotechnologyGeometry = new TextBufferGeometry('Biotechnologist', this.homeProperties)
-
-        this.homeText.name = new Mesh(nameGeometry, this.materials.items.pointMaterial)
-        console.log("2");
-        this.homeText.dev = new Mesh(devGeometry, this.materials.items.blackPearl)
-        this.homeText.fullStack = new Mesh(fullStackGeometry, this.materials.items.blackPearl)
-        this.homeText.biotechnology = new Mesh(biotechnologyGeometry, this.materials.items.blackPearl)
-
     }
 }
