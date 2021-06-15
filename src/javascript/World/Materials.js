@@ -28,9 +28,6 @@ export default class Materials {
         this.setBases()
         this.setHolo()
         this.setPointMaterial()
-        this.resources.on('ready', () => {
-            this.setMatcap()
-        })
     }
 
     setBases() {
@@ -140,18 +137,6 @@ export default class Materials {
         this.items.pointMaterial = new PointsMaterial({
             color: '#aaaaaa',
             size: 2,
-        })
-    }
-
-    setMatcap() {
-        console.log(this.resources.items)
-        this.items.blackPearl = new MeshMatcapMaterial()
-        this.items.blackPearl.matcap = this.resources.items.nebulas
-        // this.items.blackPearl.wireframe = true
-
-        this.items.blackPearl = new PointsMaterial({
-            color: "white",
-            size: 0.01
         })
     }
 }
