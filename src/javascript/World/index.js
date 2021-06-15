@@ -3,7 +3,6 @@ import Lights from './Lights'
 import Materials from './Materials'
 import Areas from './Areas'
 import Holograms from './Holograms'
-import { AxesHelper, PlaneBufferGeometry } from 'three'
 import Texts from './Text'
 
 export default class {
@@ -101,10 +100,10 @@ export default class {
     setupLogos() {
         //Set Logo Container
         this.logoContainer = new THREE.Object3D()
-        this.logoContainer.position.z = -3.25
-        this.logoContainer.position.x = -3.25
-        this.logoContainer.position.y = -3.5
-        this.logoContainer.rotation.y = Math.PI * 0.25
+        this.logoContainer.position.z = -1.21
+        this.logoContainer.position.x = -5.23
+        this.logoContainer.position.y = -4.52
+        this.logoContainer.rotation.y = 1.33
 
         if (this.debug) {
             this.debugFolder.add(this.logoContainer.position, "z", -10, 10, 0.01).name("logoC Z")
@@ -185,24 +184,40 @@ export default class {
     }
 
     setupISS() {
-        this.resources.items.iss.scene.scale.set(0.3, 0.3, 0.3)
-        this.resources.items.iss.scene.rotation.z = -Math.PI / 2
-        this.resources.items.iss.scene.position.set(0, -1, 4)
+        this.resources.items.iss.scene.scale.set(.6, .6, .6)
+        this.resources.items.iss.scene.rotation.set(0, Math.PI / 2, Math.PI / 2)
+        this.resources.items.iss.scene.position.set(6.437, -1.34, 5)
         this.logoContainer.add(this.resources.items.iss.scene)
 
-        this.lights.items.spotLight.position.copy(this.resources.items.iss.scene.position)
-        this.lights.items.spotLight.target.position.copy(this.logoContainer.position)
+        this.lights.items.spotLight.position.set(6.437, -2.56, 3.95)
+
+        if (this.debug) {
+            this.iss = this.debug.addFolder('ISS')
+            this.iss.add(this.resources.items.iss.scene.position, 'x', -10, 10, 0.001).name("ISS X")
+            this.iss.add(this.resources.items.iss.scene.position, 'y', -10, 10, 0.001).name("ISS Y")
+            this.iss.add(this.resources.items.iss.scene.position, 'z', -10, 10, 0.001).name("ISS Z")
+            this.iss.add(this.resources.items.iss.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name("ISS rot X")
+            this.iss.add(this.resources.items.iss.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name("ISS rot Y")
+            this.iss.add(this.resources.items.iss.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name("ISS rot Z")
+            this.iss.add(this.lights.items.spotLight.position, 'x', -10, 10, 0.001).name("Spotlight X")
+            this.iss.add(this.lights.items.spotLight.position, 'y', -10, 10, 0.001).name("Spotlight Y")
+            this.iss.add(this.lights.items.spotLight.position, 'z', -10, 10, 0.001).name("Spotlight Z")
+
+            /**
+             * SpotLight Helper 
+             */
+
+            // this.sLHelper = new THREE.SpotLightHelper(this.lights.items.spotLight)
+            // this.sLHelper.matrix = this.lights.items.spotLight.matrix
+            // this.logoContainer.add(this.sLHelper)
+        }
 
         this.logoContainer.add(
             this.lights.items.spotLight,
             this.lights.items.spotLight.target,
         )
 
-        this.time.on('tick', () => {
-            this.lights.items.spotLight.target.position.x = Math.cos(this.time.elapsed * 0.0007) * 6
-            this.lights.items.spotLight.target.position.y = 2.5 + Math.sin(this.time.elapsed * 0.0005) * 5
 
-        })
 
     }
 
@@ -213,6 +228,7 @@ export default class {
             resources: this.resources,
             geometries: this.text,
         })
+
         this.logoContainer.add(this.holograms.container, this.holograms.cone)
     }
 
@@ -221,6 +237,7 @@ export default class {
         this.projectsContainer.position.set(7.5, -11, -1.25)
 
         this.resources.items.astronaut.scene.rotation.y = -2.3
+        this.resources.items.astronaut.scene.rotation.z = -Math.PI / 4
         this.resources.items.astronaut.scene.position.set(1.8, -1.79, 6.8)
 
 
