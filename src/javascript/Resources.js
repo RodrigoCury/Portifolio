@@ -17,9 +17,6 @@ import pz from '../textures/nebulaEnvMap/pz.png'
 
 // Textures
 
-import nebulas from '../textures/matcaps/nebulas.png'
-import ds from '../textures/matcaps/ds.png'
-
 /**
  * Fonts
  */
@@ -70,8 +67,6 @@ export default class Resources extends EventEmitter {
             { name: 'envMap', source: [px, nx, py, ny, pz, nz], type: 'cubeTexture' },
 
             // Textures
-            { name: 'nebulas', source: nebulas, type: 'texture' },
-            { name: 'ds', source: ds, type: 'texture' },
 
             // Fonts
 
