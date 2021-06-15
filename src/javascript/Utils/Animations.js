@@ -1,5 +1,5 @@
 import gsap from 'gsap'
-import { Vector2 } from 'three'
+import { Vector3 } from 'three'
 
 export default class Animations {
     /**
@@ -35,65 +35,134 @@ export default class Animations {
             this.debugFolder.add(this.duration, 'normal', 0, 3, 0.01).name("Camera Normal")
         }
 
+        this.IDX = 0
+        this.MAX_INDEX = 2
+
+
+
         // Setup
-        this.resources.on("ready", () => {
-            this.setControls()
-        })
+        this.setControls()
         this.setEventListeners()
+        this.resources.on('ready', () => {
+
+            this.homeAnimation()
+        })
     }
+
     setControls() {
-        this.selectedBtn = (element) => {
-            this.DOM.buttons.forEach(btn => {
-                btn.element.classList.remove('selected')
+        this.selectedBtn = (self, element) => {
+            self.DOM.menuBtns.forEach(btn => {
+                btn.classList.remove('selected')
             })
             element.classList.add('selected')
         }
 
         this.animations = {
-            camera: (element, rotationAngle, ease, y, cameraDuration, buttonDuration) => {
+            moveCamera: (self, element, rotationAngle, ease, y, duration) => {
                 gsap.to(this.camera, {
                     rotationAngle: rotationAngle,
-                    duration: cameraDuration,
+                    duration: duration,
                     ease: ease
                 })
                 gsap.to(this.camera.instance.position, {
                     y: y,
-                    duration: cameraDuration,
+                    duration: duration,
                     ease: ease
                 })
                 gsap.to(this.camera.target, {
                     y: y,
-                    duration: cameraDuration,
+                    duration: duration,
                     ease: ease
                 })
-                this.DOM.buttons.forEach(btn => {
-                    gsap.to(btn.position, {
-                        y: y + btn.offset,
-                        duration: buttonDuration,
-                        ease: this.ease.power3
-                    })
-                })
-                this.selectedBtn(element)
+                this.selectedBtn(self, element)
             },
         }
+
+        this.menuProperties = [
+            [-1.627, this.ease.power4, 2, 2],
+            [Math.PI / 2, this.ease.circ, -3.5, 2],
+            [-1.267, this.ease.power3, -10, 2],
+        ]
     }
 
     setEventListeners() {
-        const texts = document.querySelectorAll('.bg-text');
-        const animationDelay = 3000;
+        // self for eventListener Scope Problems
+        const self = this
 
-        for (const text of texts) {
-            const newDom = '';
-            for (let i = 0; i < text.innerText.length; i++) {
-                newDom += '<span class="bg-text">' + (text.innerText[i] == ' ' ? '&nbsp;' : text.innerText[i]) + '</span>';
-            }
+        async function _btnClick(event) {
+            console.log(event.target);
+            self.IDX = parseInt(event.target.id)
+            console.log(self.IDX);
 
-            text.innerHTML = newDom;
-            const length = text.children.length;
+            self.animations.moveCamera(self, self.DOM.menuBtns[self.IDX], ...self.menuProperties[self.IDX])
 
-            for (let i = 0; i < length; i++) {
-                text.children[i].style['animation-delay'] = animationDelay * i + 'ms';
-            }
+            self.DOM.menuBtns.forEach(b => {
+                // remove BUTTONS event listener so the animations does not overlap
+                b.removeEventListener('click', _btnClick, true)
+                // set timeout so it returns after animation is over
+                setTimeout(() => {
+                    b.addEventListener('click', _btnClick, true)
+                }, 2000);
+
+            })
         }
+
+        // add Event Listener for Mouse Wheel // Async for Timeout
+        async function _wheel(event) {
+
+            /**
+             * Make Sure menu index is between constraints
+             */
+
+            if (event.deltaY < 0) {
+                if (self.IDX !== 0) {
+                    self.IDX--
+                } else {
+                    // return if it is off constraints so it does not remove event listener
+                    return
+                }
+
+            } else {
+                if (self.IDX !== self.MAX_INDEX) {
+                    self.IDX++
+                } else {
+                    // return if it is off constraints so it does not remove event listener
+                    return
+                }
+            }
+
+            // Animate using self
+
+            self.animations.moveCamera(self, self.DOM.menuBtns[self.IDX], ...self.menuProperties[self.IDX])
+
+
+            // remove window event listener so the animations does not overlap
+            window.removeEventListener('wheel', _wheel, true)
+
+            // set timeout so it returns after animation is over
+            setTimeout(() => {
+                window.addEventListener('wheel', _wheel, true)
+            }, 2000);
+        }
+
+        window.addEventListener('wheel', _wheel, true)
+
+        this.DOM.menuBtns.forEach(btn => btn.addEventListener('click', _btnClick, true))
+
+    }
+
+    homeAnimation() {
+        this.homePosition = new Vector3(0, 2, 0)
+
+        this.time.on('tick', () => {
+            let homeProjected = this.homePosition.clone()
+            homeProjected.project(this.camera.instance)
+
+            const translateX = `${homeProjected.x * this.sizes.width * 0.5}px`
+            const translateY = `${-homeProjected.y * this.sizes.height * 0.5}px`
+            this.DOM.homeDiv.style.transform = `translate(calc(${translateX}), calc(${translateY}))`
+            this.DOM.content.style.transform = `translate(calc(${translateX}), calc(${translateY}))`
+
+        })
     }
 }
