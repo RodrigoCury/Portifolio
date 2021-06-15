@@ -39,7 +39,8 @@ import jsLogo from '../models/logos/jsLogo.glb'
 import threeLogo from '../models/logos/threeLogo.glb'
 
 // ISS
-import iss from '../models/iss/iss.gltf'
+import iss from '../models/iss/iss.glb'
+
 
 // Astronaut
 import astronaut from '../models/astronaut/astronautMatOnly.glb'
