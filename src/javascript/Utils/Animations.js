@@ -46,6 +46,7 @@ export default class Animations {
         this.resources.on('ready', () => {
 
             this.homeAnimation()
+            this.animateLights()
         })
     }
 
@@ -58,19 +59,19 @@ export default class Animations {
         }
 
         this.animations = {
-            moveCamera: (self, element, rotationAngle, ease, y, duration) => {
+            moveCamera: (self, element, rotationAngle, ease, camY, targetY, duration) => {
                 gsap.to(this.camera, {
                     rotationAngle: rotationAngle,
                     duration: duration,
                     ease: ease
                 })
                 gsap.to(this.camera.instance.position, {
-                    y: y,
+                    y: camY,
                     duration: duration,
                     ease: ease
                 })
                 gsap.to(this.camera.target, {
-                    y: y,
+                    y: targetY,
                     duration: duration,
                     ease: ease
                 })
@@ -79,9 +80,9 @@ export default class Animations {
         }
 
         this.menuProperties = [
-            [-1.627, this.ease.power4, 2, 2],
-            [Math.PI / 2, this.ease.circ, -3.5, 2],
-            [-1.267, this.ease.power3, -10, 2],
+            [-1.627, this.ease.power4, 2, 2, 2],
+            [0.636, this.ease.circ, -3, -4, 2],
+            [-1.267, this.ease.power3, -10, -10, 2],
         ]
     }
 
@@ -163,6 +164,13 @@ export default class Animations {
             this.DOM.homeDiv.style.transform = `translate(calc(${translateX}), calc(${translateY}))`
             this.DOM.content.style.transform = `translate(calc(${translateX}), calc(${translateY}))`
 
+        })
+    }
+
+    animateLights() {
+        this.time.on('tick', () => {
+            this.world.lights.items.spotLight.target.position.x = Math.cos(this.time.elapsed * 0.00105) * 2.5
+            this.world.lights.items.spotLight.target.position.y = Math.sin(this.time.elapsed * 0.00035) * 2.5
         })
     }
 }
