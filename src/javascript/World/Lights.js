@@ -84,9 +84,9 @@ export default class Lights {
         this.items.spotLight = new THREE.SpotLight(
             this.colors.white,
             5,
-            6,
-            Math.PI / 5,
-            .3,
+            13,
+            Math.PI / 8,
+            .05,
             0
         )
     }
