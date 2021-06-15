@@ -30,10 +30,11 @@ export default class DOM {
     }
 
     getDOMElements() {
-        this.home = document.querySelector('.home')
-        this.homeText = document.querySelector('.home-text')
-        this.homeBg = document.querySelector('.home-bg')
-        this.bgTexts = document.querySelectorAll(".bg-text")
+        this.menuList = document.querySelector('.menu-list')
+        this.menuBtns = [...this.menuList.children]
+        this.homeDiv = document.querySelector('.home')
+        this.content = document.querySelector('.content')
+        console.log(this.menuBtns);
     }
 
 }
