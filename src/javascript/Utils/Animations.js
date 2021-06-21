@@ -2,10 +2,11 @@ import gsap from 'gsap'
 import { Vector3 } from 'three'
 
 export default class Animations {
+ 
     /**
      * Constructot
      */
-
+    
     constructor(_options) {
         // Options
         this.camera = _options.camera
@@ -18,10 +19,11 @@ export default class Animations {
 
         // Animation Eases
         this.ease = {}
-        this.ease.power4 = "power4.inOut"
-        this.ease.power3 = "power3.inOut"
+        this.ease.slow = "slow (0.7, 0.1, false)"
+        this.ease.power4 = "power4.in"
+        this.ease.power3 = "power3.in"
         this.ease.elastic = "elastic.out(1,0.3)"
-        this.ease.circ = "circ.inOut"
+        this.ease.circ = "circ.in"
         this.ease.back = "back.out(1.7)"
 
         this.duration = {}
@@ -38,8 +40,6 @@ export default class Animations {
 
         this.IDX = 0
         this.MAX_INDEX = -1
-
-
 
         // Setup
         this.setControls()
@@ -96,7 +96,7 @@ export default class Animations {
 
             // Push to 
             this.animationsProps.push([
-                el.element, Math.PI / 4, this.ease.power3, el.position.y, el.position.y, 1.5,
+                el.element, Math.PI / 4, this.ease.slow, el.position.y, el.position.y, .5,
             ])
         })
 
@@ -107,7 +107,7 @@ export default class Animations {
             // Push to 
 
             this.animationsProps.push([
-                undefined, Math.PI / 4, this.ease.power3, child.position.y, child.position.y, 1.5,
+                undefined, Math.PI / 4, this.ease.slow, child.position.y, child.position.y, .5,
             ])
         })
 
@@ -117,7 +117,7 @@ export default class Animations {
 
             // Push to 
             this.animationsProps.push([
-                el.element, Math.PI / 4, this.ease.power3, el.position.y, el.position.y, 1,
+                el.element, Math.PI / 4, this.ease.slow, el.position.y, el.position.y, .5,
             ])
         })
     }
@@ -162,7 +162,7 @@ export default class Animations {
             setTimeout(() => {
                 window.addEventListener('wheel', _wheel, true)
             },
-                self.animationsProps[self.IDX][5] * 1000) // Seconds for Timeout
+                self.animationsProps[self.IDX][5] * 500) // Seconds for Timeout
         }
 
         window.addEventListener('wheel', _wheel, true)
@@ -175,7 +175,10 @@ export default class Animations {
         // this.homePosition = new Vector3(0, 2, 0)
 
         this.time.on('tick', () => {
-            [...this.DOM.firstPositions,...this.DOM.secondPositions].forEach(el => {
+            [
+                ...this.DOM.firstPositions,
+                ...this.DOM.secondPositions
+            ].forEach(el => {
                 let projected = el.position.clone()
                 projected.project(this.camera.instance)
 
