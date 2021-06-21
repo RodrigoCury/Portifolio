@@ -43,8 +43,8 @@ export default class Holograms {
             this.container.add(mesh)
         })
 
-        this.container.rotation.y = -1.224
-        this.container.position.set(0.266, -0.38, 6.795)
+        this.container.rotation.y = -Math.PI / 2
+        this.container.position.set(0.266, -1.70, 6.795)
 
         if (this.debug) {
             this.debugFolder.add(this.container.position, 'x', -10, 10, 0.001).name("Holograms X")
@@ -62,8 +62,8 @@ export default class Holograms {
             this.materials.items.beamMaterial
         )
         this.cone.visible = false
-        this.cone.position.set(5.298, -1.584, 5.297)
-        this.cone.rotation.set(-Math.PI, 0.1, -2.32)
+        this.cone.position.set(5.298, -1.683, 5.297)
+        this.cone.rotation.set(0.26, -Math.PI, 0.16)
 
 
         if (this.debug) {
