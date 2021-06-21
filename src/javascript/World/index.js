@@ -27,31 +27,21 @@ export default class {
 
         // Setup
         this.container = new THREE.Object3D()
-        this.container.matrixAutoUpdate = true
+        this.offContainer = new THREE.Object3D()
+        this.whoAmIContainer = new THREE.Object3D()
+        this.whatIDoContainer = new THREE.Object3D()
+        this.aboutMeContainer = new THREE.Object3D()
 
         this.setLights()
-
         this.setMaterials()
-        this.setAxes()
         this.setResources()
 
-    }
-
-    setAxes() {
-        // Debug
-        if (this.debug) {
-            this.axes = new THREE.AxesHelper(1)
-            this.container.add(this.axes)
-            this.debugFolder.add(this.axes, 'visible')
-        }
     }
 
     setLights() {
         this.lights = new Lights({
             debug: this.debug
         })
-
-        this.container.add(this.lights.container)
     }
 
     setMaterials() {
@@ -65,11 +55,12 @@ export default class {
     setResources() {
         this.resources.on('ready', () => {
             this.setTextGeometries()
-            this.setupHomePage()
             this.setupLogos()
             this.setupISS()
-            this.setupHolograms()
             this.setupProjects()
+            this.setWhoAmI()
+            this.setWhatIDo()
+            this.setAboutMe()
         })
     }
 
@@ -81,41 +72,22 @@ export default class {
         })
     }
 
-    setupHomePage() {
-        // this.homeContainer = new THREE.Object3D()
-        // this.homeContainer.rotation.y = Math.PI
-
-        // this.homeBackground = new THREE.Object3D()
-        // this.text.homeText.dev.position.y = 1
-        // this.text.homeText.biotechnology.position.y = -1
-        // this.homeBackground.add(
-        //     this.text.homeText.dev,
-        //     this.text.homeText.fullStack,
-        //     this.text.homeText.biotechnology,
-        // )
-        // this.homeContainer.add(this.text.homeText.name, this.homeBackground)
-        // this.container.add(this.homeContainer)
-    }
-
     setupLogos() {
         //Set Logo Container
         this.logoContainer = new THREE.Object3D()
-        this.logoContainer.position.z = -1.21
-        this.logoContainer.position.x = -5.23
-        this.logoContainer.position.y = -4.52
-        this.logoContainer.rotation.y = 1.33
 
-        if (this.debug) {
-            this.debugFolder.add(this.logoContainer.position, "z", -10, 10, 0.01).name("logoC Z")
-            this.debugFolder.add(this.logoContainer.position, "y", -10, 10, 0.01).name("logoC Y")
-            this.debugFolder.add(this.logoContainer.position, "x", -10, 10, 0.01).name("logoC X")
-            this.debugFolder.add(this.logoContainer.rotation, "y", -Math.PI, Math.PI, 0.01).name("logoC Rot")
-        }
+        // Container Position
+        this.logoContainer.position.set(-5.75, -20, 3.75)
+
+        // Container Rotation
+        this.logoContainer.rotation.y = 2.42
 
         // Set Raycaster Areas
         this.logosArea = Areas.addArea()
+
+
         /**
-         * TOP
+         * Top Row
          */
 
         // Set Python Logo
@@ -130,7 +102,7 @@ export default class {
         this.logosArea.addToArea(2, 2, this.resources.items.jsLogo.scene, 'Javascript')
 
         /**
-         * Middle
+         * Middle Row
          */
 
         // Django Logo
@@ -149,7 +121,7 @@ export default class {
         this.logosArea.addToArea(2, 2, this.resources.items.threeLogo.scene, 'Three.js')
 
         /**
-         * Bottom
+         * Bottom Row
          */
 
         // Set HTML Logo
@@ -181,16 +153,40 @@ export default class {
         )
         this.container.add(this.logoContainer)
 
+
+        /**
+         * Debug
+         */
+
+        if (this.debug) {
+            this.debugFolder.add(this.logoContainer.position, "z", -30, 30, 0.01).name("logoC Z")
+            this.debugFolder.add(this.logoContainer.position, "y", -30, 30, 0.01).name("logoC Y")
+            this.debugFolder.add(this.logoContainer.position, "x", -30, 30, 0.01).name("logoC X")
+            this.debugFolder.add(this.logoContainer.rotation, "y", -Math.PI, Math.PI, 0.01).name("logoC Rot")
+        }
     }
 
     setupISS() {
+        // Scale 
         this.resources.items.iss.scene.scale.set(.6, .6, .6)
-        this.resources.items.iss.scene.rotation.set(0, Math.PI / 2, Math.PI / 2)
-        this.resources.items.iss.scene.position.set(6.437, -1.34, 5)
-        this.logoContainer.add(this.resources.items.iss.scene)
 
+        // Rotation
+        this.resources.items.iss.scene.rotation.set(0, Math.PI / 2, Math.PI / 2)
+
+        // Position
+        this.resources.items.iss.scene.position.set(6.437, -1.34, 5)
+
+        // Position SpotLight
         this.lights.items.spotLight.position.set(6.437, -2.56, 3.95)
 
+        // Add to Logo Container
+        this.logoContainer.add(
+            this.resources.items.iss.scene,
+            this.lights.items.spotLight,
+            this.lights.items.spotLight.target,
+        )
+
+        // Debug ISS
         if (this.debug) {
             this.iss = this.debug.addFolder('ISS')
             this.iss.add(this.resources.items.iss.scene.position, 'x', -10, 10, 0.001).name("ISS X")
@@ -212,16 +208,7 @@ export default class {
             // this.logoContainer.add(this.sLHelper)
         }
 
-        this.logoContainer.add(
-            this.lights.items.spotLight,
-            this.lights.items.spotLight.target,
-        )
-
-
-
-    }
-
-    setupHolograms() {
+        // Setup Holograms
         this.holograms = new Holograms({
             debug: this.debug,
             materials: this.materials,
@@ -232,19 +219,28 @@ export default class {
         this.logoContainer.add(this.holograms.container, this.holograms.cone)
     }
 
-    setupProjects() {
-        this.projectsContainer = new THREE.Object3D()
-        this.projectsContainer.position.set(7.5, -11, -1.25)
 
-        this.resources.items.astronaut.scene.rotation.y = -2.3
-        this.resources.items.astronaut.scene.rotation.z = -Math.PI / 4
-        this.resources.items.astronaut.scene.position.set(1.8, -1.79, 6.8)
+    setupProjects() {
+        // Projects Container
+        this.projectsContainer = new THREE.Object3D()
+
+        this.projectsContainer.add(new THREE.AxesHelper(2))
+
+        // Container position
+        this.projectsContainer.position.set(-8.83, -35, 8)
+        this.projectsContainer.rotation.y = 2.3
+
+        // Atronaut Rotation
+        this.resources.items.astronaut.scene.rotation.set(-.06, 1.53, 0.29)
+
+        // Atronaut Position
+        this.resources.items.astronaut.scene.position.set(-9.8, -3.53, 0)
 
 
 
         // Add to containers
         this.projectsContainer.add(this.resources.items.astronaut.scene)
-        this.container.add(this.projectsContainer)
+        this.offContainer.add(this.projectsContainer)
 
 
 
@@ -255,20 +251,24 @@ export default class {
             //Debug Object
             this.debugObject = {
                 astronautScale: 0.1,
+                booksScale : 0.1,
             }
 
             // Container
             this.projectsFolder = this.debug.addFolder("Projects")
-            this.projectsFolder.add(this.projectsContainer.position, 'x', -15, 15, 0.01).name("Container X")
-            this.projectsFolder.add(this.projectsContainer.position, 'y', -15, 15, 0.01).name("Container Y")
-            this.projectsFolder.add(this.projectsContainer.position, 'z', -15, 15, 0.01).name("Container Z")
+            this.projectsFolder.add(this.projectsContainer.position, 'x', -30, 30, 0.01).name("Container X")
+            this.projectsFolder.add(this.projectsContainer.position, 'y', -30, 30, 0.01).name("Container Y")
+            this.projectsFolder.add(this.projectsContainer.position, 'z', -30, 30, 0.01).name("Container Z")
+            this.projectsFolder.add(this.projectsContainer.rotation, 'y', -Math.PI, Math.PI, 0.01).name("Container Rot")
 
             // Astronaut
             this.projectsFolder.add(this.resources.items.astronaut.scene.position, 'x', -15, 15, 0.01).name("Anaut X")
             this.projectsFolder.add(this.resources.items.astronaut.scene.position, 'y', -15, 15, 0.01).name("Anaut Y")
             this.projectsFolder.add(this.resources.items.astronaut.scene.position, 'z', -15, 15, 0.01).name("Anaut Z")
-            this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'y', -Math.PI, Math.PI, 0.01).name("Anaut Rot")
-            this.projectsFolder.add(this.debugObject, 'astronautScale').name("Anaut Scale")
+            this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'y', -Math.PI, Math.PI, 0.01).name("Anaut Rot Y")
+            this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'x', -Math.PI, Math.PI, 0.01).name("Anaut Rot X")
+            this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'z', -Math.PI, Math.PI, 0.01).name("Anaut Rot Z")
+            this.projectsFolder.add(this.debugObject, 'astronautScale', 0, 1, 0.001).name("Anaut Scale")
                 .onChange(() => {
                     this.resources.items.astronaut.scene.scale.set(
                         this.debugObject.astronautScale,
@@ -277,5 +277,108 @@ export default class {
                     )
                 })
         }
+    }
+
+    setWhoAmI(){
+        // Setup Container
+        this.whoAmIContainer.position.set(0, -2, 0)
+        this.whoAmIContainer.rotation.set(0, -0.84, 0)
+
+        // Setup notebook 3D Model
+        this.resources.items.notebook.scene.position.set(-2.46,0,0)
+        this.resources.items.notebook.scene.rotation.set(0.284,-0.265,-0.387)
+        
+        // Debug
+        if (this.debug){
+            this.whoAmIContainer.add(new THREE.AxesHelper(2))
+
+            this.whoAmIFolder = this.debug.addFolder("WhoAmI")
+            
+            this.whoAmIFolder.add(this.whoAmIContainer.position, 'x', -20, 20, 0.001).name('Container X')
+            this.whoAmIFolder.add(this.whoAmIContainer.position, 'y', -20, 20, 0.001).name('Container Y')
+            this.whoAmIFolder.add(this.whoAmIContainer.position, 'z', -20, 20, 0.001).name('Container Z')
+            this.whoAmIFolder.add(this.whoAmIContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot y')
+            this.whoAmIFolder.add(this.resources.items.notebook.scene.position, 'x', -20, 20, 0.001).name('Notebook x')
+            this.whoAmIFolder.add(this.resources.items.notebook.scene.position, 'y', -20, 20, 0.001).name('Notebook y')
+            this.whoAmIFolder.add(this.resources.items.notebook.scene.position, 'z', -20, 20, 0.001).name('Notebook z')
+            this.whoAmIFolder.add(this.resources.items.notebook.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('Notebook rot x')
+            this.whoAmIFolder.add(this.resources.items.notebook.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('Notebook rot y')
+            this.whoAmIFolder.add(this.resources.items.notebook.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('Notebook rot z')
+        }
+        
+        // Add to container
+        this.whoAmIContainer.add(this.resources.items.notebook.scene)
+        
+    }
+    
+    setWhatIDo(){
+        // Setup Container
+        this.whatIDoContainer.position.set(0, -6, 0)
+        this.whatIDoContainer.rotation.set(0, -0.06, 0)
+    
+        // Setup notebook 3D Model
+        this.resources.items.microscope.scene.position.set(3.81, -1.27, -1.561)
+        this.resources.items.microscope.scene.rotation.set(0,1.414,0)
+        
+        // Debug
+        if (this.debug){
+            this.whatIDoContainer.add(new THREE.AxesHelper(2))
+    
+            this.whatIDoFolder = this.debug.addFolder("whatIDo")
+            
+            this.whatIDoFolder.add(this.whatIDoContainer.position, 'x', -20, 20, 0.001).name('Container X')
+            this.whatIDoFolder.add(this.whatIDoContainer.position, 'y', -20, 20, 0.001).name('Container Y')
+            this.whatIDoFolder.add(this.whatIDoContainer.position, 'z', -20, 20, 0.001).name('Container Z')
+            this.whatIDoFolder.add(this.whatIDoContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot y')
+            this.whatIDoFolder.add(this.resources.items.microscope.scene.position, 'x', -20, 20, 0.001).name('microscope x')
+            this.whatIDoFolder.add(this.resources.items.microscope.scene.position, 'y', -20, 20, 0.001).name('microscope y')
+            this.whatIDoFolder.add(this.resources.items.microscope.scene.position, 'z', -20, 20, 0.001).name('microscope z')
+            this.whatIDoFolder.add(this.resources.items.microscope.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('microscope rot x')
+            this.whatIDoFolder.add(this.resources.items.microscope.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('microscope rot y')
+            this.whatIDoFolder.add(this.resources.items.microscope.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('microscope rot z')
+        }
+        
+        // Add to container
+        this.whatIDoContainer.add(this.resources.items.microscope.scene)
+        
+        
+    }
+    
+    setAboutMe(){
+        // Setup Container
+        this.aboutMeContainer.position.set(0, -10, 0)
+        this.aboutMeContainer.rotation.set(0, 0.72, 0)
+    
+        // Setup notebook 3D Model
+        this.resources.items.books.scene.position.set(-2.85,0,0)
+        this.resources.items.books.scene.rotation.set(0,-0.447,0)
+        this.resources.items.books.scene.scale.set(0.28,0.28,0.28)
+        
+        // Debug
+        if (this.debug){
+            this.aboutMeContainer.add(new THREE.AxesHelper(2))
+    
+            this.aboutMeFolder = this.debug.addFolder("aboutMe")
+            
+            this.aboutMeFolder.add(this.aboutMeContainer.position, 'x', -20, 20, 0.001).name('Container X')
+            this.aboutMeFolder.add(this.aboutMeContainer.position, 'y', -20, 20, 0.001).name('Container Y')
+            this.aboutMeFolder.add(this.aboutMeContainer.position, 'z', -20, 20, 0.001).name('Container Z')
+            this.aboutMeFolder.add(this.aboutMeContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot y')
+            this.aboutMeFolder.add(this.resources.items.books.scene.position, 'x', -20, 20, 0.001).name('books x')
+            this.aboutMeFolder.add(this.resources.items.books.scene.position, 'y', -20, 20, 0.001).name('books y')
+            this.aboutMeFolder.add(this.resources.items.books.scene.position, 'z', -20, 20, 0.001).name('books z')
+            this.aboutMeFolder.add(this.resources.items.books.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('books rot x')
+            this.aboutMeFolder.add(this.resources.items.books.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('books rot y')
+            this.aboutMeFolder.add(this.resources.items.books.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('books rot z')
+            this.aboutMeFolder.add(this.debugObject, 'booksScale', 0, 1, 0.001).name('books scale').onChange(() => {
+                this.resources.items.books.scene.scale.x = this.debugObject.booksScale
+                this.resources.items.books.scene.scale.y = this.debugObject.booksScale
+                this.resources.items.books.scene.scale.z = this.debugObject.booksScale
+            })
+        }
+        
+        // Add to container
+        this.aboutMeContainer.add(this.resources.items.books.scene)
+
     }
 }
