@@ -128,7 +128,7 @@ export default class Application {
         this.renderer.setSize(this.sizes.viewport.width, this.sizes.viewport.height)
 
         // Physically correct lights (Light get more dim when more far away M.R.)
-        this.renderer.physicallyCorrectLights = true
+        // this.renderer.physicallyCorrectLights = true
 
         // Auto Clear
         this.renderer.autoClear = false
@@ -239,7 +239,15 @@ export default class Application {
             renderer: this.renderer,
             passes: this.passes
         })
-        this.scene.add(this.world.container)
+        this.scene.add(
+            this.world.container,
+            this.world.offContainer,
+            this.world.whoAmIContainer,
+            this.world.whatIDoContainer,
+            this.world.aboutMeContainer,
+            this.world.lights.container
+        )
+
     }
 
     setDOMElements() {
