@@ -20,9 +20,7 @@ import pz from '../textures/nebulaEnvMap/pz.png'
 /**
  * Fonts
  */
-const shareTechMonoRegular = '/fonts/shareTechMonoRegular.json'
-const mateSC = '/fonts/mateSC.json'
-const caveat = '/fonts/caveat.json'
+const mateSC = '/static/fonts/mateSC.json'
 
 
 /**
@@ -45,6 +43,10 @@ import iss from '../models/iss/iss.glb'
 // Astronaut
 import astronaut from '../models/astronaut/astronautMatOnly.glb'
 
+// Ambient Assets
+import notebook from '../models/ambientAssets/notebook.glb'
+import microscope from '../models/ambientAssets/microscope.glb'
+import books from '../models/ambientAssets/books.glb'
 
 /**
  * Resources Class
@@ -69,11 +71,11 @@ export default class Resources extends EventEmitter {
 
             // Textures
 
+            // Images
+
             // Fonts
 
-            { name: 'shareTechMonoRegular', source: shareTechMonoRegular, type: "font" },
             { name: 'mateSC', source: mateSC, type: "font" },
-            { name: 'caveat', source: caveat, type: "font" },
 
             // Logos
             { name: 'pyLogo', source: pyLogo },
@@ -87,6 +89,9 @@ export default class Resources extends EventEmitter {
             // 3D Models
             { name: 'iss', source: iss },
             { name: 'astronaut', source: astronaut },
+            { name: 'notebook', source: notebook },
+            { name: 'microscope', source:microscope },
+            { name: 'books', source:books },
         ])
 
         // Setup Triggers and put loaded resoucers on items Object
