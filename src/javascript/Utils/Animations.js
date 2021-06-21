@@ -22,6 +22,7 @@ export default class Animations {
         this.ease.power3 = "power3.inOut"
         this.ease.elastic = "elastic.out(1,0.3)"
         this.ease.circ = "circ.inOut"
+        this.ease.back = "back.out(1.7)"
 
         this.duration = {}
         this.duration.fast = 0.5
@@ -36,7 +37,7 @@ export default class Animations {
         }
 
         this.IDX = 0
-        this.MAX_INDEX = 2
+        this.MAX_INDEX = -1
 
 
 
@@ -47,6 +48,7 @@ export default class Animations {
 
             this.homeAnimation()
             this.animateLights()
+            this.setAnimationsProps()
         })
     }
 
@@ -60,55 +62,71 @@ export default class Animations {
 
         this.animations = {
             moveCamera: (self, element, rotationAngle, ease, camY, targetY, duration) => {
+                // Rotate Camera
                 gsap.to(this.camera, {
-                    rotationAngle: rotationAngle,
-                    duration: duration,
-                    ease: ease
+                    rotationAngle: this.camera.rotationAngle + rotationAngle,
+                    duration,
+                    ease
                 })
+
+                // Move Camera
                 gsap.to(this.camera.instance.position, {
                     y: camY,
-                    duration: duration,
-                    ease: ease
+                    duration,
+                    ease
                 })
+
+                // Move Camera Target
                 gsap.to(this.camera.target, {
                     y: targetY,
-                    duration: duration,
-                    ease: ease
+                    duration,
+                    ease
                 })
-                this.selectedBtn(self, element)
+                // this.selectedBtn(self, element)
             },
         }
+    }
 
-        this.menuProperties = [
-            [-1.627, this.ease.power4, 2, 2, 2],
-            [0.636, this.ease.circ, -3, -4, 2],
-            [-1.267, this.ease.power3, -10, -10, 2],
-        ]
+    setAnimationsProps() {
+        this.animationsProps = []
+
+        this.DOM.firstPositions.forEach(el => {
+            // Automatically increment MaxIndex
+            this.MAX_INDEX++
+
+            // Push to 
+            this.animationsProps.push([
+                el.element, Math.PI / 4, this.ease.power3, el.position.y, el.position.y, 1.5,
+            ])
+        })
+
+        this.world.container.children.forEach(child => {
+            // Automatically increment MaxIndex
+            this.MAX_INDEX++
+
+            // Push to 
+
+            this.animationsProps.push([
+                undefined, Math.PI / 4, this.ease.power3, child.position.y, child.position.y, 1.5,
+            ])
+        })
+
+        this.DOM.secondPositions.forEach(el => {
+            // Automatically increment MaxIndex
+            this.MAX_INDEX++
+
+            // Push to 
+            this.animationsProps.push([
+                el.element, Math.PI / 4, this.ease.power3, el.position.y, el.position.y, 1,
+            ])
+        })
     }
 
     setEventListeners() {
-        // self for eventListener Scope Problems
+        // // self for eventListener Scope Problems
         const self = this
 
-        async function _btnClick(event) {
-            console.log(event.target);
-            self.IDX = parseInt(event.target.id)
-            console.log(self.IDX);
-
-            self.animations.moveCamera(self, self.DOM.menuBtns[self.IDX], ...self.menuProperties[self.IDX])
-
-            self.DOM.menuBtns.forEach(b => {
-                // remove BUTTONS event listener so the animations does not overlap
-                b.removeEventListener('click', _btnClick, true)
-                // set timeout so it returns after animation is over
-                setTimeout(() => {
-                    b.addEventListener('click', _btnClick, true)
-                }, 2000);
-
-            })
-        }
-
-        // add Event Listener for Mouse Wheel // Async for Timeout
+        // Wheel Event Function // Async for timeout
         async function _wheel(event) {
 
             /**
@@ -118,6 +136,7 @@ export default class Animations {
             if (event.deltaY < 0) {
                 if (self.IDX !== 0) {
                     self.IDX--
+                    self.animationsProps[self.IDX][1] = -Math.abs(self.animationsProps[self.IDX][1])
                 } else {
                     // return if it is off constraints so it does not remove event listener
                     return
@@ -126,15 +145,14 @@ export default class Animations {
             } else {
                 if (self.IDX !== self.MAX_INDEX) {
                     self.IDX++
+                    self.animationsProps[self.IDX][1] = Math.abs(self.animationsProps[self.IDX][1])
                 } else {
                     // return if it is off constraints so it does not remove event listener
                     return
                 }
             }
 
-            // Animate using self
-
-            self.animations.moveCamera(self, self.DOM.menuBtns[self.IDX], ...self.menuProperties[self.IDX])
+            self.animations.moveCamera(self, ...self.animationsProps[self.IDX])
 
 
             // remove window event listener so the animations does not overlap
@@ -143,27 +161,28 @@ export default class Animations {
             // set timeout so it returns after animation is over
             setTimeout(() => {
                 window.addEventListener('wheel', _wheel, true)
-            }, 2000);
+            },
+                self.animationsProps[self.IDX][5] * 1000) // Seconds for Timeout
         }
 
         window.addEventListener('wheel', _wheel, true)
 
-        this.DOM.menuBtns.forEach(btn => btn.addEventListener('click', _btnClick, true))
+        // this.DOM.menuBtns.forEach(btn => btn.addEventListener('click', _btnClick, true))
 
     }
 
     homeAnimation() {
-        this.homePosition = new Vector3(0, 2, 0)
+        // this.homePosition = new Vector3(0, 2, 0)
 
         this.time.on('tick', () => {
-            let homeProjected = this.homePosition.clone()
-            homeProjected.project(this.camera.instance)
+            [...this.DOM.firstPositions,...this.DOM.secondPositions].forEach(el => {
+                let projected = el.position.clone()
+                projected.project(this.camera.instance)
 
-            const translateX = `${homeProjected.x * this.sizes.width * 0.5}px`
-            const translateY = `${-homeProjected.y * this.sizes.height * 0.5}px`
-            this.DOM.homeDiv.style.transform = `translate(calc(${translateX}), calc(${translateY}))`
-            this.DOM.content.style.transform = `translate(calc(${translateX}), calc(${translateY}))`
-
+                const translateX = `${projected.x * this.sizes.width * 0.5}px`
+                const translateY = `${-projected.y * this.sizes.height * 0.5}px`
+                el.element.style.transform = `translate(${translateX}, ${translateY})`
+            })
         })
     }
 
