@@ -32,61 +32,37 @@ export default class Lights {
             blueNebula: '#445BDB'
         }
 
-        this.setDirectionalLights()
         this.setAmbientlight()
+        this.setDirectionalLight()
         this.setSpotLight()
     }
 
-    setDirectionalLights() {
-        // Red Nebula Light
-        this.items.redDirectionalLight = new THREE.DirectionalLight(
-            this.colors.redNebula,
-            1
-        )
-        this.items.redDirectionalLight.position.set(1, 0, -8)
-
-        // Blue Nebula Light
-        this.items.blueDirectionalLight = new THREE.DirectionalLight(
-            this.colors.blueNebula,
-            1
-        )
-        this.items.blueDirectionalLight.position.set(0, -6, 8)
-
-        if (this.debug) {
-            this.debugFolder.add(this.items.redDirectionalLight.position, 'x', -10, 10, 0.01).name('Red nebula X')
-            this.debugFolder.add(this.items.redDirectionalLight.position, 'y', -10, 10, 0.01).name('Red nebula Y')
-            this.debugFolder.add(this.items.redDirectionalLight.position, 'z', -10, 10, 0.01).name('Red nebula Z')
-            this.debugFolder.add(this.items.redDirectionalLight, 'intensity', 0, 6, 0.01).name('Red nebula Intensity')
-            this.debugFolder.add(this.items.blueDirectionalLight.position, 'x', -10, 10, 0.01).name('Blue nebula X')
-            this.debugFolder.add(this.items.blueDirectionalLight.position, 'y', -10, 10, 0.01).name('Blue nebula Y')
-            this.debugFolder.add(this.items.blueDirectionalLight.position, 'z', -10, 10, 0.01).name('Blue nebula Z')
-            this.debugFolder.add(this.items.blueDirectionalLight, 'intensity', 0, 6, 0.01).name('Blue nebula Intensity')
-            this.debugFolder.addColor(this.colors, 'redNebula').onChange(() => {
-                this.items.redDirectionalLight.color = new THREE.Color(this.colors.redNebula)
-            })
-        }
-
-        this.container.add(
-            this.items.redDirectionalLight,
-            this.items.blueDirectionalLight,
-        )
-    }
-
     setAmbientlight() {
-        this.items.ambientlight = new THREE.AmbientLight(this.colors.white, 0.8)
+        this.items.ambientlight = new THREE.AmbientLight(this.colors.white, .5)
         if (this.debug) {
             this.debugFolder.add(this.items.ambientlight, 'intensity', 0, 5, 0.001).name("Ambient intensity")
         }
         this.container.add(this.items.ambientlight)
     }
+    
+    setDirectionalLight() {
+        this.items.directionalLight = new THREE.DirectionalLight(this.colors.white, 1)
+        this.items.directionalLight.position.set(-3,4,3)
+        
+        if (this.debug) {
+            this.debugFolder.add(this.items.directionalLight, 'intensity', 0, 5, 0.001).name("Ambient intensity")
+        }
+
+        this.container.add(this.items.directionalLight)
+    }
 
     setSpotLight() {
         this.items.spotLight = new THREE.SpotLight(
             this.colors.white,
-            5,
+            2,
             13,
             Math.PI / 8,
-            .05,
+            1,
             0
         )
     }
