@@ -53,9 +53,9 @@ export default class Resources extends EventEmitter {
             }
         })
 
-        // Images 
+        // Textures 
         this.loaders.push({
-            name: 'Image',
+            name: 'texture',
             extentions: ['jpg', 'png'],
             action: _resource => {
 
@@ -65,6 +65,25 @@ export default class Resources extends EventEmitter {
                         this.fileLoadEnd(_resource, _data)
                     })
 
+            }
+        })
+
+        // Images
+        this.loaders.push({
+            name: 'images',
+            extentions: [],
+            action: (_resource) => {
+                const image = new Image()
+
+                image.addEventListener('load', () => {
+                    this.fileLoadEnd(_resource, image)
+                })
+
+                image.addEventListener('error', () => {
+                    this.fileLoadEnd(_resource, image)
+                })
+
+                image.src = _resource.source
             }
         })
 
@@ -108,6 +127,13 @@ export default class Resources extends EventEmitter {
             this.toLoad++
             if (_resource.type === 'cubeTexture') {
                 const loader = this.loaders.find(_loader => _loader.name === 'CubeTexture')
+                if (loader) {
+                    loader.action(_resource)
+                } else {
+                    console.warn(`Can't find loader for ${_resource}`)
+                }
+            } else if (_resource.type === 'image') {
+                const loader = this.loaders.find(_loader => _loader.name === 'images')
                 if (loader) {
                     loader.action(_resource)
                 } else {
