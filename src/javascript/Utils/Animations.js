@@ -53,13 +53,6 @@ export default class Animations {
     }
 
     setControls() {
-        this.selectedBtn = (self, element) => {
-            self.DOM.menuBtns.forEach(btn => {
-                btn.classList.remove('selected')
-            })
-            element.classList.add('selected')
-        }
-
         this.animations = {
             moveCamera: (self, element, rotationAngle, ease, camY, targetY, duration) => {
                 // Rotate Camera
@@ -82,7 +75,6 @@ export default class Animations {
                     duration,
                     ease
                 })
-                // this.selectedBtn(self, element)
             },
         }
     }
@@ -96,7 +88,7 @@ export default class Animations {
 
             // Push to 
             this.animationsProps.push([
-                el.element, Math.PI / 4, this.ease.slow, el.position.y, el.position.y, .5,
+                el.element, Math.PI / 4, this.ease.slow, el.position.y, el.position.y, 1.5,
             ])
         })
 
@@ -107,7 +99,7 @@ export default class Animations {
             // Push to 
 
             this.animationsProps.push([
-                undefined, Math.PI / 4, this.ease.slow, child.position.y, child.position.y, .5,
+                undefined, Math.PI / 4, this.ease.slow, child.position.y, child.position.y, 1.5,
             ])
         })
 
@@ -117,7 +109,7 @@ export default class Animations {
 
             // Push to 
             this.animationsProps.push([
-                el.element, Math.PI / 4, this.ease.slow, el.position.y, el.position.y, .5,
+                el.element, Math.PI / 4, this.ease.slow, el.position.y, el.position.y, 1.5,
             ])
         })
     }
@@ -162,13 +154,25 @@ export default class Animations {
             setTimeout(() => {
                 window.addEventListener('wheel', _wheel, true)
             },
-                self.animationsProps[self.IDX][5] * 500) // Seconds for Timeout
+                self.animationsProps[self.IDX][5] * 1000) // Seconds for Timeout
         }
 
         window.addEventListener('wheel', _wheel, true)
 
-        // this.DOM.menuBtns.forEach(btn => btn.addEventListener('click', _btnClick, true))
+        this.DOM.openModalBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+              let modal = this.DOM.modals.find(item => item.name === btn.id)
+              modal.element.classList.toggle('hide')
+              this.DOM.projects.classList.toggle('hide')
+            })
+        })
 
+        this.DOM.closeModalBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.DOM.projects.classList.toggle('hide')
+                btn.parentElement.parentElement.classList.toggle('hide')
+            })
+        })
     }
 
     homeAnimation() {
@@ -177,7 +181,8 @@ export default class Animations {
         this.time.on('tick', () => {
             [
                 ...this.DOM.firstPositions,
-                ...this.DOM.secondPositions
+                ...this.DOM.secondPositions,
+                ...this.DOM.modals,
             ].forEach(el => {
                 let projected = el.position.clone()
                 projected.project(this.camera.instance)
