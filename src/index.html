@@ -71,7 +71,7 @@
                 <p class='project-description unselectable'> Ferramenta de controle de estoque de leveduras da Coin Brewery</p>
 
                 <div class='project-btns'>
-                        <p class='btn-p unselectable'>+ informações</p>
+                        <button class='btn-p unselectable' id='coin-info'>+ informações</button>
                 </div>
             </div>
         </div>
@@ -83,11 +83,11 @@
             <div class='project-links'>
                 <H1 class='project-title unselectable'>Bioinformatizado</H1>
                 <p class='project-description unselectable'> 
-                    Blog com com Backend em Django usado como um log das coisas que aprendi em bioinformática
+                    Blog pessoal para manter um registro e disseminar informações sobre biotecnologia
                 </p>
 
                 <div class='project-btns'>
-                        <p class='btn-p unselectable'>+ informações</p>
+                        <button class='btn-p unselectable' id='bioinformatizado-info'>+ informações</button>
                 </div>
             </div>
         </div>
@@ -99,15 +99,193 @@
             <div class='project-links'>
                 <H1 class='project-title unselectable'>Projeto de Bioinformática</H1>
                 <p class='project-description unselectable'> 
-                    Site com ferramentas de bioinformática para tradução e alinhamento de sequências genéticas. Projeto em andamento ainda
+                    Site com ferramentas de bioinformática.
                 </p>
 
                 <div class='project-btns'>
-                        <p class='btn-p unselectable'>+ informações</p>
+                        <button class='btn-p unselectable' id ='bioinfo-project-info'>+ informações</button>
                 </div>
             </div>
         </div>
     </div>
+    <div class='modal-bg hide' id='coin-modal'>
+        <div class='modal-spine'></div>
+        <div class='modal-top-row'>
+            <h1 class='modal-title'>Controle de estoque de leveduras | Coin Brewery</h1>
+            <button class='modal-quit' id='coin-quit'>Voltar</button>
+        </div>
+        <div class='modal-carousel'>
+            <img class='modal-img' src="/static/imgs/coin-estoque.png">
+            <img class='modal-img' src="/static/imgs/coin-leveduras.png">
+            <img class='modal-img' src="/static/imgs/coin-form.png">
+
+            <a class="modal-back" id='coin-back' >&#10094;</a>
+            <a class="modal-forward"id='coin-forward' >&#10095;</a>
+        </div>
+        <div class='modal-side'>
+            <p class='modal-description'>
+                Ferramenta desenvolvida para auxiliar o laboratório a controlar o estoque de leveduras vivas para produção de cerveja artesanal
+            </p>
+            <p class='modal-description'>
+                O software foi idealizado para facilitar o controle do histórico dos processo de repicagem. Também pela necessidade de facilidade de acesso as informações críticas sobre cada uma das cepas
+            </p>
+            <p class='modal-description'>
+                Obs: O site é proprietário portanto não posso permitir acesso, mas posso disponibilizar o código para visualização
+            </p>
+        </div>
+        <div class='modal-tech'>
+            <div class='modal-ul-div'>
+                <h2 class='modal-ul-title'>Tecnologias</h2>
+                <ul class='modal-ul'>
+                    <li class='modal-li'>Django</li>
+                    <li class='modal-li'>Sqlite</li>
+                    <li class='modal-li'>Bootstrap</li>
+                    <li class='modal-li'>Jinja2</li>
+                </ul>
+            </div>
+            <div class='modal-ul-div'>
+                <h2 class='modal-ul-title'>Recursos</h2>
+                <ul class='modal-ul'>
+                    <li class='modal-li'>Auth</li>
+                    <li class='modal-li'>Engine de busca</li>
+                    <li class='modal-li'>Filtros</li>
+                    <li class='modal-li'>Paginação</li>
+                    <li class='modal-li'>Avisos de repiques próxima</li>
+                    <li class='modal-li'>TODO para cada usuário</li>
+                    <li class='modal-li'>Histórico de Atividades</li>
+                </ul>
+            </div>
+            <div class='modal-ul-div production-ul'>
+                <h2 class='modal-ul-title'>Produção</h2>
+                <ul class='modal-ul'>
+                    <li class='modal-li'>3 Semanas de pesquisa e desenvolvimento</li>
+                    <li class='modal-li'>95 horas Codando</li>
+                    <li class='modal-li'>5kg de Miojo</li>
+                    <li class='modal-li'>Deploy no Heroku</li>
+                </ul>
+            </div>
+        </div>
+        <a href='https://github.com/RodrigoCury/estoque-coin' target="_blank" rel="noopener noreferrer">
+            <button class='modal-btn'>Github</button>
+        </a>
+    </div>
+    <div class='modal-bg hide' id='bioinformatizado-modal'>
+        <div class='modal-spine'></div>
+        <div class='modal-top-row'>
+            <h1 class='modal-title'>Bioinformatizado</h1>
+            <button class='modal-quit' id='bioinformatizado-quit'>Voltar</button>
+        </div>
+        <div class='modal-carousel'>
+            <img class='modal-img' src="/static/imgs/bioinformatizado-landing-page.png">
+
+            <a class="modal-back" >&#10094;</a>
+            <a class="modal-forward" >&#10095;</a>
+        </div>
+        <div class='modal-side'>
+            <p class='modal-description'>
+                Blog pessoal feito para eu manter um log sobre ferramentas e conceitos de bioinformática que estou aprendendo e disseminar o conteúdo em português
+            </p>
+        </div>
+        <div class='modal-tech'>
+            <div class='modal-ul-div'>
+                <h2 class='modal-ul-title'>Tecnologias</h2>
+                <ul class='modal-ul'>
+                    <li class='modal-li'>Django</li>
+                    <li class='modal-li'>Bootstrap</li>
+                    <li class='modal-li'>Sqlite</li>
+                    <li class='modal-li'>Jinja2</li>
+                </ul>
+            </div>
+            <div class='modal-ul-div'>
+                <h2 class='modal-ul-title'>Recursos</h2>
+                <ul class='modal-ul'>
+                    <li class='modal-li'>Auth</li>
+                    <li class='modal-li'>Categorias</li>
+                    <li class='modal-li'>Paginação</li>
+                    <li class='modal-li'>CKEditor</li>
+                    <li class='modal-li'>Recursos modulares para possíveis editores</li>
+                </ul>
+            </div>
+            <div class='modal-ul-div production-ul'>
+                <h2 class='modal-ul-title'>Produção</h2>
+                <ul class='modal-ul'>
+                    <li class='modal-li'>2 Semanas desenvolvendo o conceito</li>
+                    <li class='modal-li'>65 horas Codando</li>
+                    <li class='modal-li'>Toneladas de Café</li>
+                    <li class='modal-li'>Deploy no Heroku</li>
+                </ul>
+            </div>
+        </div>
+        <a href='https://bioinformatizado.herokuapp.com/'target="_blank" rel="noopener noreferrer">
+            <button class='modal-btn'>Acesse</button>
+        </a>
+        <a href='https://github.com/RodrigoCury/DjangoBlog'target="_blank" rel="noopener noreferrer">
+            <button class='modal-btn'>Github</button>
+        </a>
+    </div>
+    <div class='modal-bg hide' id='bioinfo-project-modal'>
+        <div class='modal-spine'></div>
+        <div class='modal-top-row'>
+            <h1 class='modal-title'>Projeto de Bioinformática</h1>
+            <button class='modal-quit' id='bioinfo-project-quit'>Voltar</button>
+        </div>
+        <div class='modal-carousel'>
+            <img class='modal-img' src="/static/imgs/coin-estoque.png">
+            <img class='modal-img' src="/static/imgs/coin-estoque.png">
+            <img class='modal-img' src="/static/imgs/coin-estoque.png">
+
+            <a class="modal-back" >&#10094;</a>
+            <a class="modal-forward" >&#10095;</a>
+        </div>
+        <div class='modal-side'>
+            <p class='modal-description'>
+                Playground pessoal para aplicar tecnologias de bioinformática e disponibilizar o acesso pra quem tiver interesse
+            </p>
+            <p class='modal-description'>
+                Sempre que aprendo uma tecnologia nova tento aplicar de maneira interessante neste site e assim reforçar o conhecimento
+            </p>
+            <p class='modal-description'>
+                Obs: É Um projeto em constante Desenvolvimento e em breve o portarei do Flask para Django.
+            </p>
+        </div>
+        <div class='modal-tech'>
+            <div class='modal-ul-div'>
+                <h2 class='modal-ul-title'>Tecnologias</h2>
+                <ul class='modal-ul'>
+                    <li class='modal-li'>Flask</li>
+                    <li class='modal-li'>Biopython</li>
+                    <li class='modal-li'>Sqlite</li>
+                    <li class='modal-li'>SQL-Alchemy</li>
+                    <li class='modal-li'>Python Built-in Dataclasses</li>
+                </ul>
+            </div>
+            <div class='modal-ul-div'>
+                <h2 class='modal-ul-title'>Recursos</h2>
+                <ul class='modal-ul'>
+                    <li class='modal-li'>Alinhamento de Sequências</li>
+                    <li class='modal-li'>Tradução e transcrição de sequência</li>
+                    <li class='modal-li'>Informações interessantes acerca das sequências</li>
+                    <li class='modal-li'>Todas as submissões ficam salvas por um período de tempo</li>
+                </ul>
+            </div>
+            <div class='modal-ul-div production-ul'>
+                <h2 class='modal-ul-title'>Produção</h2>
+                <ul class='modal-ul'>
+                    <li class='modal-li'>Incontáveis dias estudando</li>
+                    <li class='modal-li'>Código refatorado pra todo canto</li>
+                    <li class='modal-li'>Várias noites abandonando a cama</li>
+                    <li class='modal-li'>Deploy no Heroku</li>
+                </ul>
+            </div>
+        </div>
+        <a href='https://bioinformatic-project.herokuapp.com/'target="_blank" rel="noopener noreferrer">
+            <button class='modal-btn'>Acesse</button>
+        </a>
+        <a href='https://github.com/RodrigoCury/bioinformatic-project'target="_blank" rel="noopener noreferrer">
+            <button class='modal-btn'>Github</button>
+        </a>
+    </div>
+
 </body>
 
 </html>
