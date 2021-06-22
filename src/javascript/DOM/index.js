@@ -25,7 +25,7 @@ export default class DOM {
         this.colors = {
             title: "#ffffff",
             subTitle: "#a0a0a0",
-            p: "#ffffff"
+            p: "#6952AB"
         }
 
         this.font = [
@@ -34,17 +34,17 @@ export default class DOM {
 
         this.getDOMElements()
         this.setDom3dPosition()
+        this.setupModals()
     }
 
     getDOMElements() {
         this.homeDiv = document.querySelector('.homepage')
         this.whoami = [...document.querySelectorAll('.whoami-container')]
         this.projects = document.querySelector('.projects-container')
-        this.imgs = [...document.querySelectorAll('.project-img')]
-        
+        this.modal = [...document.querySelectorAll(".modal-bg")]
         
         if(this.debug){
-            this.text = [...document.querySelectorAll(".project-description")]
+            this.text = [...document.querySelectorAll(".modal-ul-title")]
             this.debugFolder.addColor(this.colors, 'p').onChange(() => {
                 this.text.forEach(child => {
                     child.style.color = this.colors.p
@@ -90,9 +90,41 @@ export default class DOM {
                 name: 'projects',
                 element: this.projects,
                 position: new Vector3(0, -35, 0)
-            }
+            },
+        ]
+        
+        this.modals = [
+            {
+                name: 'coin-info',
+                element: this.modal[0],
+                position: new Vector3(0, -35, 0)
+            },
+            {
+                name: 'bioinformatizado-info',
+                element: this.modal[1],
+                position: new Vector3(0, -35, 0)
+            },
+            {
+                name: 'bioinfo-project-info',
+                element: this.modal[2],
+                position: new Vector3(0, -35, 0)
+            },
         ]
 
+    }
+
+    setupModals(){
+        this.openModalBtns = [
+            document.getElementById('coin-info'),
+            document.getElementById('bioinformatizado-info'),
+            document.getElementById('bioinfo-project-info'),
+        ]
+        
+        this.closeModalBtns = [
+            document.getElementById('coin-quit'),
+            document.getElementById('bioinformatizado-quit'),
+            document.getElementById('bioinfo-project-quit'),
+        ]
     }
 
 }
