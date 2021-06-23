@@ -1,5 +1,5 @@
 import gsap from 'gsap'
-import { Vector3 } from 'three'
+import { Vector2, Vector3 } from 'three'
 
 export default class Animations {
  
@@ -31,6 +31,8 @@ export default class Animations {
         this.duration.slow = 2
         this.duration.normal = 1
 
+        this.mouseMoveFlag = 0
+
         if (this.debug) {
             this.debugFolder = this.debug.addFolder("Animations")
             this.debugFolder.add(this.duration, 'fast', 0, 3, 0.01).name("Camera Fast")
@@ -44,6 +46,7 @@ export default class Animations {
         // Setup
         this.setControls()
         this.setEventListeners()
+        this.animateCamera()
         this.resources.on('ready', () => {
 
             this.homeAnimation()
@@ -144,7 +147,9 @@ export default class Animations {
                 }
             }
 
+            self.moveMouseFlag = false
             self.animations.moveCamera(self, ...self.animationsProps[self.IDX])
+            
 
 
             // remove window event listener so the animations does not overlap
@@ -153,6 +158,7 @@ export default class Animations {
             // set timeout so it returns after animation is over
             setTimeout(() => {
                 window.addEventListener('wheel', _wheel, true)
+                self.mouseMoveFlag = true
             },
                 self.animationsProps[self.IDX][5] * 1000) // Seconds for Timeout
         }
@@ -189,7 +195,7 @@ export default class Animations {
 
                 const translateX = `${projected.x * this.sizes.width * 0.5}px`
                 const translateY = `${-projected.y * this.sizes.height * 0.5}px`
-                el.element.style.transform = `translate(${translateX}, ${translateY})`
+                el.element.style.transform = `translate(0, ${translateY})`
             })
         })
     }
@@ -199,5 +205,38 @@ export default class Animations {
             this.world.lights.items.spotLight.target.position.x = Math.cos(this.time.elapsed * 0.00105) * 2.5
             this.world.lights.items.spotLight.target.position.y = Math.sin(this.time.elapsed * 0.00035) * 2.5
         })
+    }
+
+    animateCamera(){
+        this.mouse = new Vector2()
+
+        this.containersToMove = [
+            this.world.projectsContainer,
+            this.world.whoAmIContainer,
+            this.world.whatIDoContainer,
+            this.world.aboutMeContainer,
+        ]
+
+        this.time.on('tick', () => {
+            this.camera.instance.position.x= Math.sin(this.camera.rotationAngle + this.mouse.x) * this.camera.distance,
+            this.camera.instance.position.z= Math.cos(this.camera.rotationAngle + this.mouse.x) * this.camera.distance,
+            this.camera.instance.lookAt(this.camera.target)
+
+            this.containersToMove.forEach(container => {
+                container.rotation.x = this.mouse.y
+                container.rotation.z = -this.mouse.y
+            })
+        })
+        
+        window.onmousemove = event => {
+            if (this.mouseMoveFlag){
+                gsap.to(this.mouse, {
+                    x: ((event.clientX / this.sizes.width)-0.5) * 0.125,
+                    y: -((event.clientY / this.sizes.height)-0.5) * 0.25,
+                    duration: 0.5,
+                    ease: this.ease.linear,
+                })
+            }
+        }
     }
 }
