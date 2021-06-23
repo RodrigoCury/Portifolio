@@ -18,7 +18,7 @@ export default class Camera {
         // Setup
         this.FOV = 50
         this.NEAR = 0.1
-        this.FAR = 20
+        this.FAR = 30
         this.topFOV = this.FOV * this.sizes.viewport.width / this.sizes.viewport.height
 
         this.container = new THREE.Object3D()
@@ -63,11 +63,7 @@ export default class Camera {
             this.instance.updateProjectionMatrix()
         })
 
-        this.time.on('tick', () => {
-            this.instance.position.x = Math.sin(this.rotationAngle) * this.distance
-            this.instance.position.z = Math.cos(this.rotationAngle) * this.distance
-            this.instance.lookAt(this.target)
-        })
+        
         // Debug
         if (this.debug) {
             this.debugFolder.add(this, 'rotationAngle', -Math.PI, Math.PI, 0.001)
