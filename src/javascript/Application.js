@@ -241,7 +241,7 @@ export default class Application {
         })
         this.scene.add(
             this.world.container,
-            this.world.offContainer,
+            this.world.projectsContainer,
             this.world.whoAmIContainer,
             this.world.whatIDoContainer,
             this.world.aboutMeContainer,
