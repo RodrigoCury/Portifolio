@@ -451,7 +451,7 @@ p, h1, h2, a, button, span, li {
   background-color: rgba(0,0,0,0.8);
 }
 
-.modal-img {
+.modal-img-coin, .modal-img-bioinfop, .modal-img-bioinformatizado {
   width: 100%;
   height: auto;
   display: inline-block;
