@@ -550,7 +550,7 @@ p, h1, h2, a, button, span, li {
 }
 
 .modal-li::before{
-  content: '=> ';
+  content: '> ';
   left: 0;
 }
 
