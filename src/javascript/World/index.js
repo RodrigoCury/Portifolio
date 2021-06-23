@@ -27,10 +27,11 @@ export default class {
 
         // Setup
         this.container = new THREE.Object3D()
-        this.offContainer = new THREE.Object3D()
+        this.logoContainer = new THREE.Object3D()
         this.whoAmIContainer = new THREE.Object3D()
         this.whatIDoContainer = new THREE.Object3D()
         this.aboutMeContainer = new THREE.Object3D()
+        this.projectsContainer = new THREE.Object3D()
 
         this.setLights()
         this.setMaterials()
@@ -73,9 +74,6 @@ export default class {
     }
 
     setupLogos() {
-        //Set Logo Container
-        this.logoContainer = new THREE.Object3D()
-
         // Container Position
         this.logoContainer.position.set(-5.75, -20, 3.75)
 
@@ -221,37 +219,35 @@ export default class {
 
 
     setupProjects() {
-        // Projects Container
-        this.projectsContainer = new THREE.Object3D()
-
-        this.projectsContainer.add(new THREE.AxesHelper(2))
-
         // Container position
-        this.projectsContainer.position.set(-8.83, -35, 8)
-        this.projectsContainer.rotation.y = 2.3
-
+        this.projectsContainer.position.set(0, -35, 0)
+        this.projectsContainer.rotation.y = 2.28
+        
         // Atronaut Rotation
         this.resources.items.astronaut.scene.rotation.set(-.06, 1.53, 0.29)
-
+        
         // Atronaut Position
-        this.resources.items.astronaut.scene.position.set(-9.8, -3.53, 0)
+        this.resources.items.astronaut.scene.position.set(-3.34,-0.29,0)
+        this.resources.items.astronaut.scene.scale.set(0.44,0.44,0.44,)
+        
 
-
-
+        
         // Add to containers
         this.projectsContainer.add(this.resources.items.astronaut.scene)
-        this.offContainer.add(this.projectsContainer)
+        
 
-
-
+        
         /**
          * Debug
          */
         if (this.debug) {
+            // Axes helper
+            this.projectsContainer.add(new THREE.AxesHelper(2))
+
             //Debug Object
             this.debugObject = {
-                astronautScale: 0.1,
-                booksScale : 0.1,
+                astronautScale: 1,
+                booksScale : 1,
             }
 
             // Container
@@ -350,9 +346,14 @@ export default class {
         this.aboutMeContainer.rotation.set(0, 0.72, 0)
     
         // Setup notebook 3D Model
-        this.resources.items.books.scene.position.set(-2.85,0,0)
-        this.resources.items.books.scene.rotation.set(0,-0.447,0)
+        this.resources.items.books.scene.position.set(2.85,0,0)
+        this.resources.items.books.scene.rotation.set(-2.85,-1.549,0)
         this.resources.items.books.scene.scale.set(0.28,0.28,0.28)
+
+        // Headphone
+        this.resources.items.headphone.scene.position.set(-3.595,0.424,0)
+        this.resources.items.headphone.scene.rotation.set(0,1.143,0)
+        this.resources.items.headphone.scene.scale.set(2,2,2)
         
         // Debug
         if (this.debug){
@@ -375,10 +376,19 @@ export default class {
                 this.resources.items.books.scene.scale.y = this.debugObject.booksScale
                 this.resources.items.books.scene.scale.z = this.debugObject.booksScale
             })
+            this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'x', -20, 20, 0.001).name('headphone x')
+            this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'y', -20, 20, 0.001).name('headphone y')
+            this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'z', -20, 20, 0.001).name('headphone z')
+            this.aboutMeFolder.add(this.resources.items.headphone.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('headphone rot x')
+            this.aboutMeFolder.add(this.resources.items.headphone.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('headphone rot y')
+            this.aboutMeFolder.add(this.resources.items.headphone.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('headphone rot z')
         }
         
         // Add to container
-        this.aboutMeContainer.add(this.resources.items.books.scene)
+        this.aboutMeContainer.add(
+            this.resources.items.books.scene,
+            this.resources.items.headphone.scene
+            )
 
     }
 }
