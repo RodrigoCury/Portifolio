@@ -35,6 +35,7 @@ export default class DOM {
         this.getDOMElements()
         this.setDom3dPosition()
         this.setupModals()
+        this.setupCarousels()
     }
 
     getDOMElements() {
@@ -125,6 +126,50 @@ export default class DOM {
             document.getElementById('bioinformatizado-quit'),
             document.getElementById('bioinfo-project-quit'),
         ]
+    }
+
+    setupCarousels(){
+        this.coinSlidePos = 0
+        this.bioinformatizadoSlidePos = 0
+        this.biInfoPSlidePos = 0
+        
+        // Carousel Buttons
+        this.coinBack = document.querySelector("#coin-back")
+        this.coinForward = document.querySelector("#coin-forward")
+        
+        this.bioinformatizadoBack = document.querySelector("#bioinformatizado-back")
+        this.bioinformatizadoForward = document.querySelector("#bioinformatizado-forward")
+        
+        this.bioInfoPBack = document.querySelector("#bioinfop-back")
+        this.bioInfoPForward = document.querySelector("#bioinfop-forward")
+
+        // Carousel Slides
+        this.coinSlides = [...document.getElementsByClassName("modal-img-coin")]
+        this.bioinsformatizadoSlides = [...document.getElementsByClassName("modal-img-bioinformatizado")]
+        this.bioIndoPSlides = [...document.getElementsByClassName("modal-img-bioinfop")]
+        
+        // Self For Event Scope problems
+        const self = this
+        
+        // Slides Function
+        this.slideShow = (position, slides, n) => {
+            self[position] += n
+            if (self[position] > slides.length - 1){
+                self[position] = 0
+            } else if(self[position] < 0){
+                self[position] = slides.length - 1
+            }
+            console.log(self[position], slides, n);
+
+            slides.forEach(i => i.classList.add('hide'))
+            slides[self[position]].classList.remove('hide')
+        }
+        this.coinBack.onclick = () => this.slideShow('coinSlidePos', this.coinSlides, -1)
+        this.coinForward.onclick = () => this.slideShow('coinSlidePos', this.coinSlides, 1)
+        this.bioinformatizadoBack.onclick = () => this.slideShow('bioinformatizadoSlidePos', this.bioinsformatizadoSlides, -1)
+        this.bioinformatizadoForward.onclick = () => this.slideShow('bioinformatizadoSlidePos', this.bioinsformatizadoSlides, 1)
+        this.bioInfoPBack.onclick = () => this.slideShow('biInfoPSlidePos', this.bioIndoPSlides, -1)
+        this.bioInfoPForward.onclick = () => this.slideShow('biInfoPSlidePos', this.bioIndoPSlides, 1)
     }
 
 }
