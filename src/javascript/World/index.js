@@ -346,14 +346,18 @@ export default class {
         this.aboutMeContainer.rotation.set(0, 0.72, 0)
     
         // Setup notebook 3D Model
-        this.resources.items.books.scene.position.set(2.85,0,0)
-        this.resources.items.books.scene.rotation.set(-2.85,-1.549,0)
+        this.resources.items.books.scene.position.set(-2.539,.806,0)
+        this.resources.items.books.scene.rotation.set(-0.085,-1.549, 0)
         this.resources.items.books.scene.scale.set(0.28,0.28,0.28)
 
         // Headphone
-        this.resources.items.headphone.scene.position.set(-3.595,0.424,0)
-        this.resources.items.headphone.scene.rotation.set(0,1.143,0)
+        this.resources.items.headphone.scene.position.set(-0.3,-1.87,0)
+        this.resources.items.headphone.scene.rotation.set(-.135, 0.757, -0.504)
         this.resources.items.headphone.scene.scale.set(2,2,2)
+        
+        // Camera
+        this.resources.items.camera.scene.position.set(2.6, 0.423, 0)
+        this.resources.items.camera.scene.rotation.set(0, -2.395, -0.085)
         
         // Debug
         if (this.debug){
@@ -361,10 +365,13 @@ export default class {
     
             this.aboutMeFolder = this.debug.addFolder("aboutMe")
             
+            // Container
             this.aboutMeFolder.add(this.aboutMeContainer.position, 'x', -20, 20, 0.001).name('Container X')
             this.aboutMeFolder.add(this.aboutMeContainer.position, 'y', -20, 20, 0.001).name('Container Y')
             this.aboutMeFolder.add(this.aboutMeContainer.position, 'z', -20, 20, 0.001).name('Container Z')
             this.aboutMeFolder.add(this.aboutMeContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot y')
+            
+            // Books
             this.aboutMeFolder.add(this.resources.items.books.scene.position, 'x', -20, 20, 0.001).name('books x')
             this.aboutMeFolder.add(this.resources.items.books.scene.position, 'y', -20, 20, 0.001).name('books y')
             this.aboutMeFolder.add(this.resources.items.books.scene.position, 'z', -20, 20, 0.001).name('books z')
@@ -376,18 +383,29 @@ export default class {
                 this.resources.items.books.scene.scale.y = this.debugObject.booksScale
                 this.resources.items.books.scene.scale.z = this.debugObject.booksScale
             })
+
+            // Headphone
             this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'x', -20, 20, 0.001).name('headphone x')
             this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'y', -20, 20, 0.001).name('headphone y')
             this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'z', -20, 20, 0.001).name('headphone z')
             this.aboutMeFolder.add(this.resources.items.headphone.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('headphone rot x')
             this.aboutMeFolder.add(this.resources.items.headphone.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('headphone rot y')
             this.aboutMeFolder.add(this.resources.items.headphone.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('headphone rot z')
+
+            // Camera
+            this.aboutMeFolder.add(this.resources.items.camera.scene.position, 'x', -20, 20, 0.001).name('camera x')
+            this.aboutMeFolder.add(this.resources.items.camera.scene.position, 'y', -20, 20, 0.001).name('camera y')
+            this.aboutMeFolder.add(this.resources.items.camera.scene.position, 'z', -20, 20, 0.001).name('camera z')
+            this.aboutMeFolder.add(this.resources.items.camera.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('camera rot x')
+            this.aboutMeFolder.add(this.resources.items.camera.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('camera rot y')
+            this.aboutMeFolder.add(this.resources.items.camera.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('camera rot z')
         }
         
         // Add to container
         this.aboutMeContainer.add(
             this.resources.items.books.scene,
-            this.resources.items.headphone.scene
+            this.resources.items.headphone.scene,
+            this.resources.items.camera.scene,
             )
 
     }

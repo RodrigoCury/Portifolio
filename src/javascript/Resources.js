@@ -48,6 +48,7 @@ import notebook from '../models/ambientAssets/notebook.glb'
 import microscope from '../models/ambientAssets/microscope.glb'
 import books from '../models/ambientAssets/books.glb'
 import headphone from '../models/ambientAssets/headphone.glb'
+import camera from '../models/ambientAssets/camera.glb'
 
 /**
  * Resources Class
@@ -94,6 +95,7 @@ export default class Resources extends EventEmitter {
             { name: 'microscope', source:microscope },
             { name: 'books', source:books },
             { name: 'headphone', source:headphone },
+            { name: 'camera', source:camera },
         ])
 
         // Setup Triggers and put loaded resoucers on items Object
