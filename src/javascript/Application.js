@@ -245,9 +245,9 @@ export default class Application {
             this.world.whoAmIContainer,
             this.world.whatIDoContainer,
             this.world.aboutMeContainer,
-            this.world.lights.container
+            this.world.lights.container,
+            this.world.starsContainer
         )
-
     }
 
     setDOMElements() {
