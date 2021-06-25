@@ -4,6 +4,7 @@ import Materials from './Materials'
 import Areas from './Areas'
 import Holograms from './Holograms'
 import Texts from './Text'
+import Stars from './Stars'
 
 export default class {
     constructor(_options) {
@@ -32,6 +33,7 @@ export default class {
         this.whatIDoContainer = new THREE.Object3D()
         this.aboutMeContainer = new THREE.Object3D()
         this.projectsContainer = new THREE.Object3D()
+        this.starsContainer = new THREE.Object3D()
 
         this.setLights()
         this.setMaterials()
@@ -55,6 +57,7 @@ export default class {
 
     setResources() {
         this.resources.on('ready', () => {
+            this.setStars()
             this.setTextGeometries()
             this.setupLogos()
             this.setupISS()
@@ -62,6 +65,15 @@ export default class {
             this.setWhoAmI()
             this.setWhatIDo()
             this.setAboutMe()
+        })
+    }
+
+    setStars() {
+        this.stars = new Stars({
+            debug: this.debug,
+            resources: this.resources,
+            time: this.time,
+            container : this.starsContainer,
         })
     }
 
