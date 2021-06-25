@@ -16,6 +16,7 @@ import py from '../textures/nebulaEnvMap/py.png'
 import pz from '../textures/nebulaEnvMap/pz.png'
 
 // Textures
+import starAlphaMap from '../textures/alphamap/starsAlphaMap.png'
 
 /**
  * Fonts
@@ -70,8 +71,10 @@ export default class Resources extends EventEmitter {
 
             // EnvMaps
             { name: 'envMap', source: [px, nx, py, ny, pz, nz], type: 'cubeTexture' },
-
+            
             // Textures
+            { name: 'starAlphaMap', source: starAlphaMap, type: 'texture' },
+            
 
             // Images
 
