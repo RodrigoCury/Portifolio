@@ -101,6 +101,9 @@ export default class Resources extends EventEmitter {
             { name: 'camera', source:camera },
         ])
 
+        this.trigger("startLoad")
+        this.isLoading = true
+
         // Setup Triggers and put loaded resoucers on items Object
         this.loader.on('fileEnd', (_resource, _data) => {
 
@@ -113,6 +116,7 @@ export default class Resources extends EventEmitter {
 
         this.loader.on('end', () => {
             // Trigger Ready
+            this.isLoading = false
             this.trigger('ready')
         })
 
