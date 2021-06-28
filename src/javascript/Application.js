@@ -23,6 +23,7 @@ import DOM from './DOM/index'
 
 // World
 import World from './World/index'
+import Sounds from './Utils/Sounds'
 
 
 
@@ -37,6 +38,7 @@ export default class Application {
         // Setup
         this.time = new Time()
         this.sizes = new Sizes()
+        this.sounds = new Sounds()
         this.resources = new Resources()
 
         this.setConfig()
@@ -259,6 +261,7 @@ export default class Application {
             camera: this.camera,
             sizes: this.sizes,
             resources: this.resources,
+            sounds: this.sounds
         })
     }
 
@@ -282,6 +285,8 @@ export default class Application {
             time: this.time,
             world: this.world,
             debug: this.debug,
+            sounds: this.sounds
+
         })
     }
 
