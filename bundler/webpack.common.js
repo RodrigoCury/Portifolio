@@ -106,7 +106,22 @@ module.exports = {
                     use: [
                         'raw-loader'
                     ]
-                }
+                },
+                // MP3
+                {
+                    test: /\.(mp3|webm)$/,
+                    use:
+                    [
+                        {
+                            loader: 'file-loader',
+                            options:
+                            {
+                                outputPath: 'assets/audios/'
+                            }
+                        }
+                    ]
+                },
+
 
             ]
     }
