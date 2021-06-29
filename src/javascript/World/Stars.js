@@ -14,7 +14,7 @@ export default class Stars{
         }
 
         // Setup
-        this.count = 500
+        this.count = 1000
         this.vertices = new Float32Array(this.count * 3)
 
 
@@ -24,7 +24,7 @@ export default class Stars{
 
             let i3 = i*3
             this.vertices[i3] = Math.cos(angle) * radius
-            this.vertices[i3 + 1] = THREE.MathUtils.randFloat(-60, 10) // Rando height from 10 to -60
+            this.vertices[i3 + 1] = THREE.MathUtils.randFloat(-60, 10) // Random height from 10 to -60
             this.vertices[i3 + 2] = Math.sin(angle) * radius
             
         }
