@@ -243,6 +243,7 @@ export default class Application {
         })
         this.scene.add(
             this.world.container,
+            this.world.shipwreckContainer,
             this.world.projectsContainer,
             this.world.whoAmIContainer,
             this.world.whatIDoContainer,
