@@ -38,8 +38,8 @@ export default class Camera {
 
     setAngle() {
         // Set Up
-        this.target = new THREE.Vector3(0, 2, 0)
-        this.rotationAngle = -1.627
+        this.target = new THREE.Vector3(0, 6, 0)
+        this.rotationAngle = -1.627 - (Math.PI/4)
     }
 
     setInstance() {
@@ -51,7 +51,7 @@ export default class Camera {
         )
 
         this.instance.up.set(0, 1, 0)
-        this.instance.position.set(0, 2, 0)
+        this.instance.position.set(0, 6, 0)
         this.instance.lookAt(this.target)
 
         this.container.add(this.instance)
