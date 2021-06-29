@@ -43,6 +43,8 @@ export default class DOM {
     }
 
     getDOMElements() {
+        this.welcomePage = document.querySelector('.welcome-container')
+        this.scrollDown = document.querySelector('.scroll-down')
         this.loadingPage = document.querySelector('.loading-container')
         this.loadBar = document.querySelector('.load-bar')
         this.loadTexts = document.querySelector('.load-texts')
@@ -127,6 +129,11 @@ export default class DOM {
 
     setDom3dPosition() {
         this.firstPositions = [
+            {
+                name: 'welcomeDiv',
+                element: this.welcomePage,
+                position: new Vector3(0, 6, 0)
+            },
             {
                 name: 'homeDiv',
                 element: this.homeDiv,
