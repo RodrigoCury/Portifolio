@@ -118,9 +118,6 @@ p, h1, h2, a, button, span, li {
   align-items: center;
 }
 
-.load-snippets {
-}
-
 .load-texts{
   font-size: 1rem;
   color: #74bcff;
@@ -177,42 +174,44 @@ p, h1, h2, a, button, span, li {
     height: 100%;
 }
 
-.menu{
-  position: fixed;
-  top: 2vh;
-  left: 50vw;
-  transform: translate(-50%, -50%);
-}
-
-.menu-list{
+.welcome-container {
+  position: absolute;
+  left: 25vw;
+  top: 37.5vh;
+  width: 50vw;
+  height: 25vh;
   display: flex;
-  flex-flow: row;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
-.menu-btn{
-  font-family: 'Mate SC';
+.scroll-down-container {
+  position: relative;
+  width: 15px;
+  height: 45px;
+  border: 1px solid white;
+  border-radius: 7.5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.scroll-down {
+  position: absolute;
+  top: 2;
+  margin: 0 auto;
+  width: 13px;
+  height: 13px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.welcome-text {
   color: white;
-  margin: 0 5vw;
-  transition: 200ms;
-
-}
-
-.menu-btn:hover{
-  color: darkgray;
-}
-
-.menu-btn:active{
-  color:white;
-}
-
-.selected{
-  border-bottom: 1px solid white;
-}
-.selected:hover{
-  border-color: darkgray;
-}
-.selected:active{
-  border-color:white;
+  font-size: 2em;
+  font-family: 'Caveat';
 }
 
 .homepage{
