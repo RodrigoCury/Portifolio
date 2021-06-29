@@ -9,6 +9,8 @@ import alarmBeep from '../../sounds/alarmBeep.mp3'
 import btnBeep from '../../sounds/btnBeep.mp3'
 import liftoff from '../../sounds/liftoff.mp3'
 import lowDescend from '../../sounds/lowDescend.mp3'
+import dreamyPiano from '../../sounds/dreamyPiano.mp3'
+import theJourney from '../../sounds/theJourney.mp3'
 
 export default class Sounds {
     constructor() {
@@ -130,6 +132,32 @@ export default class Sounds {
                 rateMax: 1,
                 loop: false,
             },
+            {
+                name: 'theJourney',
+                sounds: [theJourney],
+                minDelta: 100,
+                velocityMin: 0,
+                velocityMultiplier: 1,
+                volumeMin: 1,
+                volumeMax: 1,
+                rateMin: 1,
+                rateMax: 1,
+                loop: false,
+                onend : () => this.play('dreamyPiano'),
+            },
+            {
+                name: 'dreamyPiano',
+                sounds: [dreamyPiano],
+                minDelta: 100,
+                velocityMin: 0,
+                velocityMultiplier: 1,
+                volumeMin: 1,
+                volumeMax: 1,
+                rateMin: 1,
+                rateMax: 1,
+                loop: false,
+                onend : () => this.play('theJourney'),
+            }
         ]
 
         this.settings.forEach(_setting => this.add(_setting))
@@ -211,7 +239,15 @@ export default class Sounds {
             sounds: [],
         }
 
-        _options.sounds.forEach(sound => item.sounds.push(new Howl({src: [sound], loop: _options.loop,})))
+        _options.sounds.forEach(sound => {
+            item.sounds.push(
+                new Howl({
+                    src: [sound], 
+                    loop: _options.loop,
+                    onend: typeof _options.onend === 'function' ? _options.onend : undefined,
+                })
+            )
+        })
 
         this.items.push(item)
     }
