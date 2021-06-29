@@ -22,6 +22,7 @@ export default class Animations {
         this.ease.slow = "slow (0.7, 0.1, false)"
         this.ease.power4 = "power4.in"
         this.ease.power3 = "power3.in"
+        this.ease.power3Out = "power3.out"
         this.ease.elastic = "elastic.out(1,0.3)"
         this.ease.circ = "circ.in"
         this.ease.back = "back.out(1.7)"
@@ -30,8 +31,6 @@ export default class Animations {
         this.duration.fast = 0.5
         this.duration.slow = 2
         this.duration.normal = 1
-
-        this.mouseMoveFlag = 0
 
         if (this.debug) {
             this.debugFolder = this.debug.addFolder("Animations")
@@ -47,6 +46,7 @@ export default class Animations {
         this.setControls()
         this.setEventListeners()
         this.animateCamera()
+        this.animateScrollDownDiv()
         this.resources.on('ready', () => {
 
             this.homeAnimation()
@@ -80,6 +80,32 @@ export default class Animations {
                 })
             },
         }
+    }
+
+    animateScrollDownDiv(){
+        const down = () => {
+            gsap.to('.scroll-down', 
+                {
+                    top: 29,
+                    duration: 1,
+                    ease: this.ease.power3Out,
+                    onComplete : () => up()
+                }
+            )
+        }
+        
+        const up = () => {
+            gsap.to('.scroll-down', 
+                {
+                    top: 2,
+                    duration: 1,
+                    ease: this.ease.power3Out,
+                    onComplete : () => down()
+                }
+            )
+        }
+
+        down()
     }
 
     setAnimationsProps() {
@@ -158,7 +184,6 @@ export default class Animations {
             // set timeout so it returns after animation is over
             setTimeout(() => {
                 window.addEventListener('wheel', _wheel, true)
-                self.mouseMoveFlag = true
             },
                 self.animationsProps[self.IDX][5] * 1000) // Seconds for Timeout
         }
@@ -211,6 +236,7 @@ export default class Animations {
         this.mouse = new Vector2()
 
         this.containersToMove = [
+            this.world.shipwreckContainer,
             this.world.projectsContainer,
             this.world.whoAmIContainer,
             this.world.whatIDoContainer,
@@ -229,14 +255,12 @@ export default class Animations {
         })
         
         window.onmousemove = event => {
-            if (this.mouseMoveFlag){
-                gsap.to(this.mouse, {
-                    x: ((event.clientX / this.sizes.width)-0.5) * 0.125,
-                    y: -((event.clientY / this.sizes.height)-0.5) * 0.25,
-                    duration: 0.5,
-                    ease: this.ease.linear,
-                })
-            }
+            gsap.to(this.mouse, {
+                x: ((event.clientX / this.sizes.width)-0.5) * 0.125,
+                y: -((event.clientY / this.sizes.height)-0.5) * 0.25,
+                duration: 0.5,
+                ease: this.ease.linear,
+            })
         }
     }
 }
