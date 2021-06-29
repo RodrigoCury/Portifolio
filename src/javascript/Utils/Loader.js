@@ -89,7 +89,7 @@ export default class Resources extends EventEmitter {
 
         // Draco Loader
         const dracoLoader = new DRACOLoader()
-        dracoLoader.setDecoderPath('/draco/')
+        dracoLoader.setDecoderPath('/static/draco/')
         dracoLoader.setDecoderConfig({ type: 'js' })
 
         this.loaders.push({
