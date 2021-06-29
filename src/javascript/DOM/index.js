@@ -289,10 +289,14 @@ export default class DOM {
                 opacity: 0,
                 duration: 1.5,
                 ease: 'power1.out',
-                onComplete: () => this.whiteout.classList.add('hide') 
+                onComplete: () => this.startScrolling()
             })
         }, 500)
     }
 
+    startScrolling() {
+        this.whiteout.classList.add('hide')
+        this.sounds.play('theJourney')
+    }
 
 }
