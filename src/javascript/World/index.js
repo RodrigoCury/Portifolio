@@ -28,6 +28,7 @@ export default class {
 
         // Setup
         this.container = new THREE.Object3D()
+        this.shipwreckContainer = new THREE.Object3D()
         this.logoContainer = new THREE.Object3D()
         this.whoAmIContainer = new THREE.Object3D()
         this.whatIDoContainer = new THREE.Object3D()
@@ -59,6 +60,7 @@ export default class {
         this.resources.on('ready', () => {
             this.setStars()
             this.setTextGeometries()
+            this.setShipwreck()
             this.setupLogos()
             this.setupISS()
             this.setupProjects()
@@ -83,6 +85,34 @@ export default class {
             debug: this.debug,
             materials: this.materials,
         })
+    }
+
+    setShipwreck(){
+        this.resources.items.shipwreck.scene.position.set(0,0,0)
+        this.resources.items.shipwreck.scene.scale.set(0.15,0.15,0.15)
+        this.resources.items.shipwreck.scene.rotation.set(1.221,2.485,0.33)
+
+
+        this.shipwreckContainer.position.set(0, 6, 0)
+        this.shipwreckContainer.rotation.y = -2.4
+        this.shipwreckContainer.add(this.resources.items.shipwreck.scene)
+        
+        if(this.debug){
+            this.shipwreckContainer.add(new THREE.AxesHelper(2))
+            this.shipwreckFolder = this.debug.addFolder("Shipwreck")
+            this.shipwreckFolder.add(this.resources.items.shipwreck.scene.position, 'x', -10, 10, .001).name("shipwreck x")
+            this.shipwreckFolder.add(this.resources.items.shipwreck.scene.position, 'y', -10, 10, .001).name("shipwreck y")
+            this.shipwreckFolder.add(this.resources.items.shipwreck.scene.position, 'z', -10, 10, .001).name("shipwreck z")
+            this.shipwreckFolder.add(this.resources.items.shipwreck.scene.rotation, 'x', -10, 10, .001).name("shipwreck rot x")
+            this.shipwreckFolder.add(this.resources.items.shipwreck.scene.rotation, 'y', -10, 10, .001).name("shipwreck rot y")
+            this.shipwreckFolder.add(this.resources.items.shipwreck.scene.rotation, 'z', -10, 10, .001).name("shipwreck rot z")
+            this.shipwreckFolder.add(this.shipwreckContainer.position, 'x', -10, 10, .001).name("container x")
+            this.shipwreckFolder.add(this.shipwreckContainer.position, 'y', -10, 10, .001).name("container y")
+            this.shipwreckFolder.add(this.shipwreckContainer.position, 'z', -10, 10, .001).name("container z")
+            this.shipwreckFolder.add(this.shipwreckContainer.rotation, 'x', -10, 10, .001).name("container rot x")
+            this.shipwreckFolder.add(this.shipwreckContainer.rotation, 'y', -10, 10, .001).name("container rot y")
+            this.shipwreckFolder.add(this.shipwreckContainer.rotation, 'z', -10, 10, .001).name("container rot z")
+        }
     }
 
     setupLogos() {
