@@ -51,6 +51,9 @@ import books from '../models/ambientAssets/books.glb'
 import headphone from '../models/ambientAssets/headphone.glb'
 import camera from '../models/ambientAssets/camera.glb'
 
+// Shipwreck
+import shipwreck from '../models/shipwreck/shipwreck.glb'
+
 /**
  * Resources Class
  */
@@ -99,6 +102,7 @@ export default class Resources extends EventEmitter {
             { name: 'books', source:books },
             { name: 'headphone', source:headphone },
             { name: 'camera', source:camera },
+            { name: 'shipwreck', source:shipwreck },
         ])
 
         this.trigger("startLoad")
