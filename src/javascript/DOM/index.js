@@ -56,6 +56,7 @@ export default class DOM {
         this.whoami = [...document.querySelectorAll('.whoami-container')]
         this.projects = document.querySelector('.projects-container')
         this.modal = [...document.querySelectorAll(".modal-bg")]
+        this.madeWith = document.querySelector('.made-with-container')
         
         if(this.debug){
             this.text = [...document.querySelectorAll(".modal-ul-title")]
@@ -162,6 +163,11 @@ export default class DOM {
                 name: 'projects',
                 element: this.projects,
                 position: new Vector3(0, -35, 0)
+            },
+            {
+                name: 'madeWith',
+                element: this.madeWith,
+                position: new Vector3(0, -45, 0)
             },
         ]
         
