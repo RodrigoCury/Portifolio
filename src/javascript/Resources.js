@@ -40,6 +40,8 @@ import threeLogo from '../models/logos/threeLogo.glb'
 // ISS
 import iss from '../models/iss/iss.glb'
 
+// Hubble
+import hubble from '../models/Hubble/hubble.glb'
 
 // Astronaut
 import astronaut from '../models/astronaut/astronautMatOnly.glb'
@@ -96,6 +98,7 @@ export default class Resources extends EventEmitter {
 
             // 3D Models
             { name: 'iss', source: iss },
+            { name: 'hubble', source: hubble },
             { name: 'astronaut', source: astronaut },
             { name: 'notebook', source: notebook },
             { name: 'microscope', source:microscope },
