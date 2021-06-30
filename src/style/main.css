@@ -390,19 +390,33 @@ p, h1, h2, a, button, span, li {
   height: 30vh;
   left: 15vw;
   width: 70vw;
+  display: grid;
+  grid-template-columns: 0.01fr 1fr;
+}
+
+.whoami-container.spine-right {
+  grid-template-columns: 1fr 0.01fr !important;
+}
+
+.whoami-wrapper {
   display: flex;
   flex-flow: column;
   justify-content: space-evenly;
 }
-.whoami-container > h1 {
-  font-size: 3vw;
+
+.whoami-header {
+  font-size: 3em;
+  font-family: 'Caveat';
   text-align: center;
   color: white;
+  text-shadow: 0px 0px 10px rgba(255,255,255,0.3);
 }
 
-.whoami-container > p {
+.whoami-p {
+  font-family: 'Montserrat';
   text-align: center;
   color: white;
+  text-shadow: 0px 0px 7px rgba(255,255,255,0.4);
 }
 
 .projects-container{
