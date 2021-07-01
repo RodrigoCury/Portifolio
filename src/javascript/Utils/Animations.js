@@ -99,7 +99,13 @@ export default class Animations {
                     opacity: 1,
                     duration: 2,
                     ease: 'power1.in',
-                    onComplete: () => this.exitLoadPage()
+                    onComplete: () => {
+                        gsap.to('.poem-wrapper', {
+                            opacity: 1,
+                            duration: .5,
+                            ease: this.ease.circ,
+                        })
+                    }
                 })
             }, 300)
         }
@@ -170,6 +176,7 @@ export default class Animations {
         })
 
         this.DOM.exitLoadBtn.onclick = () => this.exitBtnClick()
+        this.DOM.enterSiteBtn.onclick = () => this.exitLoadPage()
     }
 
 
