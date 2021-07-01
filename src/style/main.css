@@ -80,6 +80,21 @@ p, h1, h2, a, button, span, li {
   -moz-user-select: none;
 }
 
+.mute-btn-div {
+  z-index: 1001;
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 20px;
+  height: 20px;
+}
+
+.mute-btn, .unmute-btn {
+  width: 20px;
+  height: 20px;
+  cursor: grab;
+}
+
 .loading-container {
   position: absolute;
   top: 0;
