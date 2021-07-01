@@ -49,6 +49,7 @@ export default class DOM {
         this.loadTexts = document.querySelector('.load-texts')
         this.exitLoadBtn = document.querySelector('.exit-load-btn')
         this.whiteout = document.querySelector('.loading-whiteout')
+        this.enterSiteBtn = document.querySelector('.enter-site')
 
 
         this.homeDiv = document.querySelector('.homepage')
