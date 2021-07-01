@@ -20,8 +20,9 @@ export default class Animations {
         // Animation Eases
         this.ease = {}
         this.ease.slow = "slow (0.7, 0.1, false)"
-        this.ease.power4 = "power4.in"
         this.ease.power3 = "power3.in"
+        this.ease.power4 = "power4.in"
+        this.ease.power2in = "power2.in"
         this.ease.power3Out = "power3.out"
         this.ease.elastic = "elastic.out(1,0.3)"
         this.ease.circ = "circ.in"
@@ -48,10 +49,10 @@ export default class Animations {
         this.animateCamera()
         this.animateScrollDownDiv()
         this.resources.on('ready', () => {
-
             this.homeAnimation()
             this.animateLights()
             this.setAnimationsProps()
+            this.setRadioWavesAnimation()
         })
     }
 
@@ -262,5 +263,42 @@ export default class Animations {
                 ease: this.ease.linear,
             })
         }
+    }
+
+    async setRadioWavesAnimation() {
+        //  y=	-0.38125x
+
+        const x = 3 / -0.38125
+        const y = 3
+        const duration = 4
+        const scale = 4.5
+        const animate = (wave) => {
+            gsap.to(wave.position, {
+                y: y,
+                x: x,
+                duration: 5,
+                ease: this.ease.power2in,
+                onComplete: () => {
+                    wave.position.set(3.2,-1.22,0)
+                    animate(wave);
+                }
+            })
+            gsap.to(wave.scale, {
+                x: scale,
+                y: scale,
+                // z: scale*1.25 ,
+                duration: 5,
+                ease: this.ease.power2in,
+                onComplete: () => {
+                    wave.scale.set(1,1,1)
+                }
+            })
+
+        }
+        this.world.radioWaves.forEach((wave, i ,array) => {
+            (function(w, idx, arr) {
+                setTimeout(() => animate(w), 0 + (duration / (arr.length -1) * (idx + 1) * 1000));
+            })(wave, i, array);
+        })
     }
 }
