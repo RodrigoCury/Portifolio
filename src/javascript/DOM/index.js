@@ -43,23 +43,30 @@ export default class DOM {
     }
 
     getDOMElements() {
+        // Home Page DOM Elements
         this.welcomePage = document.querySelector('.welcome-container')
-        this.scrollDown = document.querySelector('.scroll-down')
         this.loadingPage = document.querySelector('.loading-container')
         this.loadBar = document.querySelector('.load-bar')
         this.loadTexts = document.querySelector('.load-texts')
         this.exitLoadBtn = document.querySelector('.exit-load-btn')
         this.whiteout = document.querySelector('.loading-whiteout')
         this.enterSiteBtn = document.querySelector('.enter-site')
-
+        
+        // Major containers
         this.homeDiv = document.querySelector('.homepage')
         this.whoami = [...document.querySelectorAll('.whoami-container')]
+        this.techDiv = document.querySelector('.technologies-container')
         this.projects = document.querySelector('.projects-container')
         this.modal = [...document.querySelectorAll(".modal-bg")]
         this.madeWith = document.querySelector('.made-with-container')
-
+        
+        // Btn
         this.mutebtn = document.querySelector('.mute-btn')
         this.unmutebtn = document.querySelector('.unmute-btn')
+        
+        // Elements to Animate
+        this.scrollDown = document.querySelector('.scroll-down')
+        this.mouseMove = document.querySelector('.mouse-move')
         
         if(this.debug){
             this.text = [...document.querySelectorAll(".modal-ul-title")]
@@ -104,11 +111,13 @@ export default class DOM {
                 name: 'aboutme',
                 element: this.whoami[2],
                 position: new Vector3(0, -10, 0)
-            }
+            },
+            {
+                name: 'technologies',
+                element: this.techDiv,
+                position: new Vector3(0, -20, 0)
 
-        ]
-
-        this.secondPositions = [
+            },
             {
                 name: 'projects',
                 element: this.projects,
