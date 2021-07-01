@@ -180,14 +180,6 @@ export default class Sounds {
         this.muted = typeof this.debug !== 'undefined'
         Howler.mute(this.muted)
 
-        // M Key
-        window.addEventListener('keydown', (_event) => {
-            if(_event.key === 'm') {
-                this.muted = !this.muted
-                Howler.mute(this.muted)
-            }
-        })
-
         // Tab focus / blur
         document.addEventListener('visibilitychange', () => {
             if(document.hidden) {
@@ -197,6 +189,15 @@ export default class Sounds {
             }
         })
 
+    }
+
+    mute(){
+        this.muted = true
+        Howler.mute(this.muted)
+    }
+    unmute(){
+        this.muted = false
+        Howler.mute(this.muted)
     }
 
     play(_name, _velocity){
