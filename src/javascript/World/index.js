@@ -5,6 +5,7 @@ import Areas from './Areas'
 import Holograms from './Holograms'
 import Texts from './Text'
 import Stars from './Stars'
+import Geometries from './Geometries'
 
 export default class {
     constructor(_options) {
@@ -29,15 +30,16 @@ export default class {
         // Setup
         this.container = new THREE.Object3D()
         this.shipwreckContainer = new THREE.Object3D()
-        this.logoContainer = new THREE.Object3D()
         this.whoAmIContainer = new THREE.Object3D()
         this.whatIDoContainer = new THREE.Object3D()
         this.aboutMeContainer = new THREE.Object3D()
+        this.logoContainer = new THREE.Object3D()
         this.projectsContainer = new THREE.Object3D()
         this.starsContainer = new THREE.Object3D()
+        this.hubbleContainer = new THREE.Object3D()
 
         this.setLights()
-        this.setMaterials()
+        this.setGeometries()
         this.setResources()
 
     }
@@ -56,17 +58,25 @@ export default class {
         })
     }
 
+    setGeometries(){
+        this.geometries = new Geometries({
+            debug: this.debug,
+        })
+    }
+
     setResources() {
         this.resources.on('ready', () => {
+            this.setMaterials()
             this.setStars()
-            this.setTextGeometries()
             this.setShipwreck()
-            this.setupLogos()
-            this.setupISS()
-            this.setupProjects()
             this.setWhoAmI()
             this.setWhatIDo()
             this.setAboutMe()
+            this.setTextGeometries()
+            this.setLogos()
+            this.setISS()
+            this.setProjects()
+            this.setHubble()
         })
     }
 
@@ -115,7 +125,7 @@ export default class {
         }
     }
 
-    setupLogos() {
+    setLogos() {
         // Container Position
         this.logoContainer.position.set(-5.75, -20, 3.75)
 
@@ -206,7 +216,7 @@ export default class {
         }
     }
 
-    setupISS() {
+    setISS() {
         // Scale 
         this.resources.items.iss.scene.scale.set(.6, .6, .6)
 
@@ -260,7 +270,7 @@ export default class {
     }
 
 
-    setupProjects() {
+    setProjects() {
         // Container position
         this.projectsContainer.position.set(0, -35, 0)
         this.projectsContainer.rotation.y = 2.28
@@ -286,12 +296,6 @@ export default class {
             // Axes helper
             this.projectsContainer.add(new THREE.AxesHelper(2))
 
-            //Debug Object
-            this.debugObject = {
-                astronautScale: 1,
-                booksScale : 1,
-            }
-
             // Container
             this.projectsFolder = this.debug.addFolder("Projects")
             this.projectsFolder.add(this.projectsContainer.position, 'x', -30, 30, 0.01).name("Container X")
@@ -306,14 +310,7 @@ export default class {
             this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'y', -Math.PI, Math.PI, 0.01).name("Anaut Rot Y")
             this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'x', -Math.PI, Math.PI, 0.01).name("Anaut Rot X")
             this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'z', -Math.PI, Math.PI, 0.01).name("Anaut Rot Z")
-            this.projectsFolder.add(this.debugObject, 'astronautScale', 0, 1, 0.001).name("Anaut Scale")
-                .onChange(() => {
-                    this.resources.items.astronaut.scene.scale.set(
-                        this.debugObject.astronautScale,
-                        this.debugObject.astronautScale,
-                        this.debugObject.astronautScale,
-                    )
-                })
+
         }
     }
 
@@ -420,12 +417,6 @@ export default class {
             this.aboutMeFolder.add(this.resources.items.books.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('books rot x')
             this.aboutMeFolder.add(this.resources.items.books.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('books rot y')
             this.aboutMeFolder.add(this.resources.items.books.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('books rot z')
-            this.aboutMeFolder.add(this.debugObject, 'booksScale', 0, 1, 0.001).name('books scale').onChange(() => {
-                this.resources.items.books.scene.scale.x = this.debugObject.booksScale
-                this.resources.items.books.scene.scale.y = this.debugObject.booksScale
-                this.resources.items.books.scene.scale.z = this.debugObject.booksScale
-            })
-
             // Headphone
             this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'x', -20, 20, 0.001).name('headphone x')
             this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'y', -20, 20, 0.001).name('headphone y')
@@ -448,7 +439,62 @@ export default class {
             this.resources.items.books.scene,
             this.resources.items.headphone.scene,
             this.resources.items.camera.scene,
-            )
+        )
+    }
 
+    setHubble(){
+        // Position Container
+        this.hubbleContainer.position.set(0,-45,0)
+        this.hubbleContainer.rotation.set(0,3.075,0)
+        
+        // Positions Hubble
+        this.resources.items.hubble.scene.position.set(3.2,-1.22,0)
+        this.resources.items.hubble.scene.rotation.set(0,0,1.0584068667948965)
+        this.resources.items.hubble.scene.scale.set(0.2,0.2,0.2)
+
+        // Setting Up Radio Waves
+        this.radioWaves = []
+        this.radioWavesCount = 9
+
+        for (let i = 0; i < this.radioWavesCount; i++){
+            let mesh = new THREE.Mesh(this.geometries.items.torus, this.materials.items.phongMaterial)
+
+            // mesh.position.copy(this.resources.items.hubble.scene.position)
+            mesh.rotation.set(-2.15, 2.06, 2 * Math.PI)
+            this.radioWaves.push(mesh)
+            this.hubbleContainer.add(mesh)
+        }
+        
+
+        if (this.debug) {
+            this.hubbleFolder = this.debug.addFolder("Hubble")
+            // Hubble
+            this.hubbleFolder.add(this.resources.items.hubble.scene.position, "x", -10, 10, 0.01).name("Hubble X")
+            this.hubbleFolder.add(this.resources.items.hubble.scene.position, "y", -10, 10, 0.01).name("Hubble Y")
+            this.hubbleFolder.add(this.resources.items.hubble.scene.position, "z", -10, 10, 0.01).name("Hubble Z")
+            this.hubbleFolder.add(this.resources.items.hubble.scene.rotation, "x", -Math.PI, Math.PI, 0.01).name("Hubble Rot X")
+            this.hubbleFolder.add(this.resources.items.hubble.scene.rotation, "y", -Math.PI, Math.PI, 0.01).name("Hubble Rot Y")
+            this.hubbleFolder.add(this.resources.items.hubble.scene.rotation, "z", -Math.PI, Math.PI, 0.01).name("Hubble Rot Z")
+            
+            this.hubbleFolder.add(this.hubbleContainer.position, "x", -10, 10, 0.01).name("Container X")
+            this.hubbleFolder.add(this.hubbleContainer.position, "z", -10, 10, 0.01).name("Container Z")
+            this.hubbleFolder.add(this.hubbleContainer.rotation, "x", -Math.PI, Math.PI, 0.01).name("Container Rot X")
+            this.hubbleFolder.add(this.hubbleContainer.rotation, "y", -Math.PI, Math.PI, 0.01).name("Container Rot Y")
+            this.hubbleFolder.add(this.hubbleContainer.rotation, "z", -Math.PI, Math.PI, 0.01).name("Container Rot Z")
+            
+            this.hubbleFolder.add(this.radioWaves[0].rotation, "x", -Math.PI, Math.PI, 0.01).name("Waves Rot X").onChange(() => {
+                this.radioWaves.forEach(wave => wave.rotation.x = this.radioWaves[0].rotation.x)
+            })
+            this.hubbleFolder.add(this.radioWaves[0].rotation, "y", -Math.PI, Math.PI, 0.01).name("Waves Rot Y").onChange(() => {
+                this.radioWaves.forEach(wave => wave.rotation.y = this.radioWaves[0].rotation.y)
+            })
+            this.hubbleFolder.add(this.radioWaves[0].rotation, "z", -Math.PI, Math.PI, 0.01).name("Waves Rot Z").onChange(() => {
+                this.radioWaves.forEach(wave => wave.rotation.z = this.radioWaves[0].rotation.z)
+            })
+
+            this.resources.items.hubble.scene.add(new THREE.AxesHelper(5))
+        }
+
+        this.hubbleContainer.add(this.resources.items.hubble.scene)
     }
 }
