@@ -105,6 +105,7 @@ export default class Animations {
                             duration: .5,
                             ease: this.ease.circ,
                         })
+                        this.sounds.play('theJourney')
                     }
                 })
             }, 300)
@@ -128,7 +129,6 @@ export default class Animations {
 
         this.startScrolling = () => {
             this.DOM.whiteout.classList.add('hide')
-            this.sounds.play('theJourney')
             this.setControls()
             this.setEventListeners()
         }
