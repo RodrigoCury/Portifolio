@@ -1,8 +1,10 @@
-import { Color, MeshBasicMaterial, MeshStandardMaterial, ShaderMaterial, PointsMaterial, MeshMatcapMaterial } from 'three'
+import { Color, ShaderMaterial, PointsMaterial, MeshPhongMaterial, UniformsUtils } from 'three'
 import holoVertex from '../../shaders/holoLetters/vertex.glsl'
 import holoFragment from '../../shaders/holoLetters/fragment.glsl'
 import beamVertex from '../../shaders/holoBeam/vertex.glsl'
 import beamFragment from '../../shaders/holoBeam/fragment.glsl'
+import { FresnelShader } from 'three/examples/jsm/shaders/FresnelShader.js';
+
 
 
 export default class Materials {
@@ -25,27 +27,9 @@ export default class Materials {
         // Setup
         this.items = {}
 
-        this.setBases()
         this.setHolo()
         this.setPointMaterial()
-    }
-
-    setBases() {
-        this.items.dnaMaterial = new MeshStandardMaterial({
-            color: "#723663",
-            wireframe: false,
-            metalness: 1.0,
-            roughness: 0.1,
-        })
-
-        if (this.debug) {
-            this.debugFolder.add(this.items.dnaMaterial, 'metalness', 0, 1, 0.001).name("Standard Metalness")
-            this.debugFolder.add(this.items.dnaMaterial, 'roughness', 0, 1, 0.001).name("Standard Roughness")
-        }
-        this.items.basic = new MeshBasicMaterial({
-            color: '#f00'
-        })
-
+        this.setPhongMaterial()
     }
 
     setHolo() {
@@ -138,5 +122,16 @@ export default class Materials {
             color: '#aaaaaa',
             size: 2,
         })
+    }
+
+    setPhongMaterial(){
+        const shader = FresnelShader
+        const uniforms = UniformsUtils.clone(shader.uniforms)
+        uniforms['tCube'].value = this.resources.items.envMap
+        this.items.phongMaterial = new ShaderMaterial( { 
+            uniforms: uniforms,
+            vertexShader: shader.vertexShader,
+            fragmentShader: shader.fragmentShader,
+        });
     }
 }
