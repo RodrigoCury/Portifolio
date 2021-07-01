@@ -449,7 +449,7 @@ export default class {
         
         // Positions Hubble
         this.resources.items.hubble.scene.position.set(3.2,-1.22,0)
-        this.resources.items.hubble.scene.rotation.set(0,0,1.0584068667948965)
+        this.resources.items.hubble.scene.rotation.set(0,0,1.15)
         this.resources.items.hubble.scene.scale.set(0.2,0.2,0.2)
 
         // Setting Up Radio Waves
