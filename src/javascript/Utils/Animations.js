@@ -128,8 +128,21 @@ export default class Animations {
             this.setRadioWavesAnimation()
         }
 
-        this.startScrolling = () => {
+        this.startScrolling = async () => {
             this.DOM.whiteout.classList.add('hide')
+            gsap.to('.welcome-container', {
+                opacity: 1,
+                duration: .5,
+                ease: this.ease.circInOut,
+                onComplete: () => setTimeout(() => {
+                    gsap.to('.welcome-container', {
+                        opacity: 0,
+                        duration: 2,
+                        ease: this.ease.circInOut
+                    })
+                }, 1500)
+            })
+            
             this.setControls()
             this.setEventListeners()
         }
@@ -332,9 +345,9 @@ export default class Animations {
                     }
                     gsap.to(this.DOM.mouseMove.parentNode, {
                         opacity: 1,
-                        duration : 2,
-                        onComplete: to
+                        duration : 1,
                     })
+                    to()
                 }
             },
             {
