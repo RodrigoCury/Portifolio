@@ -36,7 +36,6 @@ export default class DOM {
         ]
 
         this.getDOMElements()
-        this.setLoadingPage()
         this.setDom3dPosition()
         this.setupModals()
         this.setupCarousels()
@@ -73,59 +72,6 @@ export default class DOM {
                 })
             })
         }
-    }
-
-    setLoadingPage(){
-
-        const textList = [
-            "Configuração de Humor do TARS ajustada",
-            "Calculando Rotas",
-            "42 Rotas possíveis",
-            "Menor rota contém apenas 14 Parsecs",
-            "Analisando o HyperDrive",
-            "Don't Panic",
-            "Iniciando o Gerador de Improbabilidade Infinita",
-            "Escolhendo a Música certa para a viagem",
-            "'So Far Away' parece ser a melhor escolha",
-            "Inicializando o Motor",
-            "Finalizando Configurações",
-        ]
-
-        //Setting Up Animations
-
-        this.sounds.play('loadAmbientSounds')
-
-        const onReady = () => {
-            this.loadTexts.innerHTML = 'Pronto para Decolar'
-            this.loadBar.classList.add('hide')
-            this.exitLoadBtn.classList.remove('hide')
-        }
-
-        if (this.resources.isLoading){
-            this.sounds.play('loadingBar')
-        }else{
-            this.resources.on('startLoad', () => {
-            })
-        }
-
- 
-        this.resources.on('progress', progress => {
-            this.loadTexts.innerHTML = textList[Math.floor(progress * 10)]
-            this.loadBar.style.width = `${progress * 60}%`
-        })
-
-        this.resources.on('ready', () => {
-            gsap.to(this.loadBar.style, {
-                opacity: 0,
-                duration: 0.5,
-                ease: 'circ.out',
-                onComplete: onReady
-            })
-            
-            
-        })
-
-        this.exitLoadBtn.onclick = () => this.exitBtnClick()
     }
 
     setDom3dPosition() {
@@ -247,69 +193,6 @@ export default class DOM {
         this.bioinformatizadoForward.onclick = () => this.slideShow('bioinformatizadoSlidePos', this.bioinsformatizadoSlides, 1)
         this.bioInfoPBack.onclick = () => this.slideShow('biInfoPSlidePos', this.bioIndoPSlides, -1)
         this.bioInfoPForward.onclick = () => this.slideShow('biInfoPSlidePos', this.bioIndoPSlides, 1)
-    }
-
-    async exitBtnClick(){
-        this.sounds.play('btnBeep')
-        this.exitLoadBtn.classList.add('hide')
-        this.loadTexts.style.opacity=0
-        gsap.to(this.loadTexts.style, {
-            onStart: () => {
-                this.sounds.play('liftoff')
-                this.loadTexts.innerHTML = "Decolando"
-                this.loadTexts.classList.add('load-texts-bigger')
-            },
-            opacity: 1,
-            duration: 1,
-            ease: 'circ.in',
-            onComplete: () => this.startWarnings()
-        })
-    }
-
-    async startWarnings() {
-        setTimeout(() => {
-            this.loadTexts.innerHTML = 'Descompressão detectada'
-            this.loadTexts.classList.add('text-warning')
-            this.sounds.play('alarmBeep')
-            this.sounds.stop('loadingBar', 150)
-            this.sounds.play('lowDescend')
-            this.sounds.play('gasLeak')
-        }, 1500)
-        setTimeout(() => this.finishWarnings(), 3500)
-    }
-
-    async finishWarnings() {
-        this.sounds.stop('alarmBeep', 1000)
-        this.sounds.play('decompress')
-        setTimeout(() => {
-            this.sounds.play('whiteout')
-            this.sounds.stop('decompress', 2500)
-            this.sounds.stop('loadAmbientSounds', 1000)
-            this.whiteout.style.zIndex = 1000
-            gsap.to(this.whiteout.style, {
-                opacity: 1,
-                duration: 2,
-                ease: 'power1.in',
-                onComplete: () => this.exitLoadPage()
-            })
-        }, 300)
-    }
-
-    async exitLoadPage() {
-        this.loadingPage.classList.add('hide'),
-        setTimeout(() => {
-            gsap.to(this.whiteout.style, {
-                opacity: 0,
-                duration: 1.5,
-                ease: 'power1.out',
-                onComplete: () => this.startScrolling()
-            })
-        }, 500)
-    }
-
-    startScrolling() {
-        this.whiteout.classList.add('hide')
-        this.sounds.play('theJourney')
     }
 
 }

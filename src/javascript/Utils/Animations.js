@@ -16,6 +16,7 @@ export default class Animations {
         this.time = _options.time
         this.world = _options.world
         this.debug = _options.debug
+        this.sounds = _options.sounds
 
         // Animation Eases
         this.ease = {}
@@ -44,17 +45,133 @@ export default class Animations {
         this.MAX_INDEX = -1
 
         // Setup
-        this.setControls()
-        this.setEventListeners()
         this.animateCamera()
         this.animateScrollDownDiv()
-        this.resources.on('ready', () => {
+        this.setLoadingPage()
+    }    
+    
+    setLoadingPage(){
+        
+        this.onReady = () => {
+        this.DOM.loadTexts.innerHTML = 'Pronto para Decolar'
+        this.DOM.loadBar.classList.add('hide')
+        this.DOM.exitLoadBtn.classList.remove('hide')
+        }
+    
+        this.exitBtnClick = async () => {
+            this.sounds.play('btnBeep')
+            this.DOM.exitLoadBtn.classList.add('hide')
+            this.DOM.loadTexts.style.opacity=0
+            gsap.to(this.DOM.loadTexts.style, {
+                onStart: () => {
+                    this.sounds.play('liftoff')
+                    this.DOM.loadTexts.innerHTML = "Decolando"
+                    this.DOM.loadTexts.classList.add('load-texts-bigger')
+                },    
+                opacity: 1,
+                duration: 1,
+                ease: 'circ.in',
+                onComplete: () => this.startWarnings()
+            })    
+        }    
+
+        this.startWarnings = async () => {
+            setTimeout(() => {
+                this.DOM.loadTexts.innerHTML = 'Descompressão detectada'
+                this.DOM.loadTexts.classList.add('text-warning')
+                this.sounds.play('alarmBeep')
+                this.sounds.stop('loadingBar', 150)
+                this.sounds.play('lowDescend')
+                this.sounds.play('gasLeak')
+            }, 1500)
+            setTimeout(() => this.finishWarnings(), 3500)
+        }
+
+        this.finishWarnings = async () => {
+            this.sounds.stop('alarmBeep', 1000)
+            this.sounds.play('decompress')
+            setTimeout(() => {
+                this.sounds.play('whiteout')
+                this.sounds.stop('decompress', 2500)
+                this.sounds.stop('loadAmbientSounds', 1000)
+                this.DOM.whiteout.style.zIndex = 1000
+                gsap.to(this.DOM.whiteout.style, {
+                    opacity: 1,
+                    duration: 2,
+                    ease: 'power1.in',
+                    onComplete: () => this.exitLoadPage()
+                })
+            }, 300)
+        }
+
+        this.exitLoadPage = async () => {
+            this.DOM.loadingPage.classList.add('hide'),
+            setTimeout(() => {
+                gsap.to(this.DOM.whiteout.style, {
+                    opacity: 0,
+                    duration: 1.5,
+                    ease: 'power1.out',
+                    onComplete: () => this.startScrolling()
+                })
+            }, 500)
             this.homeAnimation()
             this.animateLights()
             this.setAnimationsProps()
             this.setRadioWavesAnimation()
+        }
+
+        this.startScrolling = () => {
+            this.DOM.whiteout.classList.add('hide')
+            this.sounds.play('theJourney')
+            this.setControls()
+            this.setEventListeners()
+        }
+
+        const textList = [
+            "Configuração de Humor do TARS ajustada",
+            "Calculando Rotas",
+            "42 Rotas possíveis",
+            "Menor rota contém apenas 14 Parsecs",
+            "Analisando o HyperDrive",
+            "Don't Panic",
+            "Iniciando o Gerador de Improbabilidade Infinita",
+            "Escolhendo a Música certa para a viagem",
+            "'So Far Away' parece ser a melhor escolha",
+            "Inicializando o Motor",
+            "Finalizando Configurações",
+        ]
+
+        //Setting Up Animations
+
+        this.sounds.play('loadAmbientSounds')
+
+        if (this.resources.isLoading){
+            this.sounds.play('loadingBar')
+        }else{
+            this.resources.on('startLoad', () => {
+            })
+        }
+
+ 
+        this.resources.on('progress', progress => {
+            this.DOM.loadTexts.innerHTML = textList[Math.floor(progress * 10)]
+            this.DOM.loadBar.style.width = `${progress * 60}%`
         })
+
+        this.resources.on('ready', () => {
+            gsap.to(this.DOM.loadBar.style, {
+                opacity: 0,
+                duration: 0.5,
+                ease: 'circ.out',
+                onComplete: () => this.onReady()
+            })
+            
+            
+        })
+
+        this.DOM.exitLoadBtn.onclick = () => this.exitBtnClick()
     }
+
 
     setControls() {
         this.animations = {
