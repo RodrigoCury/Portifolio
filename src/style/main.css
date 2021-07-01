@@ -406,6 +406,75 @@ p, h1, h2, a, button, span, li {
   text-shadow: 0px 0px 7px rgba(255,255,255,0.4);
 }
 
+.technologies-container {
+  position: absolute;
+  top: 5vh;
+  left: 30vw;
+  width: 40vw;
+  height: 25vw;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tech-header {
+  font-family: "Caveat";
+  font-size: 3em;
+  margin: 25px;
+  color: white;
+}
+
+.move-mouse-div {
+  position: relative;
+  margin: 5% 0;
+  width: 50%;
+  height: 100%;
+  opacity: 0;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: start;
+}
+
+.move-mouse-div > p {
+  color: white;
+  font-family: 'Montserrat';
+}
+
+
+.mouse-move {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  height: 15px;
+  width: 15px;
+  background-color: white;
+  border-radius: 50%;
+  z-index: 2;
+  transform: translateY(-50%);  
+}
+
+.tech-div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  background-color: #F6DD1E;
+  transform: translate(-50%, -50%);  
+}
+
+.tech-div > p {
+  font-weight: bold;
+  color: black;
+  margin: 3px;
+}
+
 .projects-container{
   position: absolute;
   top: 10vh;
@@ -893,4 +962,3 @@ p, h1, h2, a, button, span, li {
     box-shadow: 0 0 18px white;
   }
 }
-
