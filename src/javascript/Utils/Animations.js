@@ -25,6 +25,7 @@ export default class Animations {
         this.ease.power4 = "power4.in"
         this.ease.power2in = "power2.in"
         this.ease.power3Out = "power3.out"
+        this.ease.power3InOut = "power3.inout"
         this.ease.elastic = "elastic.out(1,0.3)"
         this.ease.circ = "circ.in"
         this.ease.back = "back.out(1.7)"
@@ -182,90 +183,192 @@ export default class Animations {
 
     setControls() {
         this.animations = {
-            moveCamera: (self, element, rotationAngle, ease, camY, targetY, duration) => {
+            moveCamera: (self, _props) => {
                 // Rotate Camera
                 gsap.to(this.camera, {
-                    rotationAngle: this.camera.rotationAngle + rotationAngle,
-                    duration,
-                    ease
+                    rotationAngle: this.camera.rotationAngle + _props.rotation,
+                    duration: _props.duration,
+                    ease: _props.ease,
+                    onStart: _props.onStart,
+                    onComplete: _props.onComplete,
                 })
-
+                
                 // Move Camera
                 gsap.to(this.camera.instance.position, {
-                    y: camY,
-                    duration,
-                    ease
+                    y: _props.position.y,
+                    duration: _props.duration,
+                    ease: _props.ease,
                 })
-
+                
                 // Move Camera Target
                 gsap.to(this.camera.target, {
-                    y: targetY,
-                    duration,
-                    ease
+                    y: _props.position.y,
+                    duration: _props.duration,
+                    ease: _props.ease,
                 })
             },
         }
     }
 
-    animateScrollDownDiv(){
-        const down = () => {
-            gsap.to('.scroll-down', 
-                {
-                    top: 29,
-                    duration: 1,
-                    ease: this.ease.power3Out,
-                    onComplete : () => up()
-                }
-            )
-        }
-        
-        const up = () => {
-            gsap.to('.scroll-down', 
-                {
-                    top: 2,
-                    duration: 1,
-                    ease: this.ease.power3Out,
-                    onComplete : () => down()
-                }
-            )
-        }
-
-        down()
-    }
-
     setAnimationsProps() {
-        this.animationsProps = []
 
-        this.DOM.firstPositions.forEach(el => {
-            // Automatically increment MaxIndex
-            this.MAX_INDEX++
+        function percentToPixelWidth(_elem, _perc){
+            return (_elem.parentNode.offsetWidth/100) * parseFloat(_perc);
+          }
+        function percentToPixelHeight(_elem, _perc){
+            return (_elem.parentNode.offsetHeight/100) * parseFloat(_perc);
+          }
 
-            // Push to 
-            this.animationsProps.push([
-                el.element, Math.PI / 4, this.ease.slow, el.position.y, el.position.y, 1.5,
-            ])
-        })
+        this.animationsProps = [
+            {
+                name: 'welcomeDiv',
+                element: this.DOM.welcomePage,
+                position: new Vector3(0, 6, 0),
+                rotation: Math.PI / 4,
+                ease: this.ease.slow,
+                duration: .25,
+                onStart: () => {
 
-        this.world.container.children.forEach(child => {
-            // Automatically increment MaxIndex
-            this.MAX_INDEX++
+                },
+                onComplete: () => {
 
-            // Push to 
+                },
+            },
+            {
+                name: 'homeDiv',
+                element: this.DOM.homeDiv,
+                position: new Vector3(0, 2, 0),
+                rotation: Math.PI / 4,
+                ease: this.ease.slow,
+                duration: .25,
+                onStart: () => {
+    
+                },
+                onComplete: () => {
+    
+                },
+            },
+            {
+                name: 'whoami',
+                element: this.DOM.whoami[0],
+                position: new Vector3(0, -2, 0),
+                rotation: Math.PI / 4,
+                ease: this.ease.slow,
+                duration: .25,
+                onStart: () => {
+    
+                },
+                onComplete: () => {
+    
+                },
+            },
+            {
+                name: 'whatido',
+                element: this.DOM.whoami[1],
+                position: new Vector3(0, -6, 0),
+                rotation: Math.PI / 4,
+                ease: this.ease.slow,
+                duration: .25,
+                onStart: () => {
+    
+                },
+                onComplete: () => {
+    
+                },
+            },
+            {
+                name: 'aboutme',
+                element: this.DOM.whoami[2],
+                position: new Vector3(0, -10, 0),
+                rotation: Math.PI / 4,
+                ease: this.ease.slow,
+                duration: .25,
+                onStart: () => {
+    
+                },
+                onComplete: () => {
+    
+                },
+            },
+            {
+                name: 'technologies',
+                element: this.DOM.techDiv,
+                position: new Vector3(0, -20, 0),
+                rotation: Math.PI / 4,
+                ease: this.ease.slow,
+                duration: .25,
+                onStart: () => {
+                },
+                onComplete: () => {
+                    let loops = 0
+                    let to = () => {
+                        gsap.to(this.DOM.mouseMove, {
+                            left: percentToPixelWidth(this.DOM.mouseMove, 75),
+                            duration: .5,
+                            yoyo: true,
+                            ease: this.ease.linear,
+                            onComplete: () => {
+                                if (loops >= 3) {
+                                    gsap.to(this.DOM.mouseMove.parentNode, {
+                                        opacity: 0,
+                                        duration : 2,
+                                    })
+                                } else {
+                                    loops++
+                                    from()
+                                }
+                            }
+                            
+                        })
 
-            this.animationsProps.push([
-                undefined, Math.PI / 4, this.ease.slow, child.position.y, child.position.y, 1.5,
-            ])
-        })
+                    }
+                    let from = () => {
+                        gsap.to(this.DOM.mouseMove, {
+                            left: percentToPixelWidth(this.DOM.mouseMove, 25),
+                            duration: .5,
+                            ease: this.ease.linear,
+                            onComplete: () => to()
+                        })
+                    }
+                    gsap.to(this.DOM.mouseMove.parentNode, {
+                        opacity: 1,
+                        duration : 2,
+                        onComplete: to
+                    })
+                }
+            },
+            {
+                name: 'projects',
+                element: this.DOM.projects,
+                position: new Vector3(0, -35, 0),
+                rotation: Math.PI / 4,
+                ease: this.ease.slow,
+                duration: .25,
+                onStart: () => {
+    
+                },
+                onComplete: () => {
+    
+                },
+            },
+            {
+                name: 'madeWith',
+                element: this.DOM.madeWith,
+                position: new Vector3(0, -45, 0),
+                rotation: Math.PI / 4,
+                ease: this.ease.slow,
+                duration: .25,
+                onStart: () => {
+    
+                },
+                onComplete: () => {
+    
+                },
+            },
+        ]
 
-        this.DOM.secondPositions.forEach(el => {
-            // Automatically increment MaxIndex
-            this.MAX_INDEX++
+        this.MAX_INDEX = this.animationsProps.length - 1
 
-            // Push to 
-            this.animationsProps.push([
-                el.element, Math.PI / 4, this.ease.slow, el.position.y, el.position.y, 1.5,
-            ])
-        })
     }
 
     setEventListeners() {
@@ -282,16 +385,16 @@ export default class Animations {
             if (event.deltaY < 0) {
                 if (self.IDX !== 0) {
                     self.IDX--
-                    self.animationsProps[self.IDX][1] = -Math.abs(self.animationsProps[self.IDX][1])
+                    self.animationsProps[self.IDX].rotation = -Math.abs(self.animationsProps[self.IDX].rotation)
                 } else {
                     // return if it is off constraints so it does not remove event listener
                     return
                 }
-
+                
             } else {
                 if (self.IDX !== self.MAX_INDEX) {
                     self.IDX++
-                    self.animationsProps[self.IDX][1] = Math.abs(self.animationsProps[self.IDX][1])
+                    self.animationsProps[self.IDX].rotation = Math.abs(self.animationsProps[self.IDX].rotation)
                 } else {
                     // return if it is off constraints so it does not remove event listener
                     return
@@ -299,9 +402,8 @@ export default class Animations {
             }
 
             self.moveMouseFlag = false
-            self.animations.moveCamera(self, ...self.animationsProps[self.IDX])
+            self.animations.moveCamera(self, self.animationsProps[self.IDX])
             
-
 
             // remove window event listener so the animations does not overlap
             window.removeEventListener('wheel', _wheel, true)
@@ -310,7 +412,8 @@ export default class Animations {
             setTimeout(() => {
                 window.addEventListener('wheel', _wheel, true)
             },
-                self.animationsProps[self.IDX][5] * 1000) // Seconds for Timeout
+            self.animationsProps[self.IDX].duration * 1000
+            ) // Seconds for Timeout
         }
 
         window.addEventListener('wheel', _wheel, true)
@@ -337,13 +440,11 @@ export default class Animations {
         this.time.on('tick', () => {
             [
                 ...this.DOM.firstPositions,
-                ...this.DOM.secondPositions,
                 ...this.DOM.modals,
             ].forEach(el => {
                 let projected = el.position.clone()
                 projected.project(this.camera.instance)
 
-                const translateX = `${projected.x * this.sizes.width * 0.5}px`
                 const translateY = `${-projected.y * this.sizes.height * 0.5}px`
                 el.element.style.transform = `translate(0, ${translateY})`
             })
@@ -388,6 +489,33 @@ export default class Animations {
             })
         }
     }
+
+    animateScrollDownDiv(){
+        const down = () => {
+            gsap.to('.scroll-down', 
+                {
+                    top: 29,
+                    duration: 1,
+                    ease: this.ease.power3Out,
+                    onComplete : () => up()
+                }
+            )
+        }
+        
+        const up = () => {
+            gsap.to('.scroll-down', 
+                {
+                    top: 2,
+                    duration: 1,
+                    ease: this.ease.power3Out,
+                    onComplete : () => down()
+                }
+            )
+        }
+
+        down()
+    }
+
 
     async setRadioWavesAnimation() {
         //  y=	-0.38125x
