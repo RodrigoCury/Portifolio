@@ -39,6 +39,7 @@ export default class DOM {
         this.setDom3dPosition()
         this.setupModals()
         this.setupCarousels()
+        this.setupMutebtns()
     }
 
     getDOMElements() {
@@ -51,12 +52,14 @@ export default class DOM {
         this.whiteout = document.querySelector('.loading-whiteout')
         this.enterSiteBtn = document.querySelector('.enter-site')
 
-
         this.homeDiv = document.querySelector('.homepage')
         this.whoami = [...document.querySelectorAll('.whoami-container')]
         this.projects = document.querySelector('.projects-container')
         this.modal = [...document.querySelectorAll(".modal-bg")]
         this.madeWith = document.querySelector('.made-with-container')
+
+        this.mutebtn = document.querySelector('.mute-btn')
+        this.unmutebtn = document.querySelector('.unmute-btn')
         
         if(this.debug){
             this.text = [...document.querySelectorAll(".modal-ul-title")]
@@ -194,6 +197,30 @@ export default class DOM {
         this.bioinformatizadoForward.onclick = () => this.slideShow('bioinformatizadoSlidePos', this.bioinsformatizadoSlides, 1)
         this.bioInfoPBack.onclick = () => this.slideShow('biInfoPSlidePos', this.bioIndoPSlides, -1)
         this.bioInfoPForward.onclick = () => this.slideShow('biInfoPSlidePos', this.bioIndoPSlides, 1)
+    }
+
+    setupMutebtns(){
+        // M Key
+        window.addEventListener('keydown', (_event) => {
+            if(_event.key === 'm') {
+                if(!this.sounds.muted){
+                    this.mutebtn.onclick()
+                } else {
+                    this.unmutebtn.onclick()
+                }
+            }
+        })
+
+        this.mutebtn.onclick = () => {
+            this.sounds.mute()
+            this.mutebtn.classList.toggle('hide')
+            this.unmutebtn.classList.toggle('hide')
+        }
+        this.unmutebtn.onclick = () => {
+            this.sounds.unmute()
+            this.mutebtn.classList.toggle('hide')
+            this.unmutebtn.classList.toggle('hide')
+        }
     }
 
 }
