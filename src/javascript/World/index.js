@@ -28,7 +28,6 @@ export default class {
         }
 
         // Setup
-        this.container = new THREE.Object3D()
         this.shipwreckContainer = new THREE.Object3D()
         this.whoAmIContainer = new THREE.Object3D()
         this.whatIDoContainer = new THREE.Object3D()
@@ -37,6 +36,7 @@ export default class {
         this.projectsContainer = new THREE.Object3D()
         this.starsContainer = new THREE.Object3D()
         this.hubbleContainer = new THREE.Object3D()
+        this.astronautContainer = new THREE.Object3D()
 
         this.setLights()
         this.setGeometries()
@@ -69,6 +69,7 @@ export default class {
             this.setMaterials()
             this.setStars()
             this.setShipwreck()
+            this.setAstronaut()
             this.setWhoAmI()
             this.setWhatIDo()
             this.setAboutMe()
@@ -123,6 +124,47 @@ export default class {
             this.shipwreckFolder.add(this.shipwreckContainer.rotation, 'y', -10, 10, .001).name("container rot y")
             this.shipwreckFolder.add(this.shipwreckContainer.rotation, 'z', -10, 10, .001).name("container rot z")
         }
+    }
+
+    setAstronaut() {
+        // Position Container initial Position
+        this.astronautContainer.position.set(0,2,-2.925)
+        this.astronautContainer.rotation.set(0,-0.859,0)
+        this.astronautContainer.scale.set(1,1,1)
+
+        // Position astronaut
+        this.resources.items.astronautRigged.scene.position.set(0,0,0)
+        this.resources.items.astronautRigged.scene.rotation.set(0,0,0)
+        this.resources.items.astronautRigged.scene.scale.set(.5,.5,.5)
+
+        if (this.debug) {
+            // Debug Folder
+            this.astronautFolder = this.debug.addFolder('Roaming Astronaut')
+            
+            // Container Debug
+            this.astronautFolder.add(this.astronautContainer.position, 'x', -15, 15, 0.001).name('container X')
+            this.astronautFolder.add(this.astronautContainer.position, 'y', -60, 10, 0.001).name('container Y')
+            this.astronautFolder.add(this.astronautContainer.position, 'z', -15, 15, 0.001).name('container Z')
+            this.astronautFolder.add(this.astronautContainer.rotation, 'x', -Math.PI, Math.PI, 0.001).name('container rot X')
+            this.astronautFolder.add(this.astronautContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot Y')
+            this.astronautFolder.add(this.astronautContainer.rotation, 'z', -Math.PI, Math.PI, 0.001).name('container rot Z')
+            
+            // Astronaut Debug
+            this.astronautFolder.add(this.resources.items.astronautRigged.scene.position, 'x', -6, 6, 0.001).name('Astronaut X')
+            this.astronautFolder.add(this.resources.items.astronautRigged.scene.position, 'y', -6, 6, 0.001).name('Astronaut Y')
+            this.astronautFolder.add(this.resources.items.astronautRigged.scene.position, 'z', -6, 6, 0.001).name('Astronaut Z')
+            this.astronautFolder.add(this.resources.items.astronautRigged.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('Astronaut rot X')
+            this.astronautFolder.add(this.resources.items.astronautRigged.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('Astronaut rot Y')
+            this.astronautFolder.add(this.resources.items.astronautRigged.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('Astronaut rot Z')
+            this.astronautFolder.add(this.resources.items.astronautRigged.scene.scale, 'x', 0, 1, 0.025).name('Astronaut scale X').onChange(() => {
+                let scale = this.resources.items.astronautRigged.scene.scale.x
+                this.resources.items.astronautRigged.scene.scale.set(scale,scale,scale)
+            })
+
+            this.astronautContainer.add(new THREE.AxesHelper(1.5))
+        }
+
+        this.astronautContainer.add(this.resources.items.astronautRigged.scene)
     }
 
     setLogos() {
@@ -201,8 +243,6 @@ export default class {
             this.logosArea
 
         )
-        this.container.add(this.logoContainer)
-
 
         /**
          * Debug
