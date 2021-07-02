@@ -45,6 +45,7 @@ import hubble from '../models/Hubble/hubble.glb'
 
 // Astronaut
 import astronaut from '../models/astronaut/astronautMatOnly.glb'
+import astronautRigged from '../models/astronaut/astronaut-Rigged.glb'
 
 // Ambient Assets
 import notebook from '../models/ambientAssets/notebook.glb'
@@ -100,6 +101,7 @@ export default class Resources extends EventEmitter {
             { name: 'iss', source: iss },
             { name: 'hubble', source: hubble },
             { name: 'astronaut', source: astronaut },
+            { name: 'astronautRigged', source: astronautRigged },
             { name: 'notebook', source: notebook },
             { name: 'microscope', source:microscope },
             { name: 'books', source:books },
