@@ -23,12 +23,16 @@ export default class Animations {
         this.ease.slow = "slow (0.7, 0.1, false)"
         this.ease.power3 = "power3.in"
         this.ease.power4 = "power4.in"
-        this.ease.power2in = "power2.in"
+        this.ease.power2In = "power2.in"
+        this.ease.power2Out = "power2.out"
+        this.ease.power2InOut = "power2.inOut"
         this.ease.power3Out = "power3.out"
         this.ease.power3InOut = "power3.inout"
         this.ease.elastic = "elastic.out(1,0.3)"
         this.ease.circ = "circ.in"
+        this.ease.circInOut = "circ.inOut"
         this.ease.back = "back.out(1.7)"
+        this.ease.elastic = (n1, n2) => `elastic.out(${n1}, ${n2})`
 
         this.duration = {}
         this.duration.fast = 0.5
@@ -239,9 +243,22 @@ export default class Animations {
                 position: new Vector3(0, 6, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: () => {
-
+                        gsap.to(this.world.astronautContainer.position, {
+                            x: 3.442,
+                            y: 6,
+                            z: -1.669,
+                            duration: this.animationsProps[0].duration * 2,
+                            ease: this.ease.power2InOut,
+                        })
+                        gsap.to(this.world.astronautContainer.rotation, {
+                            x: 0,
+                            y: -1.639,
+                            z: 0,
+                            duration: this.animationsProps[0].duration * 2,
+                            ease: this.ease.power2InOut,
+                        })
                 },
                 onComplete: () => {
 
@@ -253,9 +270,22 @@ export default class Animations {
                 position: new Vector3(0, 2, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: () => {
-    
+                    gsap.to(this.world.astronautContainer.position, {
+                        x: 0,
+                        y: 2,
+                        z: -2.925,
+                        duration: this.animationsProps[1].duration * 2,
+                        ease: this.ease.power2InOut,
+                    })
+                    gsap.to(this.world.astronautContainer.rotation, {
+                        x: 0,
+                        y: -0.859,
+                        z: 0,
+                        duration: this.animationsProps[1].duration * 2,
+                        ease: this.ease.power2InOut,
+                    })
                 },
                 onComplete: () => {
     
@@ -267,9 +297,22 @@ export default class Animations {
                 position: new Vector3(0, -2, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: () => {
-    
+                    gsap.to(this.world.astronautContainer.position, {
+                        x: 3.606,
+                        y: -0.468,
+                        z: 1.033,
+                        duration: this.animationsProps[2].duration * 2,
+                        ease: this.ease.power2InOut,
+                    })
+                    gsap.to(this.world.astronautContainer.rotation, {
+                        x: -0.303,
+                        y: -2.136,
+                        z: 0,
+                        duration: this.animationsProps[2].duration * 2,
+                        ease: this.ease.power2InOut,
+                    })
                 },
                 onComplete: () => {
     
@@ -281,9 +324,22 @@ export default class Animations {
                 position: new Vector3(0, -6, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: () => {
-    
+                    gsap.to(this.world.astronautContainer.position, {
+                        x: -2.829,
+                        y: -3.852,
+                        z: -0.296,
+                        duration: this.animationsProps[3].duration * 2,
+                        ease: this.ease.power2InOut,
+                    })
+                    gsap.to(this.world.astronautContainer.rotation, {
+                        x: 0.484,
+                        y: 1.516,
+                        z: 2.252,
+                        duration: this.animationsProps[3].duration * 2,
+                        ease: this.ease.power2InOut,
+                    })
                 },
                 onComplete: () => {
     
@@ -295,9 +351,22 @@ export default class Animations {
                 position: new Vector3(0, -10, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: () => {
-    
+                    gsap.to(this.world.astronautContainer.position, {
+                        x: 1.239,
+                        y: -12.853,
+                        z: -2.198,
+                        duration: this.animationsProps[4].duration * 3,
+                        ease: this.ease.power2InOut,
+                    })
+                    gsap.to(this.world.astronautContainer.rotation, {
+                        x: -0.967,
+                        y: -0.706,
+                        z: 0,
+                        duration: this.animationsProps[4].duration * 3,
+                        ease: this.ease.elastic(1, 0.6),
+                    })
                 },
                 onComplete: () => {
     
@@ -309,8 +378,22 @@ export default class Animations {
                 position: new Vector3(0, -20, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: () => {
+                    gsap.to(this.world.astronautContainer.position, {
+                        x: -9.228,
+                        y: -21.278,
+                        z: -7.139,
+                        duration: this.animationsProps[5].duration * 3,
+                        ease: this.ease.power2Out,
+                    })
+                    gsap.to(this.world.astronautContainer.rotation, {
+                        x: 0,
+                        y: 0.215,
+                        z: 0,
+                        duration: this.animationsProps[5].duration * 4,
+                        ease: this.ease.elastic(1, 0.6),
+                    })
                 },
                 onComplete: () => {
                     let loops = 0
@@ -356,9 +439,29 @@ export default class Animations {
                 position: new Vector3(0, -35, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 3,
                 onStart: () => {
-    
+                    gsap.to(this.world.astronautContainer.position, {
+                        x: 15.000,
+                        y: -35.278,
+                        z: 0,
+                        duration: this.animationsProps[6].duration * 2,
+                        ease: this.ease.power2Out,
+                    })
+                    gsap.to(this.world.astronautContainer.rotation, {
+                        x: 0,
+                        y: 0,
+                        z: 0,
+                        duration: this.animationsProps[6].duration ,
+                        ease: this.ease.elastic(1, 0.6),
+                    })
+                    gsap.to(this.world.astronautContainer.scale, {
+                        x: 1,
+                        y: 1,
+                        z: 1,
+                        duration: this.animationsProps[6].duration * 2,
+                        ease: this.ease.power2Out,
+                    })
                 },
                 onComplete: () => {
     
@@ -370,9 +473,29 @@ export default class Animations {
                 position: new Vector3(0, -45, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: () => {
-    
+                    gsap.to(this.world.astronautContainer.position, {
+                        x: -3.6,
+                        y: -45.912,
+                        z: 0,
+                        duration: this.animationsProps[6].duration * 2,
+                        ease: this.ease.power2Out,
+                    })
+                    gsap.to(this.world.astronautContainer.rotation, {
+                        x: 1.244,
+                        y: 0.432,
+                        z: -1.565,
+                        duration: this.animationsProps[6].duration * 5 ,
+                        ease: this.ease.elastic(1, 0.6),
+                    })
+                    gsap.to(this.world.astronautContainer.scale, {
+                        x: 0.25,
+                        y: 0.25,
+                        z: 0.25,
+                        duration: this.animationsProps[6].duration * 2,
+                        ease: this.ease.power2Out,
+                    })
                 },
                 onComplete: () => {
     
