@@ -242,13 +242,14 @@ export default class Application {
             passes: this.passes
         })
         this.scene.add(
-            this.world.container,
             this.world.lights.container,
             this.world.starsContainer,
             this.world.shipwreckContainer,
+            this.world.astronautContainer,
             this.world.whoAmIContainer,
             this.world.whatIDoContainer,
             this.world.aboutMeContainer,
+            this.world.logoContainer,
             this.world.projectsContainer,
             this.world.hubbleContainer,
         )
