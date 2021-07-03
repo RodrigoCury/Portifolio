@@ -59,6 +59,7 @@ export default class DOM {
         this.projects = document.querySelector('.projects-container')
         this.modal = [...document.querySelectorAll(".modal-bg")]
         this.madeWith = document.querySelector('.made-with-container')
+        this.contact = document.querySelector('.contact-container')
         
         // Btn
         this.mutebtn = document.querySelector('.mute-btn')
@@ -127,6 +128,11 @@ export default class DOM {
                 name: 'madeWith',
                 element: this.madeWith,
                 position: new Vector3(0, -45, 0)
+            },
+            {
+                name: 'contact',
+                element: this.contact,
+                position: new Vector3(0, -55, 0)
             },
         ]
         
