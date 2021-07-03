@@ -75,6 +75,7 @@ export default class {
             this.setWhatIDo()
             this.setAboutMe()
             this.setTextGeometries()
+            this.setHolograms()
             this.setLogos()
             this.setISS()
             this.setProjects()
@@ -97,6 +98,15 @@ export default class {
             resources: this.resources,
             debug: this.debug,
             materials: this.materials,
+        })
+    }
+
+    setHolograms() {
+        this.holograms = new Holograms({
+            debug: this.debug,
+            materials: this.materials,
+            resources: this.resources,
+            geometries: this.text,
         })
     }
 
@@ -300,14 +310,6 @@ export default class {
             // this.logoContainer.add(this.sLHelper)
         }
 
-        // Setup Holograms
-        this.holograms = new Holograms({
-            debug: this.debug,
-            materials: this.materials,
-            resources: this.resources,
-            geometries: this.text,
-        })
-
         this.logoContainer.add(this.holograms.container, this.holograms.cone)
     }
 
@@ -503,6 +505,7 @@ export default class {
 
             // mesh.position.copy(this.resources.items.hubble.scene.position)
             mesh.rotation.set(-2.15, 2.06, 2 * Math.PI)
+            mesh.position.copy(this.resources.items.hubble.scene.position)
             this.radioWaves.push(mesh)
             this.hubbleContainer.add(mesh)
         }
@@ -542,13 +545,13 @@ export default class {
 
     setRescuePod(){
         // Setup Container
-        this.podContainer.position.set(0,-55, 0)
+        this.podContainer.position.set(0,-57, 0)
         this.podContainer.rotation.set(0,-2.415,0)
         this.podContainer.scale.set(1,1,1)
         
         // setup Pod
-        this.resources.items.pod.scene.position.set(-3.34, 3.77, -10)
-        this.resources.items.pod.scene.rotation.set(-0.2, 2.43, 0.66)
+        this.resources.items.pod.scene.position.set(-15, 4.87, -2)
+        this.resources.items.pod.scene.rotation.set(-1.53, 3.14,1.82)
         this.resources.items.pod.scene.scale.set(1, 1, 1)
 
         this.resources.items.pod.scene.traverse(child => {
@@ -556,6 +559,12 @@ export default class {
                 child.material = this.materials.items.doorMaterial // Change to HoloMaterial
             }
         })
+
+        // Setup text
+
+        this.holograms.contactHologram.position.set(0, -0.78, -3.5)
+        this.holograms.contactHologram.rotation.set(0, 0, 0)
+
         // Setup Logos
 
             // Set Raycaster Areas
@@ -613,6 +622,17 @@ export default class {
             this.podFolder.add(this.resources.items.pod.scene.rotation, "y", -Math.PI, Math.PI, 0.01).name("Pod Rot Y")
             this.podFolder.add(this.resources.items.pod.scene.rotation, "z", -Math.PI, Math.PI, 0.01).name("Pod Rot Z")
             
+            // Text
+
+            this.podFolder.add(this.holograms.contactHologram.position, "x", -10, 10, 0.01).name("text X")
+            this.podFolder.add(this.holograms.contactHologram.position, "y", -10, 10, 0.01).name("text Y")
+            this.podFolder.add(this.holograms.contactHologram.position, "z", -10, 10, 0.01).name("text Z")
+            this.podFolder.add(this.holograms.contactHologram.rotation, "x", -Math.PI, Math.PI, 0.01).name("text Rot X")
+            this.podFolder.add(this.holograms.contactHologram.rotation, "y", -Math.PI, Math.PI, 0.01).name("text Rot Y")
+            this.podFolder.add(this.holograms.contactHologram.rotation, "z", -Math.PI, Math.PI, 0.01).name("text Rot Z")
+            
+            // Logos
+            
             this.podFolder.add(this.resources.items.eMailLogo.scene.position, "x", -10, 10, 0.01).name("eMailLogo X")
             this.podFolder.add(this.resources.items.eMailLogo.scene.position, "y", -10, 10, 0.01).name("eMailLogo Y")
             this.podFolder.add(this.resources.items.eMailLogo.scene.position, "z", -10, 10, 0.01).name("eMailLogo Z")
@@ -633,7 +653,11 @@ export default class {
             this.resources.items.eMailLogo.scene,
             this.resources.items.linkedInLogo.scene,
             this.resources.items.githubLogo.scene,
-            this.contactArea
+            this.contactArea,
+            this.holograms.contactHologram,
+            this.holograms.contactCone,
             )
+
+        console.log(this.holograms.contactCone);
     }
 }
