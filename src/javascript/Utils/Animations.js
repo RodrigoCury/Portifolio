@@ -19,30 +19,39 @@ export default class Animations {
         this.sounds = _options.sounds
         this.config = _options.config
 
-        // Animation Eases
-        this.ease = {}
-        this.ease.slow = "slow (0.7, 0.1, false)"
-        this.ease.power3 = "power3.in"
-        this.ease.power4 = "power4.in"
-        this.ease.power2In = "power2.in"
-        this.ease.power2Out = "power2.out"
-        this.ease.power2InOut = "power2.inOut"
-        this.ease.power3Out = "power3.out"
-        this.ease.power3InOut = "power3.inout"
-        this.ease.elastic = "elastic.out(1,0.3)"
-        this.ease.circ = "circ.in"
-        this.ease.circInOut = "circ.inOut"
-        this.ease.back = "back.out(1.7)"
-        this.ease.elastic = (n1, n2) => `elastic.out(${n1}, ${n2})`
+
 
         this.IDX = 0
         this.MAX_INDEX = -1
 
         // Setup
+        this.setEases()
         this.animateCamera()
         this.setScrollAnimations()
         this.animateScrollDownDiv()
         this.setLoadingPage()
+    }
+
+    setEases() {
+        // Animation Eases
+        this.ease = {
+            slow: "slow (0.7, 0.1, false)",
+            power2In: "power2.in",
+            power2Out: "power2.out",
+            power2InOut: "power2.inOut",
+            power3: "power3.in",
+            power3Out: "power3.out",
+            power3InOut: "power3.inout",
+            power4: "power4.in",
+            power4Out: "power4.out",
+            circ: "circ.in",
+            circInOut: "circ.inOut",
+            bounceIn: 'bounce.in',
+            bounceOut: 'bounce.out',
+            bounceInOut: 'bounce.inOut',
+            backOut: (n1) => `back.out(${n1})`,
+            elastic: (n1, n2) => `elastic.out(${n1}, ${n2})`,
+        }
     }
 
     setLoadingPage() {
@@ -264,7 +273,7 @@ export default class Animations {
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
                 duration: 1.5,
-                onStart: this.scrollAnimations.aboutmeStart,
+                onStart: this.scrollAnimations.aboutMeStart,
             },
             {
                 name: 'technologies',
@@ -507,10 +516,10 @@ export default class Animations {
             })
             gsap.to(this.world.astronautContainer.rotation, {
                 x: 0.842,
-                y: 2.397,
+                y: -3.142,
                 z: 0,
                 duration: this.animationsProps[0].duration * 2,
-                ease: this.ease.power2InOut,
+                ease: this.ease.backOut(3),
             })
         }
 
@@ -527,7 +536,7 @@ export default class Animations {
                 y: -0.859,
                 z: 0,
                 duration: this.animationsProps[1].duration * 2,
-                ease: this.ease.power2InOut,
+                ease: this.ease.backOut(2),
             })
         }
 
@@ -544,7 +553,7 @@ export default class Animations {
                 y: -2.136,
                 z: 0,
                 duration: this.animationsProps[2].duration * 2,
-                ease: this.ease.power2InOut,
+                ease: this.ease.backOut(1),
             })
         }
 
@@ -565,29 +574,33 @@ export default class Animations {
             })
         }
 
-        this.scrollAnimations.aboutmeStart = () => {
+        this.scrollAnimations.aboutMeStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: 1.239,
                 y: -13.2,
                 z: -2.198,
                 duration: this.animationsProps[4].duration * 3,
-                ease: this.ease.power2InOut,
+                ease: this.ease.power2Out,
             })
             gsap.to(this.world.astronautContainer.rotation, {
-                x: -0.967,
-                y: -0.706,
+                x: -0.656,
+                y: -0.722,
                 z: 0,
-                duration: this.animationsProps[4].duration * 3,
-                ease: this.ease.elastic(1, 0.6),
+                duration: this.animationsProps[4].duration * 4,
+                ease: this.ease.backOut(1),
             })
         }
 
         this.scrollAnimations.technologiesStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: -9.228,
-                y: -22.22,
                 z: -7.139,
                 duration: this.animationsProps[5].duration * 3,
+                ease: this.ease.power2Out,
+            })
+            gsap.to(this.world.astronautContainer.position, {
+                y: -22.22,
+                duration: this.animationsProps[5].duration * 4.5,
                 ease: this.ease.power2Out,
             })
             gsap.to(this.world.astronautContainer.rotation, {
@@ -657,18 +670,11 @@ export default class Animations {
 
         this.scrollAnimations.projectsStart = () => {
             gsap.to(this.world.astronautContainer.position, {
-                x: 15.000,
-                y: -35.278,
-                z: 0,
-                duration: this.animationsProps[6].duration * 2,
-                ease: this.ease.power2Out,
-            })
-            gsap.to(this.world.astronautContainer.rotation, {
-                x: 0,
-                y: 0,
-                z: 0,
+                x: -9.228,
+                y: -41.278,
+                z: -7.139,
                 duration: this.animationsProps[6].duration,
-                ease: this.ease.elastic(1, 0.6),
+                ease: this.ease.power4Out,
             })
             gsap.to(this.world.astronautContainer.scale, {
                 x: 1,
@@ -684,7 +690,7 @@ export default class Animations {
                 x: -3.6,
                 y: -46,
                 z: 0,
-                duration: this.animationsProps[7].duration * 4,
+                duration: this.animationsProps[7].duration * 1.5,
                 ease: this.ease.power2Out,
                 onComplete: () => this.radioWavesAnimation()
             })
@@ -692,14 +698,14 @@ export default class Animations {
                 x: 1.244,
                 y: 0.432,
                 z: -1.565,
-                duration: this.animationsProps[7].duration * 5,
-                ease: this.ease.elastic(1, 0.6),
+                duration: this.animationsProps[7].duration * 1.5,
+                ease: this.ease.backOut(1),
             })
             gsap.to(this.world.astronautContainer.scale, {
                 x: 0.25,
                 y: 0.25,
                 z: 0.25,
-                duration: this.animationsProps[7].duration * 4,
+                duration: this.animationsProps[7].duration * 1.5,
                 ease: this.ease.power2Out,
             })
         }
@@ -710,12 +716,12 @@ export default class Animations {
                 gsap.to(this.world.materials.items.logoHoloMaterial.uniforms.uAlpha, {
                     value: 0.55,
                     duration: 2.5,
-                    ease: "elastic.out(1, 0.1)"
+                    ease: this.ease.bounceInOut
                 })
                 gsap.to(this.world.materials.items.logoHoloBeam.uniforms.uAlpha, {
                     value: 0.55,
                     duration: 2.5,
-                    ease: "elastic.out(1, 0.1)"
+                    ease: this.ease.bounceInOut
                 })
             }
 
@@ -724,16 +730,16 @@ export default class Animations {
                     x: -3.34,
                     y: 3.77,
                     z: -10,
-                    duration: 4,
+                    duration: 2,
                     ease: this.ease.power2Out,
-                    onComplete: showHolograms
                 })
                 gsap.to(this.resources.items.pod.scene.rotation, {
                     x: -0.2,
                     y: 2.43,
                     z: 0.66,
-                    duration: 2,
-                    ease: this.ease.power2Out
+                    duration: 4,
+                    ease: this.ease.backOut(3),
+                    onComplete: showHolograms
                 })
             }
 
@@ -750,7 +756,7 @@ export default class Animations {
                 y: 1.502,
                 z: 0,
                 duration: this.animationsProps[8].duration * 5,
-                ease: this.ease.elastic(1, 0.6),
+                ease: this.ease.backOut(3),
             })
             gsap.to(this.world.astronautContainer.scale, {
                 x: 1,
@@ -774,7 +780,7 @@ export default class Animations {
                 y: 1.502,
                 z: 0,
                 duration: this.animationsProps[6].duration * 5,
-                ease: this.ease.elastic(1, 0.6),
+                ease: this.ease.backOut(2),
             })
             gsap.to(this.world.astronautContainer.scale, {
                 x: 1,
