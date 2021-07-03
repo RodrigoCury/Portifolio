@@ -310,8 +310,6 @@ p, h1, h2, a, button, span, li {
   color:white;
 }
 
-
-
 .content {
   position: absolute;
   bottom: calc(10vh + 3.5vw);
@@ -862,6 +860,25 @@ p, h1, h2, a, button, span, li {
   font-weight: 800 ;
   color: rgb(0, 195, 255);
   text-decoration: none;
+}
+
+.contact-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+
+.contact-header {
+  margin: 25px;
+  font-family: 'Caveat';
+  font-size: 1.5em;
+  color: white;
 }
 
 @-webkit-keyframes opacity {
