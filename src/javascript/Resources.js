@@ -36,6 +36,9 @@ import html from '../models/logos/html.glb'
 import djangoLogo from '../models/logos/djangoLogo.glb'
 import jsLogo from '../models/logos/jsLogo.glb'
 import threeLogo from '../models/logos/threeLogo.glb'
+import linkedInLogo from '../models/logos/LInLogo.glb'
+import githubLogo from '../models/logos/githubLogo.glb'
+import eMailLogo from '../models/logos/eMailLogo.glb'
 
 // ISS
 import iss from '../models/iss/iss.glb'
@@ -99,6 +102,9 @@ export default class Resources extends EventEmitter {
             { name: 'djangoLogo', source: djangoLogo },
             { name: 'jsLogo', source: jsLogo },
             { name: 'threeLogo', source: threeLogo },
+            { name: 'linkedInLogo', source: linkedInLogo },
+            { name: 'githubLogo', source: githubLogo },
+            { name: 'eMailLogo', source: eMailLogo },
 
             // 3D Models
             { name: 'iss', source: iss },
