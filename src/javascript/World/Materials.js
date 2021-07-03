@@ -207,8 +207,8 @@ export default class Materials {
             uniforms: {
                 uTime: { value: this.time.elapsed },
                 uColor: { value: new Color('#0000ff') },
-                uGlitchSpeed: { value: 0.22 },
-                uGlitchIntensity: { value: 0.01 },
+                uGlitchSpeed: { value: 0 },
+                uGlitchIntensity: { value: 0 },
                 uBarSpeed: { value: 0.6 },
                 uBarDistance: { value: 1350 },
                 uAlpha: { value: 0.55 },
