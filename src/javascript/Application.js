@@ -252,6 +252,7 @@ export default class Application {
             this.world.logoContainer,
             this.world.projectsContainer,
             this.world.hubbleContainer,
+            this.world.podContainer,
         )
     }
 
