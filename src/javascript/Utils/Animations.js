@@ -17,6 +17,7 @@ export default class Animations {
         this.world = _options.world
         this.debug = _options.debug
         this.sounds = _options.sounds
+        this.config = _options.config
 
         // Animation Eases
         this.ease = {}
@@ -33,18 +34,6 @@ export default class Animations {
         this.ease.circInOut = "circ.inOut"
         this.ease.back = "back.out(1.7)"
         this.ease.elastic = (n1, n2) => `elastic.out(${n1}, ${n2})`
-
-        this.duration = {}
-        this.duration.fast = 0.5
-        this.duration.slow = 2
-        this.duration.normal = 1
-
-        if (this.debug) {
-            this.debugFolder = this.debug.addFolder("Animations")
-            this.debugFolder.add(this.duration, 'fast', 0, 3, 0.01).name("Camera Fast")
-            this.debugFolder.add(this.duration, 'slow', 0, 3, 0.01).name("Camera Slow")
-            this.debugFolder.add(this.duration, 'normal', 0, 3, 0.01).name("Camera Normal")
-        }
 
         this.IDX = 0
         this.MAX_INDEX = -1
@@ -201,7 +190,7 @@ export default class Animations {
 
     setControls() {
         this.animations = {
-            moveCamera: (self, _props) => {
+            moveCamera: (_props) => {
                 // Rotate Camera
                 gsap.to(this.camera, {
                     rotationAngle: this.camera.rotationAngle + _props.rotation,
@@ -224,6 +213,8 @@ export default class Animations {
                     duration: _props.duration,
                     ease: _props.ease,
                 })
+
+                this.config.screenIsOn = _props.name
             },
         }
     }
@@ -353,7 +344,7 @@ export default class Animations {
             }
 
             self.moveMouseFlag = false
-            self.animations.moveCamera(self, self.animationsProps[self.IDX])
+            self.animations.moveCamera(self.animationsProps[self.IDX])
             
 
             // remove window event listener so the animations does not overlap
@@ -522,6 +513,7 @@ export default class Animations {
                 ease: this.ease.power2InOut,
             })
         }
+
         this.scrollAnimations.homeDivStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: 0,
@@ -538,6 +530,7 @@ export default class Animations {
                 ease: this.ease.power2InOut,
             })
         }
+
         this.scrollAnimations.whoamiStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: 3.606,
@@ -554,6 +547,7 @@ export default class Animations {
                 ease: this.ease.power2InOut,
             })
         }
+
         this.scrollAnimations.whatidoStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: -2.829,
@@ -570,6 +564,7 @@ export default class Animations {
                 ease: this.ease.power2InOut,
             })
         }
+
         this.scrollAnimations.aboutmeStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: 1.239,
@@ -586,6 +581,7 @@ export default class Animations {
                 ease: this.ease.elastic(1, 0.6),
             })
         }
+
         this.scrollAnimations.technologiesStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: -9.228,
@@ -603,6 +599,7 @@ export default class Animations {
             })
 
         }
+
         this.scrollAnimations.technologiesComplete = () => {
 
             // Check if has been visited
@@ -657,6 +654,7 @@ export default class Animations {
             // Starts loops
             leftToRigth()
         }
+
         this.scrollAnimations.projectsStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: 15.000,
@@ -705,6 +703,7 @@ export default class Animations {
                 ease: this.ease.power2Out,
             })
         }
+
         this.scrollAnimations.contactStart = () => {
 
             const showHolograms = () => {
@@ -761,6 +760,7 @@ export default class Animations {
                 ease: this.ease.power2Out,
             })
         }
+
         this.scrollAnimations.contactComplete = () => {
                 gsap.to(this.world.astronautContainer.position, {
                     x: 2.209,
