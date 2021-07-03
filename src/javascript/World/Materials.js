@@ -139,10 +139,6 @@ export default class Materials {
     }
 
     setPodDoorMaterial() {
-        this.debugObject.dooruColor = "#020000",
-        this.debugObject.dooruRimColor = "#780707",
-        this.debugObject.timeValue = 1000,
-
         
         this.items.doorMaterial = new ShaderMaterial({
             uniforms: {
@@ -170,6 +166,11 @@ export default class Materials {
         })
 
         if (this.debug) {
+
+            this.debugObject.dooruColor = "#020000"
+            this.debugObject.dooruRimColor = "#780707"
+            this.debugObject.timeValue = 1000
+
             this.doorHoloFolder = this.debug.addFolder("Door Holo")
             // this.holoFolder.open()
             this.doorHoloFolder.add(this.items.doorMaterial.uniforms.uGlitchSpeed, 'value', 0, 3, 0.01).name("GlitchSpeed")
@@ -200,10 +201,6 @@ export default class Materials {
     }
 
     setContactLogoMaterial() {
-        this.debugObject.logouColor = "#0000ff",
-        this.debugObject.logouRimColor = "#009b52",
-        this.debugObject.logoBeamuColor = "#0000ff",
-        this.debugObject.logoBeamuRimColor = "#009b52",
         
         this.items.logoHoloMaterial = new ShaderMaterial({
             uniforms: {
@@ -231,6 +228,11 @@ export default class Materials {
         })
 
         if (this.debug) {
+            this.debugObject.logouColor = "#0000ff"
+        this.debugObject.logouRimColor = "#009b52"
+        this.debugObject.logoBeamuColor = "#0000ff"
+        this.debugObject.logoBeamuRimColor = "#009b52"
+
             this.contactLogoFolder = this.debug.addFolder("Contact Logo Holos")
             // this.holoFolder.open()
             this.contactLogoFolder.add(this.items.logoHoloMaterial.uniforms.uGlitchSpeed, 'value', 0, 3, 0.01).name("GlitchSpeed")
