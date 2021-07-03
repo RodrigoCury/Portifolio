@@ -53,6 +53,7 @@ export default class Animations {
         this.animateCamera()
         this.animateScrollDownDiv()
         this.setLoadingPage()
+        this.setScrollAnimations()
     }    
     
     setLoadingPage(){
@@ -228,14 +229,6 @@ export default class Animations {
     }
 
     setAnimationsProps() {
-
-        function percentToPixelWidth(_elem, _perc){
-            return (_elem.parentNode.offsetWidth/100) * parseFloat(_perc);
-          }
-        function percentToPixelHeight(_elem, _perc){
-            return (_elem.parentNode.offsetHeight/100) * parseFloat(_perc);
-          }
-
         this.animationsProps = [
             {
                 name: 'welcomeDiv',
@@ -243,26 +236,8 @@ export default class Animations {
                 position: new Vector3(0, 6, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: 1.5,
-                onStart: () => {
-                        gsap.to(this.world.astronautContainer.position, {
-                            x: 3.442,
-                            y: 6,
-                            z: -1.669,
-                            duration: this.animationsProps[0].duration * 2,
-                            ease: this.ease.power2InOut,
-                        })
-                        gsap.to(this.world.astronautContainer.rotation, {
-                            x: 0,
-                            y: -1.639,
-                            z: 0,
-                            duration: this.animationsProps[0].duration * 2,
-                            ease: this.ease.power2InOut,
-                        })
-                },
-                onComplete: () => {
-
-                },
+                duration: .25,
+                onStart: this.scrollAnimations.welcomeDivStart,
             },
             {
                 name: 'homeDiv',
@@ -270,26 +245,8 @@ export default class Animations {
                 position: new Vector3(0, 2, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: 1.5,
-                onStart: () => {
-                    gsap.to(this.world.astronautContainer.position, {
-                        x: 0,
-                        y: 2,
-                        z: -2.925,
-                        duration: this.animationsProps[1].duration * 2,
-                        ease: this.ease.power2InOut,
-                    })
-                    gsap.to(this.world.astronautContainer.rotation, {
-                        x: 0,
-                        y: -0.859,
-                        z: 0,
-                        duration: this.animationsProps[1].duration * 2,
-                        ease: this.ease.power2InOut,
-                    })
-                },
-                onComplete: () => {
-    
-                },
+                duration: .25,
+                onStart: this.scrollAnimations.homeDivStart,
             },
             {
                 name: 'whoami',
@@ -297,26 +254,8 @@ export default class Animations {
                 position: new Vector3(0, -2, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: 1.5,
-                onStart: () => {
-                    gsap.to(this.world.astronautContainer.position, {
-                        x: 3.606,
-                        y: -0.468,
-                        z: 1.033,
-                        duration: this.animationsProps[2].duration * 2,
-                        ease: this.ease.power2InOut,
-                    })
-                    gsap.to(this.world.astronautContainer.rotation, {
-                        x: -0.303,
-                        y: -2.136,
-                        z: 0,
-                        duration: this.animationsProps[2].duration * 2,
-                        ease: this.ease.power2InOut,
-                    })
-                },
-                onComplete: () => {
-    
-                },
+                duration: .25,
+                onStart: this.scrollAnimations.whoamiStart,
             },
             {
                 name: 'whatido',
@@ -324,26 +263,8 @@ export default class Animations {
                 position: new Vector3(0, -6, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: 1.5,
-                onStart: () => {
-                    gsap.to(this.world.astronautContainer.position, {
-                        x: -2.829,
-                        y: -3.852,
-                        z: -0.296,
-                        duration: this.animationsProps[3].duration * 2,
-                        ease: this.ease.power2InOut,
-                    })
-                    gsap.to(this.world.astronautContainer.rotation, {
-                        x: 0.484,
-                        y: 1.516,
-                        z: 2.252,
-                        duration: this.animationsProps[3].duration * 2,
-                        ease: this.ease.power2InOut,
-                    })
-                },
-                onComplete: () => {
-    
-                },
+                duration: .25,
+                onStart: this.scrollAnimations.whatidoStart,
             },
             {
                 name: 'aboutme',
@@ -351,26 +272,8 @@ export default class Animations {
                 position: new Vector3(0, -10, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: 1.5,
-                onStart: () => {
-                    gsap.to(this.world.astronautContainer.position, {
-                        x: 1.239,
-                        y: -12.853,
-                        z: -2.198,
-                        duration: this.animationsProps[4].duration * 3,
-                        ease: this.ease.power2InOut,
-                    })
-                    gsap.to(this.world.astronautContainer.rotation, {
-                        x: -0.967,
-                        y: -0.706,
-                        z: 0,
-                        duration: this.animationsProps[4].duration * 3,
-                        ease: this.ease.elastic(1, 0.6),
-                    })
-                },
-                onComplete: () => {
-    
-                },
+                duration: .25,
+                onStart: this.scrollAnimations.aboutmeStart,
             },
             {
                 name: 'technologies',
@@ -378,60 +281,10 @@ export default class Animations {
                 position: new Vector3(0, -20, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: 1.5,
-                onStart: () => {
-                    gsap.to(this.world.astronautContainer.position, {
-                        x: -9.228,
-                        y: -21.278,
-                        z: -7.139,
-                        duration: this.animationsProps[5].duration * 3,
-                        ease: this.ease.power2Out,
-                    })
-                    gsap.to(this.world.astronautContainer.rotation, {
-                        x: 0,
-                        y: 0.215,
-                        z: 0,
-                        duration: this.animationsProps[5].duration * 4,
-                        ease: this.ease.elastic(1, 0.6),
-                    })
-                },
-                onComplete: () => {
-                    let loops = 0
-                    let to = () => {
-                        gsap.to(this.DOM.mouseMove, {
-                            left: percentToPixelWidth(this.DOM.mouseMove, 75),
-                            duration: .5,
-                            yoyo: true,
-                            ease: this.ease.linear,
-                            onComplete: () => {
-                                if (loops >= 3) {
-                                    gsap.to(this.DOM.mouseMove.parentNode, {
-                                        opacity: 0,
-                                        duration : 2,
-                                    })
-                                } else {
-                                    loops++
-                                    from()
-                                }
-                            }
-                            
-                        })
-
-                    }
-                    let from = () => {
-                        gsap.to(this.DOM.mouseMove, {
-                            left: percentToPixelWidth(this.DOM.mouseMove, 25),
-                            duration: .5,
-                            ease: this.ease.linear,
-                            onComplete: () => to()
-                        })
-                    }
-                    gsap.to(this.DOM.mouseMove.parentNode, {
-                        opacity: 1,
-                        duration : 1,
-                    })
-                    to()
-                }
+                duration: .25,
+                visitedFlag: false, // To not show animation when revisiting
+                onStart: this.scrollAnimations.technologiesStart,
+                onComplete: this.scrollAnimations.technologiesComplete,
             },
             {
                 name: 'projects',
@@ -440,32 +293,7 @@ export default class Animations {
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
                 duration: 3,
-                onStart: () => {
-                    gsap.to(this.world.astronautContainer.position, {
-                        x: 15.000,
-                        y: -35.278,
-                        z: 0,
-                        duration: this.animationsProps[6].duration * 2,
-                        ease: this.ease.power2Out,
-                    })
-                    gsap.to(this.world.astronautContainer.rotation, {
-                        x: 0,
-                        y: 0,
-                        z: 0,
-                        duration: this.animationsProps[6].duration ,
-                        ease: this.ease.elastic(1, 0.6),
-                    })
-                    gsap.to(this.world.astronautContainer.scale, {
-                        x: 1,
-                        y: 1,
-                        z: 1,
-                        duration: this.animationsProps[6].duration * 2,
-                        ease: this.ease.power2Out,
-                    })
-                },
-                onComplete: () => {
-    
-                },
+                onStart: this.scrollAnimations.projectsStart,
             },
             {
                 name: 'madeWith',
@@ -473,33 +301,17 @@ export default class Animations {
                 position: new Vector3(0, -45, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: 1.5,
-                onStart: () => {
-                    gsap.to(this.world.astronautContainer.position, {
-                        x: -3.6,
-                        y: -45.912,
-                        z: 0,
-                        duration: this.animationsProps[6].duration * 2,
-                        ease: this.ease.power2Out,
-                    })
-                    gsap.to(this.world.astronautContainer.rotation, {
-                        x: 1.244,
-                        y: 0.432,
-                        z: -1.565,
-                        duration: this.animationsProps[6].duration * 5 ,
-                        ease: this.ease.elastic(1, 0.6),
-                    })
-                    gsap.to(this.world.astronautContainer.scale, {
-                        x: 0.25,
-                        y: 0.25,
-                        z: 0.25,
-                        duration: this.animationsProps[6].duration * 2,
-                        ease: this.ease.power2Out,
-                    })
-                },
-                onComplete: () => {
-    
-                },
+                duration: .25,
+                onStart: this.scrollAnimations.madeWithStart,
+            },
+            {
+                name: 'contact',
+                element: this.DOM.contact,
+                position: new Vector3(0, -55, 0),
+                rotation: Math.PI / 4,
+                ease: this.ease.slow,
+                duration: .25,
+                onStart: this.scrollAnimations.contactStart,
             },
         ]
 
@@ -688,5 +500,240 @@ export default class Animations {
                 setTimeout(() => animate(w), 0 + (duration / (arr.length -1) * (idx + 1) * 1000));
             })(wave, i, array);
         })
+    }
+
+    setScrollAnimations() {
+        this.scrollAnimations = {}
+        
+        this.scrollAnimations.welcomeDivStart = () => {
+            gsap.to(this.world.astronautContainer.position, {
+                x: 3.442,
+                y: 6,
+                z: -1.669,
+                duration: this.animationsProps[0].duration * 2,
+                ease: this.ease.power2InOut,
+            })
+            gsap.to(this.world.astronautContainer.rotation, {
+                x: 0,
+                y: -1.639,
+                z: 0,
+                duration: this.animationsProps[0].duration * 2,
+                ease: this.ease.power2InOut,
+            })
+        }
+        this.scrollAnimations.homeDivStart = () => {
+            gsap.to(this.world.astronautContainer.position, {
+                x: 0,
+                y: 2,
+                z: -2.925,
+                duration: this.animationsProps[1].duration * 2,
+                ease: this.ease.power2InOut,
+            })
+            gsap.to(this.world.astronautContainer.rotation, {
+                x: 0,
+                y: -0.859,
+                z: 0,
+                duration: this.animationsProps[1].duration * 2,
+                ease: this.ease.power2InOut,
+            })
+        }
+        this.scrollAnimations.whoamiStart = () => {
+            gsap.to(this.world.astronautContainer.position, {
+                x: 3.606,
+                y: -0.468,
+                z: 1.033,
+                duration: this.animationsProps[2].duration * 2,
+                ease: this.ease.power2InOut,
+            })
+            gsap.to(this.world.astronautContainer.rotation, {
+                x: -0.303,
+                y: -2.136,
+                z: 0,
+                duration: this.animationsProps[2].duration * 2,
+                ease: this.ease.power2InOut,
+            })
+        }
+        this.scrollAnimations.whatidoStart = () => {
+            gsap.to(this.world.astronautContainer.position, {
+                x: -2.829,
+                y: -3.852,
+                z: -0.296,
+                duration: this.animationsProps[3].duration * 2,
+                ease: this.ease.power2InOut,
+            })
+            gsap.to(this.world.astronautContainer.rotation, {
+                x: 0.484,
+                y: 1.516,
+                z: 2.252,
+                duration: this.animationsProps[3].duration * 2,
+                ease: this.ease.power2InOut,
+            })
+        }
+        this.scrollAnimations.aboutmeStart = () => {
+            gsap.to(this.world.astronautContainer.position, {
+                x: 1.239,
+                y: -12.853,
+                z: -2.198,
+                duration: this.animationsProps[4].duration * 3,
+                ease: this.ease.power2InOut,
+            })
+            gsap.to(this.world.astronautContainer.rotation, {
+                x: -0.967,
+                y: -0.706,
+                z: 0,
+                duration: this.animationsProps[4].duration * 3,
+                ease: this.ease.elastic(1, 0.6),
+            })
+        }
+        this.scrollAnimations.technologiesStart = () => {
+            gsap.to(this.world.astronautContainer.position, {
+                x: -9.228,
+                y: -21.278,
+                z: -7.139,
+                duration: this.animationsProps[5].duration * 3,
+                ease: this.ease.power2Out,
+            })
+            gsap.to(this.world.astronautContainer.rotation, {
+                x: 0,
+                y: 0.215,
+                z: 0,
+                duration: this.animationsProps[5].duration * 4,
+                ease: this.ease.elastic(1, 0.6),
+            })
+
+        }
+        this.scrollAnimations.technologiesComplete = () => {
+
+            // Check if has been visited
+            if(this.animationsProps[5].visitedFlag) {
+                return
+            }
+
+            this.animationsProps[5].visitedFlag = true
+            
+            // Remove Hint to hover Move Opacity
+            gsap.to(this.DOM.mouseMove.parentNode, {
+                opacity: 1,
+                duration : 1,
+            })
+            
+            // Set Numbers of loops that animation Repeat
+            let loops = 3
+            
+            // Gsap integrated Yoyo doesn't look good so... Jenk way to do it
+            let leftToRigth = () => {
+                gsap.to(this.DOM.mouseMove, {
+                    left: this.helperFunctions.percentToPixelWidth(this.DOM.mouseMove, 75),
+                    duration: .5,
+                    ease: this.ease.linear,
+                    onComplete: () => {
+                        // Check if it must stop
+                        if (loops == 0) {
+                            // Hides the DIV
+                            gsap.to(this.DOM.mouseMove.parentNode, {
+                                opacity: 0,
+                                duration : 2,
+                            })
+
+                        } else {
+                            // Keeps Recursion Going
+                            loops--
+                            rigthToLeft()
+                        }
+                    }
+                })
+            }
+
+            let rigthToLeft = () => {
+                gsap.to(this.DOM.mouseMove, {
+                    left: this.helperFunctions.percentToPixelWidth(this.DOM.mouseMove, 25),
+                    duration: .5,
+                    ease: this.ease.linear,
+                    onComplete: leftToRigth
+                })
+            }
+
+            // Starts loops
+            leftToRigth()
+        }
+        this.scrollAnimations.projectsStart = () => {
+            gsap.to(this.world.astronautContainer.position, {
+                x: 15.000,
+                y: -35.278,
+                z: 0,
+                duration: this.animationsProps[6].duration * 2,
+                ease: this.ease.power2Out,
+            })
+            gsap.to(this.world.astronautContainer.rotation, {
+                x: 0,
+                y: 0,
+                z: 0,
+                duration: this.animationsProps[6].duration ,
+                ease: this.ease.elastic(1, 0.6),
+            })
+            gsap.to(this.world.astronautContainer.scale, {
+                x: 1,
+                y: 1,
+                z: 1,
+                duration: this.animationsProps[6].duration * 2,
+                ease: this.ease.power2Out,
+            })
+        }
+        this.scrollAnimations.madeWithStart = () => {
+            gsap.to(this.world.astronautContainer.position, {
+                x: -3.6,
+                y: -45.912,
+                z: 0,
+                duration: this.animationsProps[6].duration * 2,
+                ease: this.ease.power2Out,
+            })
+            gsap.to(this.world.astronautContainer.rotation, {
+                x: 1.244,
+                y: 0.432,
+                z: -1.565,
+                duration: this.animationsProps[6].duration * 5 ,
+                ease: this.ease.elastic(1, 0.6),
+            })
+            gsap.to(this.world.astronautContainer.scale, {
+                x: 0.25,
+                y: 0.25,
+                z: 0.25,
+                duration: this.animationsProps[6].duration * 2,
+                ease: this.ease.power2Out,
+            })
+        }
+        this.scrollAnimations.contactStart = () => {
+                gsap.to(this.world.astronautContainer.position, {
+                    x: 2.209,
+                    y: -57.49,
+                    z: 8.768,
+                    duration: this.animationsProps[6].duration * 2,
+                    ease: this.ease.power2Out,
+                })
+                gsap.to(this.world.astronautContainer.rotation, {
+                    x: 0,
+                    y: 1.502,
+                    z: 0,
+                    duration: this.animationsProps[6].duration * 5 ,
+                    ease: this.ease.elastic(1, 0.6),
+                })
+                gsap.to(this.world.astronautContainer.scale, {
+                    x: 1,
+                    y: 1,
+                    z: 1,
+                    duration: this.animationsProps[6].duration * 2,
+                    ease: this.ease.power2Out,
+                })
+        }
+
+        this.helperFunctions = {
+
+        percentToPixelWidth: (_elem, _perc) => {
+            return (_elem.parentNode.offsetWidth/100) * parseFloat(_perc);
+          },
+        percentToPixelHeight: (_elem, _perc) => {
+            return (_elem.parentNode.offsetHeight/100) * parseFloat(_perc);
+          },
+        }
     }
 }
