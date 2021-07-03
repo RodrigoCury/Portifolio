@@ -22,7 +22,7 @@ export default class Sounds {
         this.setMasterVolume()
     }
 
-    setSettings(){
+    setSettings() {
         this.settings = [
             {
                 name: 'loadAmbientSounds',
@@ -37,7 +37,7 @@ export default class Sounds {
                 loop: true,
             },
             {
-                name:'loadingBar',
+                name: 'loadingBar',
                 sounds: [loadingBar],
                 minDelta: 100,
                 velocityMin: 0,
@@ -143,7 +143,7 @@ export default class Sounds {
                 rateMin: 1,
                 rateMax: 1,
                 loop: false,
-                onend : () => this.play('dreamyPiano'),
+                onend: () => this.play('dreamyPiano'),
             },
             {
                 name: 'dreamyPiano',
@@ -156,14 +156,14 @@ export default class Sounds {
                 rateMin: 1,
                 rateMax: 1,
                 loop: false,
-                onend : () => this.play('theJourney'),
+                onend: () => this.play('theJourney'),
             }
         ]
 
         this.settings.forEach(_setting => this.add(_setting))
     }
 
-    setMasterVolume(){
+    setMasterVolume() {
         // Set up
         this.masterVolume = 0.5
         Howler.volume(this.masterVolume)
@@ -175,14 +175,14 @@ export default class Sounds {
     }
 
 
-    setMute(){
+    setMute() {
         // Set up
         this.muted = typeof this.debug !== 'undefined'
         Howler.mute(this.muted)
 
         // Tab focus / blur
         document.addEventListener('visibilitychange', () => {
-            if(document.hidden) {
+            if (document.hidden) {
                 Howler.mute(true)
             } else {
                 Howler.mute(this.muted)
@@ -191,21 +191,21 @@ export default class Sounds {
 
     }
 
-    mute(){
+    mute() {
         this.muted = true
         Howler.mute(this.muted)
     }
-    unmute(){
+    unmute() {
         this.muted = false
         Howler.mute(this.muted)
     }
 
-    play(_name, _velocity){
+    play(_name, _velocity) {
         const item = this.items.find((_item) => _item.name === _name)
         const time = Date.now()
         const velocity = typeof _velocity === 'undefined' ? 0 : _velocity
 
-        if(item && time > item.lastTime + item.minDelta && (item.velocityMin === 0 || velocity > item.velocityMin)) {
+        if (item && time > item.lastTime + item.minDelta && (item.velocityMin === 0 || velocity > item.velocityMin)) {
             // Find random sound
             const sound = item.sounds[Math.floor(Math.random() * item.sounds.length)]
 
@@ -243,7 +243,7 @@ export default class Sounds {
         _options.sounds.forEach(sound => {
             item.sounds.push(
                 new Howl({
-                    src: [sound], 
+                    src: [sound],
                     loop: _options.loop,
                     onend: typeof _options.onend === 'function' ? _options.onend : undefined,
                 })
@@ -253,10 +253,10 @@ export default class Sounds {
         this.items.push(item)
     }
 
-    stop(_name, _fade,){
+    stop(_name, _fade,) {
         const item = this.items.find(_item => _item.name === _name)
 
-        if(typeof _fade !== 'undefined'){
+        if (typeof _fade !== 'undefined') {
             item.sounds.forEach(_sound => _sound.fade(1.0, 0.0, _fade))
         } else {
             item.sounds.forEach(_sound => _sound.stop())

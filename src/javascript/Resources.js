@@ -83,10 +83,10 @@ export default class Resources extends EventEmitter {
 
             // EnvMaps
             { name: 'envMap', source: [px, nx, py, ny, pz, nz], type: 'cubeTexture' },
-            
+
             // Textures
             { name: 'starAlphaMap', source: starAlphaMap, type: 'texture' },
-            
+
 
             // Images
 
@@ -112,12 +112,12 @@ export default class Resources extends EventEmitter {
             { name: 'astronaut', source: astronaut },
             { name: 'astronautRigged', source: astronautRigged },
             { name: 'notebook', source: notebook },
-            { name: 'microscope', source:microscope },
-            { name: 'books', source:books },
-            { name: 'headphone', source:headphone },
-            { name: 'camera', source:camera },
-            { name: 'shipwreck', source:shipwreck },
-            { name: 'pod', source:pod },
+            { name: 'microscope', source: microscope },
+            { name: 'books', source: books },
+            { name: 'headphone', source: headphone },
+            { name: 'camera', source: camera },
+            { name: 'shipwreck', source: shipwreck },
+            { name: 'pod', source: pod },
         ])
 
         this.trigger("startLoad")

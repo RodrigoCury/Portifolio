@@ -37,7 +37,7 @@ export default class Raycasting {
         this.mouseIsOn = undefined
 
         this.mouseClick = {
-            eMail: () => {window.location.href='mailto:rodrigocury@ufu.br'},
+            eMail: () => { window.location.href = 'mailto:rodrigocury@ufu.br' },
             linkedIn: () => window.open('https://www.linkedin.com/in/rodrigo-cury-almeida-baptista-353bb31a5/', '_blank', 'noopener noreferrer'),
             gitHub: () => window.open('https://github.com/RodrigoCury', '_blank', 'noopener noreferrer'),
         }
@@ -51,7 +51,7 @@ export default class Raycasting {
                  */
 
                 // Only On tech pages
-                if (this.config.screenIsOn == 'technologies'){
+                if (this.config.screenIsOn == 'technologies') {
                     this.raycaster.setFromCamera(this.mouse, this.camera.instance)
                     const intersect = this.raycaster.intersectObject(this.world.logosArea, true)
 
@@ -70,7 +70,7 @@ export default class Raycasting {
                 }
 
                 // Only on contact Page
-                if(this.config.screenIsOn === 'contact'){
+                if (this.config.screenIsOn === 'contact') {
                     this.raycaster.setFromCamera(this.mouse, this.camera.instance)
                     const intersect = this.raycaster.intersectObject(this.world.contactArea, true)
 

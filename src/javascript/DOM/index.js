@@ -45,7 +45,7 @@ export default class DOM {
         this.exitLoadBtn = document.querySelector('.exit-load-btn')
         this.whiteout = document.querySelector('.loading-whiteout')
         this.enterSiteBtn = document.querySelector('.enter-site')
-        
+
         // Major containers
         this.homeDiv = document.querySelector('.homepage')
         this.whoami = [...document.querySelectorAll('.whoami-container')]
@@ -54,11 +54,11 @@ export default class DOM {
         this.modal = [...document.querySelectorAll(".modal-bg")]
         this.madeWith = document.querySelector('.made-with-container')
         this.contact = document.querySelector('.contact-container')
-        
+
         // Btn
         this.mutebtn = document.querySelector('.mute-btn')
         this.unmutebtn = document.querySelector('.unmute-btn')
-        
+
         // Elements to Animate
         this.scrollDown = document.querySelector('.scroll-down')
         this.mouseMove = document.querySelector('.mouse-move')
@@ -114,7 +114,7 @@ export default class DOM {
                 position: new Vector3(0, -57, 0)
             },
         ]
-        
+
         this.modals = [
             {
                 name: 'coin-info',
@@ -135,13 +135,13 @@ export default class DOM {
 
     }
 
-    setupModals(){
+    setupModals() {
         this.openModalBtns = [
             document.getElementById('coin-info'),
             document.getElementById('bioinformatizado-info'),
             document.getElementById('bioinfo-project-info'),
         ]
-        
+
         this.closeModalBtns = [
             document.getElementById('coin-quit'),
             document.getElementById('bioinformatizado-quit'),
@@ -149,18 +149,18 @@ export default class DOM {
         ]
     }
 
-    setupCarousels(){
+    setupCarousels() {
         this.coinSlidePos = 0
         this.bioinformatizadoSlidePos = 0
         this.biInfoPSlidePos = 0
-        
+
         // Carousel Buttons
         this.coinBack = document.querySelector("#coin-back")
         this.coinForward = document.querySelector("#coin-forward")
-        
+
         this.bioinformatizadoBack = document.querySelector("#bioinformatizado-back")
         this.bioinformatizadoForward = document.querySelector("#bioinformatizado-forward")
-        
+
         this.bioInfoPBack = document.querySelector("#bioinfop-back")
         this.bioInfoPForward = document.querySelector("#bioinfop-forward")
 
@@ -168,16 +168,16 @@ export default class DOM {
         this.coinSlides = [...document.getElementsByClassName("modal-img-coin")]
         this.bioinsformatizadoSlides = [...document.getElementsByClassName("modal-img-bioinformatizado")]
         this.bioIndoPSlides = [...document.getElementsByClassName("modal-img-bioinfop")]
-        
+
         // Self For Event Scope problems
         const self = this
-        
+
         // Slides Function
         this.slideShow = (position, slides, n) => {
             self[position] += n
-            if (self[position] > slides.length - 1){
+            if (self[position] > slides.length - 1) {
                 self[position] = 0
-            } else if(self[position] < 0){
+            } else if (self[position] < 0) {
                 self[position] = slides.length - 1
             }
             console.log(self[position], slides, n);
@@ -193,11 +193,11 @@ export default class DOM {
         this.bioInfoPForward.onclick = () => this.slideShow('biInfoPSlidePos', this.bioIndoPSlides, 1)
     }
 
-    setupMutebtns(){
+    setupMutebtns() {
         // M Key
         window.addEventListener('keydown', (_event) => {
-            if(_event.key === 'm') {
-                if(!this.sounds.muted){
+            if (_event.key === 'm') {
+                if (!this.sounds.muted) {
                     this.mutebtn.onclick()
                 } else {
                     this.unmutebtn.onclick()

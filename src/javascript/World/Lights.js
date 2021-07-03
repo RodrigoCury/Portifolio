@@ -44,11 +44,11 @@ export default class Lights {
         }
         this.container.add(this.items.ambientlight)
     }
-    
+
     setDirectionalLight() {
         this.items.directionalLight = new THREE.DirectionalLight(this.colors.white, 1)
-        this.items.directionalLight.position.set(-3,4,3)
-        
+        this.items.directionalLight.position.set(-3, 4, 3)
+
         if (this.debug) {
             this.debugFolder.add(this.items.directionalLight, 'intensity', 0, 5, 0.001).name("Ambient intensity")
         }

@@ -2,11 +2,11 @@ import gsap from 'gsap'
 import { Vector2, Vector3 } from 'three'
 
 export default class Animations {
- 
+
     /**
      * Constructot
      */
-    
+
     constructor(_options) {
         // Options
         this.camera = _options.camera
@@ -43,32 +43,32 @@ export default class Animations {
         this.setScrollAnimations()
         this.animateScrollDownDiv()
         this.setLoadingPage()
-    }    
-    
-    setLoadingPage(){
-        
+    }
+
+    setLoadingPage() {
+
         this.onReady = () => {
-        this.DOM.loadTexts.innerHTML = 'Pronto para Decolar'
-        this.DOM.loadBar.classList.add('hide')
-        this.DOM.exitLoadBtn.classList.remove('hide')
+            this.DOM.loadTexts.innerHTML = 'Pronto para Decolar'
+            this.DOM.loadBar.classList.add('hide')
+            this.DOM.exitLoadBtn.classList.remove('hide')
         }
-    
+
         this.exitBtnClick = async () => {
             this.sounds.play('btnBeep')
             this.DOM.exitLoadBtn.classList.add('hide')
-            this.DOM.loadTexts.style.opacity=0
+            this.DOM.loadTexts.style.opacity = 0
             gsap.to(this.DOM.loadTexts.style, {
                 onStart: () => {
                     this.sounds.play('liftoff')
                     this.DOM.loadTexts.innerHTML = "Decolando"
                     this.DOM.loadTexts.classList.add('load-texts-bigger')
-                },    
+                },
                 opacity: 1,
                 duration: 1,
                 ease: 'circ.in',
                 onComplete: () => this.startWarnings()
-            })    
-        }    
+            })
+        }
 
         this.startWarnings = async () => {
             setTimeout(() => {
@@ -108,7 +108,7 @@ export default class Animations {
 
         this.exitLoadPage = async () => {
             this.DOM.loadingPage.classList.add('hide'),
-            this.DOM.enterSiteBtn.disabled = true
+                this.DOM.enterSiteBtn.disabled = true
             setTimeout(() => {
                 gsap.to(this.DOM.whiteout.style, {
                     opacity: 0,
@@ -136,7 +136,7 @@ export default class Animations {
                     })
                 }, 1500)
             })
-            
+
             this.setControls()
             this.setEventListeners()
         }
@@ -159,14 +159,14 @@ export default class Animations {
 
         this.sounds.play('loadAmbientSounds')
 
-        if (this.resources.isLoading){
+        if (this.resources.isLoading) {
             this.sounds.play('loadingBar')
-        }else{
+        } else {
             this.resources.on('startLoad', () => {
             })
         }
 
- 
+
         this.resources.on('progress', progress => {
             this.DOM.loadTexts.innerHTML = textList[Math.floor(progress * 10)]
             this.DOM.loadBar.style.width = `${progress * 60}%`
@@ -179,8 +179,8 @@ export default class Animations {
                 ease: 'circ.out',
                 onComplete: () => this.onReady()
             })
-            
-            
+
+
         })
 
         this.DOM.exitLoadBtn.onclick = () => this.exitBtnClick()
@@ -199,14 +199,14 @@ export default class Animations {
                     onStart: _props.onStart,
                     onComplete: _props.onComplete,
                 })
-                
+
                 // Move Camera
                 gsap.to(this.camera.instance.position, {
                     y: _props.position.y,
                     duration: _props.duration,
                     ease: _props.ease,
                 })
-                
+
                 // Move Camera Target
                 gsap.to(this.camera.target, {
                     y: _props.position.y,
@@ -332,7 +332,7 @@ export default class Animations {
                     // return if it is off constraints so it does not remove event listener
                     return
                 }
-                
+
             } else {
                 if (self.IDX !== self.MAX_INDEX) {
                     self.IDX++
@@ -345,7 +345,7 @@ export default class Animations {
 
             self.moveMouseFlag = false
             self.animations.moveCamera(self.animationsProps[self.IDX])
-            
+
 
             // remove window event listener so the animations does not overlap
             window.removeEventListener('wheel', _wheel, true)
@@ -354,7 +354,7 @@ export default class Animations {
             setTimeout(() => {
                 window.addEventListener('wheel', _wheel, true)
             },
-            self.animationsProps[self.IDX].duration * 1000
+                self.animationsProps[self.IDX].duration * 1000
             ) // Seconds for Timeout
         }
 
@@ -362,9 +362,9 @@ export default class Animations {
 
         this.DOM.openModalBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-              let modal = this.DOM.modals.find(item => item.name === btn.id)
-              modal.element.classList.toggle('hide')
-              this.DOM.projects.classList.toggle('hide')
+                let modal = this.DOM.modals.find(item => item.name === btn.id)
+                modal.element.classList.toggle('hide')
+                this.DOM.projects.classList.toggle('hide')
             })
         })
 
@@ -400,7 +400,7 @@ export default class Animations {
         })
     }
 
-    animateCamera(){
+    animateCamera() {
         this.mouse = new Vector2()
 
         this.containersToMove = [
@@ -412,45 +412,45 @@ export default class Animations {
         ]
 
         this.time.on('tick', () => {
-            this.camera.instance.position.x= Math.sin(this.camera.rotationAngle + this.mouse.x) * this.camera.distance,
-            this.camera.instance.position.z= Math.cos(this.camera.rotationAngle + this.mouse.x) * this.camera.distance,
-            this.camera.instance.lookAt(this.camera.target)
+            this.camera.instance.position.x = Math.sin(this.camera.rotationAngle + this.mouse.x) * this.camera.distance,
+                this.camera.instance.position.z = Math.cos(this.camera.rotationAngle + this.mouse.x) * this.camera.distance,
+                this.camera.instance.lookAt(this.camera.target)
 
             this.containersToMove.forEach(container => {
                 container.rotation.x = this.mouse.y
                 container.rotation.z = -this.mouse.y
             })
         })
-        
+
         window.onmousemove = event => {
             gsap.to(this.mouse, {
-                x: ((event.clientX / this.sizes.width)-0.5) * 0.125,
-                y: -((event.clientY / this.sizes.height)-0.5) * 0.05,
+                x: ((event.clientX / this.sizes.width) - 0.5) * 0.125,
+                y: -((event.clientY / this.sizes.height) - 0.5) * 0.05,
                 duration: 0.5,
                 ease: this.ease.linear,
             })
         }
     }
 
-    animateScrollDownDiv(){
+    animateScrollDownDiv() {
         const down = () => {
-            gsap.to('.scroll-down', 
+            gsap.to('.scroll-down',
                 {
                     top: 29,
                     duration: 1,
                     ease: this.ease.power3Out,
-                    onComplete : () => up()
+                    onComplete: () => up()
                 }
             )
         }
-        
+
         const up = () => {
-            gsap.to('.scroll-down', 
+            gsap.to('.scroll-down',
                 {
                     top: 2,
                     duration: 1,
                     ease: this.ease.power3Out,
-                    onComplete : () => down()
+                    onComplete: () => down()
                 }
             )
         }
@@ -472,7 +472,7 @@ export default class Animations {
                 duration: 5,
                 ease: this.ease.power2in,
                 onComplete: () => {
-                    wave.position.set(3.2,-1.22,0)
+                    wave.position.set(3.2, -1.22, 0)
                     animate(wave);
                 }
             })
@@ -482,21 +482,21 @@ export default class Animations {
                 duration: 5,
                 ease: this.ease.power2in,
                 onComplete: () => {
-                    wave.scale.set(1,1,1)
+                    wave.scale.set(1, 1, 1)
                 }
             })
 
         }
-        this.world.radioWaves.forEach((wave, i ,array) => {
-            (function(w, idx, arr) {
-                setTimeout(() => animate(w), 0 + (duration / (arr.length -1) * (idx + 1) * 1000));
+        this.world.radioWaves.forEach((wave, i, array) => {
+            (function (w, idx, arr) {
+                setTimeout(() => animate(w), 0 + (duration / (arr.length - 1) * (idx + 1) * 1000));
             })(wave, i, array);
         })
     }
 
     setScrollAnimations() {
         this.scrollAnimations = {}
-        
+
         this.scrollAnimations.welcomeDivStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: -2.01,
@@ -603,21 +603,21 @@ export default class Animations {
         this.scrollAnimations.technologiesComplete = () => {
 
             // Check if has been visited
-            if(this.animationsProps[5].visitedFlag) {
+            if (this.animationsProps[5].visitedFlag) {
                 return
             }
 
             this.animationsProps[5].visitedFlag = true
-            
+
             // Remove Hint to hover Move Opacity
             gsap.to(this.DOM.mouseMove.parentNode, {
                 opacity: 1,
-                duration : 1,
+                duration: 1,
             })
-            
+
             // Set Numbers of loops that animation Repeat
             let loops = 3
-            
+
             // Gsap integrated Yoyo doesn't look good so... Jenk way to do it
             let leftToRigth = () => {
                 gsap.to(this.DOM.mouseMove, {
@@ -630,7 +630,7 @@ export default class Animations {
                             // Hides the DIV
                             gsap.to(this.DOM.mouseMove.parentNode, {
                                 opacity: 0,
-                                duration : 2,
+                                duration: 2,
                             })
 
                         } else {
@@ -667,7 +667,7 @@ export default class Animations {
                 x: 0,
                 y: 0,
                 z: 0,
-                duration: this.animationsProps[6].duration ,
+                duration: this.animationsProps[6].duration,
                 ease: this.ease.elastic(1, 0.6),
             })
             gsap.to(this.world.astronautContainer.scale, {
@@ -692,7 +692,7 @@ export default class Animations {
                 x: 1.244,
                 y: 0.432,
                 z: -1.565,
-                duration: this.animationsProps[7].duration * 5 ,
+                duration: this.animationsProps[7].duration * 5,
                 ease: this.ease.elastic(1, 0.6),
             })
             gsap.to(this.world.astronautContainer.scale, {
@@ -718,7 +718,7 @@ export default class Animations {
                     ease: "elastic.out(1, 0.1)"
                 })
             }
-            
+
             const movePod = () => {
                 gsap.to(this.resources.items.pod.scene.position, {
                     x: -3.34,
@@ -736,7 +736,7 @@ export default class Animations {
                     ease: this.ease.power2Out
                 })
             }
-            
+
             gsap.to(this.world.astronautContainer.position, {
                 x: 2.209,
                 y: -55,
@@ -749,7 +749,7 @@ export default class Animations {
                 x: 0,
                 y: 1.502,
                 z: 0,
-                duration: this.animationsProps[8].duration * 5 ,
+                duration: this.animationsProps[8].duration * 5,
                 ease: this.ease.elastic(1, 0.6),
             })
             gsap.to(this.world.astronautContainer.scale, {
@@ -762,37 +762,37 @@ export default class Animations {
         }
 
         this.scrollAnimations.contactComplete = () => {
-                gsap.to(this.world.astronautContainer.position, {
-                    x: 2.209,
-                    y: -57.49,
-                    z: 8.768,
-                    duration: this.animationsProps[6].duration * 2,
-                    ease: this.ease.power2Out,
-                })
-                gsap.to(this.world.astronautContainer.rotation, {
-                    x: 0,
-                    y: 1.502,
-                    z: 0,
-                    duration: this.animationsProps[6].duration * 5 ,
-                    ease: this.ease.elastic(1, 0.6),
-                })
-                gsap.to(this.world.astronautContainer.scale, {
-                    x: 1,
-                    y: 1,
-                    z: 1,
-                    duration: this.animationsProps[6].duration * 2,
-                    ease: this.ease.power2Out,
-                })
+            gsap.to(this.world.astronautContainer.position, {
+                x: 2.209,
+                y: -57.49,
+                z: 8.768,
+                duration: this.animationsProps[6].duration * 2,
+                ease: this.ease.power2Out,
+            })
+            gsap.to(this.world.astronautContainer.rotation, {
+                x: 0,
+                y: 1.502,
+                z: 0,
+                duration: this.animationsProps[6].duration * 5,
+                ease: this.ease.elastic(1, 0.6),
+            })
+            gsap.to(this.world.astronautContainer.scale, {
+                x: 1,
+                y: 1,
+                z: 1,
+                duration: this.animationsProps[6].duration * 2,
+                ease: this.ease.power2Out,
+            })
         }
 
         this.helperFunctions = {
 
-        percentToPixelWidth: (_elem, _perc) => {
-            return (_elem.parentNode.offsetWidth/100) * parseFloat(_perc);
-          },
-        percentToPixelHeight: (_elem, _perc) => {
-            return (_elem.parentNode.offsetHeight/100) * parseFloat(_perc);
-          },
+            percentToPixelWidth: (_elem, _perc) => {
+                return (_elem.parentNode.offsetWidth / 100) * parseFloat(_perc);
+            },
+            percentToPixelHeight: (_elem, _perc) => {
+                return (_elem.parentNode.offsetHeight / 100) * parseFloat(_perc);
+            },
         }
     }
 }

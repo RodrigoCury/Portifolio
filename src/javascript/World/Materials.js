@@ -127,11 +127,11 @@ export default class Materials {
         })
     }
 
-    setPhongMaterial(){
+    setPhongMaterial() {
         const shader = FresnelShader
         const uniforms = UniformsUtils.clone(shader.uniforms)
         uniforms['tCube'].value = this.resources.items.envMap
-        this.items.phongMaterial = new ShaderMaterial( { 
+        this.items.phongMaterial = new ShaderMaterial({
             uniforms: uniforms,
             vertexShader: shader.vertexShader,
             fragmentShader: shader.fragmentShader,
@@ -139,7 +139,7 @@ export default class Materials {
     }
 
     setPodDoorMaterial() {
-        
+
         this.items.doorMaterial = new ShaderMaterial({
             uniforms: {
                 uTime: { value: this.time.elapsed },
@@ -147,7 +147,7 @@ export default class Materials {
                 uGlitchSpeed: { value: 0 },
                 uGlitchIntensity: { value: 0 },
                 uBarSpeed: { value: 1 },
-                uBarDistance: { value: 3500},
+                uBarDistance: { value: 3500 },
                 uAlpha: { value: 0.57 },
                 uFlickerSpeed: { value: 0.7 },
                 uRimColor: { value: new Color("#780707") },
@@ -201,7 +201,7 @@ export default class Materials {
     }
 
     setContactLogoMaterial() {
-        
+
         this.items.logoHoloMaterial = new ShaderMaterial({
             uniforms: {
                 uTime: { value: this.time.elapsed },
@@ -211,7 +211,7 @@ export default class Materials {
                 uBarSpeed: { value: 0.6 },
                 uBarDistance: { value: 1350 },
                 uAlpha: { value: 0 },
-                uFlickerSpeed: { value: 1},
+                uFlickerSpeed: { value: 1 },
                 uRimColor: { value: new Color("#009b52") },
                 uRimPower: { value: 2.4 },
                 uGlowDistance: { value: 0.5 },
@@ -229,9 +229,9 @@ export default class Materials {
 
         if (this.debug) {
             this.debugObject.logouColor = "#0000ff"
-        this.debugObject.logouRimColor = "#009b52"
-        this.debugObject.logoBeamuColor = "#0000ff"
-        this.debugObject.logoBeamuRimColor = "#009b52"
+            this.debugObject.logouRimColor = "#009b52"
+            this.debugObject.logoBeamuColor = "#0000ff"
+            this.debugObject.logoBeamuRimColor = "#009b52"
 
             this.contactLogoFolder = this.debug.addFolder("Contact Logo Holos")
             // this.holoFolder.open()
@@ -254,7 +254,7 @@ export default class Materials {
                 .addColor(this.debugObject, 'logouRimColor')
                 .onChange(() => this.items.logoHoloMaterial.uniforms.uRimColor.value = new Color(this.debugObject.logouRimColor))
         }
-        
+
         this.items.logoHoloBeam = new ShaderMaterial({
             uniforms: {
                 uTime: { value: this.time.elapsed },
@@ -264,7 +264,7 @@ export default class Materials {
                 uBarSpeed: { value: 0.6 },
                 uBarDistance: { value: 1350 },
                 uAlpha: { value: 0 },
-                uFlickerSpeed: { value: 1},
+                uFlickerSpeed: { value: 1 },
                 uRimColor: { value: new Color("#009b52") },
                 uRimPower: { value: 2.4 },
                 uGlowDistance: { value: 0.5 },

@@ -21,7 +21,7 @@ export default class Geometries {
         this.setTorus()
     }
 
-    setTorus(){
+    setTorus() {
         this.items.torus = new TorusGeometry(
             .12,
             .01,

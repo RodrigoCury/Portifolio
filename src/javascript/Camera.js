@@ -39,7 +39,7 @@ export default class Camera {
     setAngle() {
         // Set Up
         this.target = new THREE.Vector3(0, 6, 0)
-        this.rotationAngle = -1.627 - (Math.PI/4)
+        this.rotationAngle = -1.627 - (Math.PI / 4)
     }
 
     setInstance() {
@@ -63,7 +63,7 @@ export default class Camera {
             this.instance.updateProjectionMatrix()
         })
 
-        
+
         // Debug
         if (this.debug) {
             this.debugFolder.add(this, 'rotationAngle', -Math.PI, Math.PI, 0.001)

@@ -59,7 +59,7 @@ export default class {
         })
     }
 
-    setGeometries(){
+    setGeometries() {
         this.geometries = new Geometries({
             debug: this.debug,
         })
@@ -89,7 +89,7 @@ export default class {
             debug: this.debug,
             resources: this.resources,
             time: this.time,
-            container : this.starsContainer,
+            container: this.starsContainer,
         })
     }
 
@@ -110,17 +110,17 @@ export default class {
         })
     }
 
-    setShipwreck(){
-        this.resources.items.shipwreck.scene.position.set(0,0,0)
-        this.resources.items.shipwreck.scene.scale.set(0.15,0.15,0.15)
-        this.resources.items.shipwreck.scene.rotation.set(1.221,2.485,0.33)
+    setShipwreck() {
+        this.resources.items.shipwreck.scene.position.set(0, 0, 0)
+        this.resources.items.shipwreck.scene.scale.set(0.15, 0.15, 0.15)
+        this.resources.items.shipwreck.scene.rotation.set(1.221, 2.485, 0.33)
 
 
         this.shipwreckContainer.position.set(0, 6, 0)
         this.shipwreckContainer.rotation.y = -2.4
         this.shipwreckContainer.add(this.resources.items.shipwreck.scene)
-        
-        if(this.debug){
+
+        if (this.debug) {
             this.shipwreckContainer.add(new THREE.AxesHelper(2))
             this.shipwreckFolder = this.debug.addFolder("Shipwreck")
             this.shipwreckFolder.add(this.resources.items.shipwreck.scene.position, 'x', -10, 10, .001).name("shipwreck x")
@@ -140,19 +140,19 @@ export default class {
 
     setAstronaut() {
         // Position Container initial Position
-        this.astronautContainer.position.set(0,2,-2.925)
-        this.astronautContainer.rotation.set(0,-0.859,0)
-        this.astronautContainer.scale.set(1,1,1)
+        this.astronautContainer.position.set(0, 2, -2.925)
+        this.astronautContainer.rotation.set(0, -0.859, 0)
+        this.astronautContainer.scale.set(1, 1, 1)
 
         // Position astronaut
-        this.resources.items.astronautRigged.scene.position.set(0,0,0)
-        this.resources.items.astronautRigged.scene.rotation.set(0,0,0)
-        this.resources.items.astronautRigged.scene.scale.set(.5,.5,.5)
+        this.resources.items.astronautRigged.scene.position.set(0, 0, 0)
+        this.resources.items.astronautRigged.scene.rotation.set(0, 0, 0)
+        this.resources.items.astronautRigged.scene.scale.set(.5, .5, .5)
 
         if (this.debug) {
             // Debug Folder
             this.astronautFolder = this.debug.addFolder('Roaming Astronaut')
-            
+
             // Container Debug
             this.astronautFolder.add(this.astronautContainer.position, 'x', -15, 15, 0.001).name('container X')
             this.astronautFolder.add(this.astronautContainer.position, 'y', -60, 10, 0.001).name('container Y')
@@ -160,7 +160,7 @@ export default class {
             this.astronautFolder.add(this.astronautContainer.rotation, 'x', -Math.PI, Math.PI, 0.001).name('container rot X')
             this.astronautFolder.add(this.astronautContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot Y')
             this.astronautFolder.add(this.astronautContainer.rotation, 'z', -Math.PI, Math.PI, 0.001).name('container rot Z')
-            
+
             // Astronaut Debug
             this.astronautFolder.add(this.resources.items.astronautRigged.scene.position, 'x', -6, 6, 0.001).name('Astronaut X')
             this.astronautFolder.add(this.resources.items.astronautRigged.scene.position, 'y', -6, 6, 0.001).name('Astronaut Y')
@@ -170,7 +170,7 @@ export default class {
             this.astronautFolder.add(this.resources.items.astronautRigged.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('Astronaut rot Z')
             this.astronautFolder.add(this.resources.items.astronautRigged.scene.scale, 'x', 0, 1, 0.025).name('Astronaut scale X').onChange(() => {
                 let scale = this.resources.items.astronautRigged.scene.scale.x
-                this.resources.items.astronautRigged.scene.scale.set(scale,scale,scale)
+                this.resources.items.astronautRigged.scene.scale.set(scale, scale, scale)
             })
 
             this.astronautContainer.add(new THREE.AxesHelper(1.5))
@@ -318,21 +318,21 @@ export default class {
         // Container position
         this.projectsContainer.position.set(0, -35, 0)
         this.projectsContainer.rotation.y = 2.28
-        
+
         // Atronaut Rotation
         this.resources.items.astronaut.scene.rotation.set(-.06, 1.53, 0.29)
-        
-        // Atronaut Position
-        this.resources.items.astronaut.scene.position.set(-3.34,-0.29,0)
-        this.resources.items.astronaut.scene.scale.set(0.44,0.44,0.44,)
-        
 
-        
+        // Atronaut Position
+        this.resources.items.astronaut.scene.position.set(-3.34, -0.29, 0)
+        this.resources.items.astronaut.scene.scale.set(0.44, 0.44, 0.44,)
+
+
+
         // Add to containers
         this.projectsContainer.add(this.resources.items.astronaut.scene)
-        
 
-        
+
+
         /**
          * Debug
          */
@@ -358,21 +358,21 @@ export default class {
         }
     }
 
-    setWhoAmI(){
+    setWhoAmI() {
         // Setup Container
         this.whoAmIContainer.position.set(0, -2, 0)
         this.whoAmIContainer.rotation.set(0, -0.84, 0)
 
         // Setup notebook 3D Model
-        this.resources.items.notebook.scene.position.set(-2.46,0,0)
-        this.resources.items.notebook.scene.rotation.set(0.284,-0.265,-0.387)
-        
+        this.resources.items.notebook.scene.position.set(-2.46, 0, 0)
+        this.resources.items.notebook.scene.rotation.set(0.284, -0.265, -0.387)
+
         // Debug
-        if (this.debug){
+        if (this.debug) {
             this.whoAmIContainer.add(new THREE.AxesHelper(2))
 
             this.whoAmIFolder = this.debug.addFolder("WhoAmI")
-            
+
             this.whoAmIFolder.add(this.whoAmIContainer.position, 'x', -20, 20, 0.001).name('Container X')
             this.whoAmIFolder.add(this.whoAmIContainer.position, 'y', -20, 20, 0.001).name('Container Y')
             this.whoAmIFolder.add(this.whoAmIContainer.position, 'z', -20, 20, 0.001).name('Container Z')
@@ -384,27 +384,27 @@ export default class {
             this.whoAmIFolder.add(this.resources.items.notebook.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('Notebook rot y')
             this.whoAmIFolder.add(this.resources.items.notebook.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('Notebook rot z')
         }
-        
+
         // Add to container
         this.whoAmIContainer.add(this.resources.items.notebook.scene)
-        
+
     }
-    
-    setWhatIDo(){
+
+    setWhatIDo() {
         // Setup Container
         this.whatIDoContainer.position.set(0, -6, 0)
         this.whatIDoContainer.rotation.set(0, -0.06, 0)
-    
+
         // Setup notebook 3D Model
         this.resources.items.microscope.scene.position.set(3.81, -1.27, -1.561)
-        this.resources.items.microscope.scene.rotation.set(0,1.414,0)
-        
+        this.resources.items.microscope.scene.rotation.set(0, 1.414, 0)
+
         // Debug
-        if (this.debug){
+        if (this.debug) {
             this.whatIDoContainer.add(new THREE.AxesHelper(2))
-    
+
             this.whatIDoFolder = this.debug.addFolder("whatIDo")
-            
+
             this.whatIDoFolder.add(this.whatIDoContainer.position, 'x', -20, 20, 0.001).name('Container X')
             this.whatIDoFolder.add(this.whatIDoContainer.position, 'y', -20, 20, 0.001).name('Container Y')
             this.whatIDoFolder.add(this.whatIDoContainer.position, 'z', -20, 20, 0.001).name('Container Z')
@@ -416,44 +416,44 @@ export default class {
             this.whatIDoFolder.add(this.resources.items.microscope.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('microscope rot y')
             this.whatIDoFolder.add(this.resources.items.microscope.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('microscope rot z')
         }
-        
+
         // Add to container
         this.whatIDoContainer.add(this.resources.items.microscope.scene)
-        
-        
+
+
     }
-    
-    setAboutMe(){
+
+    setAboutMe() {
         // Setup Container
         this.aboutMeContainer.position.set(0, -10, 0)
         this.aboutMeContainer.rotation.set(0, 0.72, 0)
-    
+
         // Setup notebook 3D Model
-        this.resources.items.books.scene.position.set(-2.539,.806,0)
-        this.resources.items.books.scene.rotation.set(-0.085,-1.549, 0)
-        this.resources.items.books.scene.scale.set(0.28,0.28,0.28)
+        this.resources.items.books.scene.position.set(-2.539, .806, 0)
+        this.resources.items.books.scene.rotation.set(-0.085, -1.549, 0)
+        this.resources.items.books.scene.scale.set(0.28, 0.28, 0.28)
 
         // Headphone
-        this.resources.items.headphone.scene.position.set(-0.3,-1.87,0)
+        this.resources.items.headphone.scene.position.set(-0.3, -1.87, 0)
         this.resources.items.headphone.scene.rotation.set(-.135, 0.757, -0.504)
-        this.resources.items.headphone.scene.scale.set(2,2,2)
-        
+        this.resources.items.headphone.scene.scale.set(2, 2, 2)
+
         // Camera
         this.resources.items.camera.scene.position.set(2.6, 0.423, 0)
         this.resources.items.camera.scene.rotation.set(0, -2.395, -0.085)
-        
+
         // Debug
-        if (this.debug){
+        if (this.debug) {
             this.aboutMeContainer.add(new THREE.AxesHelper(2))
-    
+
             this.aboutMeFolder = this.debug.addFolder("aboutMe")
-            
+
             // Container
             this.aboutMeFolder.add(this.aboutMeContainer.position, 'x', -20, 20, 0.001).name('Container X')
             this.aboutMeFolder.add(this.aboutMeContainer.position, 'y', -20, 20, 0.001).name('Container Y')
             this.aboutMeFolder.add(this.aboutMeContainer.position, 'z', -20, 20, 0.001).name('Container Z')
             this.aboutMeFolder.add(this.aboutMeContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot y')
-            
+
             // Books
             this.aboutMeFolder.add(this.resources.items.books.scene.position, 'x', -20, 20, 0.001).name('books x')
             this.aboutMeFolder.add(this.resources.items.books.scene.position, 'y', -20, 20, 0.001).name('books y')
@@ -477,7 +477,7 @@ export default class {
             this.aboutMeFolder.add(this.resources.items.camera.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('camera rot y')
             this.aboutMeFolder.add(this.resources.items.camera.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('camera rot z')
         }
-        
+
         // Add to container
         this.aboutMeContainer.add(
             this.resources.items.books.scene,
@@ -486,21 +486,21 @@ export default class {
         )
     }
 
-    setHubble(){
+    setHubble() {
         // Position Container
-        this.hubbleContainer.position.set(0,-45,0)
-        this.hubbleContainer.rotation.set(0,3.075,0)
-        
+        this.hubbleContainer.position.set(0, -45, 0)
+        this.hubbleContainer.rotation.set(0, 3.075, 0)
+
         // Positions Hubble
-        this.resources.items.hubble.scene.position.set(3.2,-1.22,0)
-        this.resources.items.hubble.scene.rotation.set(0,0,1.15)
-        this.resources.items.hubble.scene.scale.set(0.2,0.2,0.2)
+        this.resources.items.hubble.scene.position.set(3.2, -1.22, 0)
+        this.resources.items.hubble.scene.rotation.set(0, 0, 1.15)
+        this.resources.items.hubble.scene.scale.set(0.2, 0.2, 0.2)
 
         // Setting Up Radio Waves
         this.radioWaves = []
         this.radioWavesCount = 9
 
-        for (let i = 0; i < this.radioWavesCount; i++){
+        for (let i = 0; i < this.radioWavesCount; i++) {
             let mesh = new THREE.Mesh(this.geometries.items.torus, this.materials.items.phongMaterial)
 
             // mesh.position.copy(this.resources.items.hubble.scene.position)
@@ -509,7 +509,7 @@ export default class {
             this.radioWaves.push(mesh)
             this.hubbleContainer.add(mesh)
         }
-        
+
 
         if (this.debug) {
             this.hubbleFolder = this.debug.addFolder("Hubble")
@@ -520,13 +520,13 @@ export default class {
             this.hubbleFolder.add(this.resources.items.hubble.scene.rotation, "x", -Math.PI, Math.PI, 0.01).name("Hubble Rot X")
             this.hubbleFolder.add(this.resources.items.hubble.scene.rotation, "y", -Math.PI, Math.PI, 0.01).name("Hubble Rot Y")
             this.hubbleFolder.add(this.resources.items.hubble.scene.rotation, "z", -Math.PI, Math.PI, 0.01).name("Hubble Rot Z")
-            
+
             this.hubbleFolder.add(this.hubbleContainer.position, "x", -10, 10, 0.01).name("Container X")
             this.hubbleFolder.add(this.hubbleContainer.position, "z", -10, 10, 0.01).name("Container Z")
             this.hubbleFolder.add(this.hubbleContainer.rotation, "x", -Math.PI, Math.PI, 0.01).name("Container Rot X")
             this.hubbleFolder.add(this.hubbleContainer.rotation, "y", -Math.PI, Math.PI, 0.01).name("Container Rot Y")
             this.hubbleFolder.add(this.hubbleContainer.rotation, "z", -Math.PI, Math.PI, 0.01).name("Container Rot Z")
-            
+
             this.hubbleFolder.add(this.radioWaves[0].rotation, "x", -Math.PI, Math.PI, 0.01).name("Waves Rot X").onChange(() => {
                 this.radioWaves.forEach(wave => wave.rotation.x = this.radioWaves[0].rotation.x)
             })
@@ -543,15 +543,15 @@ export default class {
         this.hubbleContainer.add(this.resources.items.hubble.scene)
     }
 
-    setRescuePod(){
+    setRescuePod() {
         // Setup Container
-        this.podContainer.position.set(0,-57, 0)
-        this.podContainer.rotation.set(0,-2.415,0)
-        this.podContainer.scale.set(1,1,1)
-        
+        this.podContainer.position.set(0, -57, 0)
+        this.podContainer.rotation.set(0, -2.415, 0)
+        this.podContainer.scale.set(1, 1, 1)
+
         // setup Pod
         this.resources.items.pod.scene.position.set(-15, 4.87, -2)
-        this.resources.items.pod.scene.rotation.set(-1.53, 3.14,1.82)
+        this.resources.items.pod.scene.rotation.set(-1.53, 3.14, 1.82)
         this.resources.items.pod.scene.scale.set(1, 1, 1)
 
         this.resources.items.pod.scene.traverse(child => {
@@ -567,7 +567,7 @@ export default class {
 
         // Setup Logos
 
-            // Set Raycaster Areas
+        // Set Raycaster Areas
         this.contactArea = Areas.addArea()
 
         this.resources.items.eMailLogo.scene.position.set(-2.2, -2.25, -3.5)
@@ -577,8 +577,8 @@ export default class {
                 child.material = this.materials.items.logoHoloMaterial // Change to HoloMaterial
             }
         })
-        this.contactArea.addToArea(2,2,this.resources.items.eMailLogo.scene, 'eMail')
-        
+        this.contactArea.addToArea(2, 2, this.resources.items.eMailLogo.scene, 'eMail')
+
         this.resources.items.linkedInLogo.scene.position.set(0, -2.25, -3.5)
         this.resources.items.linkedInLogo.scene.rotation.set(Math.PI / 2, 0, 0)
         this.resources.items.linkedInLogo.scene.traverse(child => {
@@ -586,8 +586,8 @@ export default class {
                 child.material = this.materials.items.logoHoloMaterial // Change to HoloMaterial
             }
         })
-        this.contactArea.addToArea(2,2,this.resources.items.linkedInLogo.scene, 'linkedIn')
-        
+        this.contactArea.addToArea(2, 2, this.resources.items.linkedInLogo.scene, 'linkedIn')
+
         this.resources.items.githubLogo.scene.position.set(2.2, -2.25, -3.5)
         this.resources.items.githubLogo.scene.rotation.set(Math.PI / 2, 0, 0)
         this.resources.items.githubLogo.scene.traverse(child => {
@@ -596,12 +596,12 @@ export default class {
             }
         })
 
-        this.contactArea.addToArea(2,2,this.resources.items.githubLogo.scene, 'gitHub')
+        this.contactArea.addToArea(2, 2, this.resources.items.githubLogo.scene, 'gitHub')
 
         // Debugging
         if (this.debug) {
             this.podFolder = this.debug.addFolder('Rescue Pod')
-            
+
             // Container Debug
             this.podFolder.add(this.podContainer.position, "x", -10, 10, 0.01).name("Container X")
             this.podFolder.add(this.podContainer.position, "y", -10, 10, 0.01).name("Container Y")
@@ -611,9 +611,9 @@ export default class {
             this.podFolder.add(this.podContainer.rotation, "z", -Math.PI, Math.PI, 0.01).name("Container Rot Z")
             this.podFolder.add(this.podContainer.scale, "x", 0, 1, 0.01).name("Container Scale").onChange(() => {
                 let scale = this.podContainer.scale.x
-                this.podContainer.scale.set(scale,scale, scale)
+                this.podContainer.scale.set(scale, scale, scale)
             })
-            
+
             // Pod Debug
             this.podFolder.add(this.resources.items.pod.scene.position, "x", -10, 10, 0.01).name("Pod X")
             this.podFolder.add(this.resources.items.pod.scene.position, "y", -10, 10, 0.01).name("Pod Y")
@@ -621,7 +621,7 @@ export default class {
             this.podFolder.add(this.resources.items.pod.scene.rotation, "x", -Math.PI, Math.PI, 0.01).name("Pod Rot X")
             this.podFolder.add(this.resources.items.pod.scene.rotation, "y", -Math.PI, Math.PI, 0.01).name("Pod Rot Y")
             this.podFolder.add(this.resources.items.pod.scene.rotation, "z", -Math.PI, Math.PI, 0.01).name("Pod Rot Z")
-            
+
             // Text
 
             this.podFolder.add(this.holograms.contactHologram.position, "x", -10, 10, 0.01).name("text X")
@@ -630,17 +630,17 @@ export default class {
             this.podFolder.add(this.holograms.contactHologram.rotation, "x", -Math.PI, Math.PI, 0.01).name("text Rot X")
             this.podFolder.add(this.holograms.contactHologram.rotation, "y", -Math.PI, Math.PI, 0.01).name("text Rot Y")
             this.podFolder.add(this.holograms.contactHologram.rotation, "z", -Math.PI, Math.PI, 0.01).name("text Rot Z")
-            
+
             // Logos
-            
+
             this.podFolder.add(this.resources.items.eMailLogo.scene.position, "x", -10, 10, 0.01).name("eMailLogo X")
             this.podFolder.add(this.resources.items.eMailLogo.scene.position, "y", -10, 10, 0.01).name("eMailLogo Y")
             this.podFolder.add(this.resources.items.eMailLogo.scene.position, "z", -10, 10, 0.01).name("eMailLogo Z")
-            
+
             this.podFolder.add(this.resources.items.linkedInLogo.scene.position, "x", -10, 10, 0.01).name("linkedInLogo X")
             this.podFolder.add(this.resources.items.linkedInLogo.scene.position, "y", -10, 10, 0.01).name("linkedInLogo Y")
             this.podFolder.add(this.resources.items.linkedInLogo.scene.position, "z", -10, 10, 0.01).name("linkedInLogo Z")
-            
+
             this.podFolder.add(this.resources.items.githubLogo.scene.position, "x", -10, 10, 0.01).name("github X")
             this.podFolder.add(this.resources.items.githubLogo.scene.position, "y", -10, 10, 0.01).name("github Y")
             this.podFolder.add(this.resources.items.githubLogo.scene.position, "z", -10, 10, 0.01).name("github Z")
@@ -656,7 +656,7 @@ export default class {
             this.contactArea,
             this.holograms.contactHologram,
             this.holograms.contactCone,
-            )
+        )
 
-   }
+    }
 }
