@@ -202,6 +202,8 @@ export default class Materials {
     setContactLogoMaterial() {
         this.debugObject.logouColor = "#0000ff",
         this.debugObject.logouRimColor = "#009b52",
+        this.debugObject.logoBeamuColor = "#0000ff",
+        this.debugObject.logoBeamuRimColor = "#009b52",
         
         this.items.logoHoloMaterial = new ShaderMaterial({
             uniforms: {
@@ -211,7 +213,7 @@ export default class Materials {
                 uGlitchIntensity: { value: 0 },
                 uBarSpeed: { value: 0.6 },
                 uBarDistance: { value: 1350 },
-                uAlpha: { value: 0.55 },
+                uAlpha: { value: 0 },
                 uFlickerSpeed: { value: 1},
                 uRimColor: { value: new Color("#009b52") },
                 uRimPower: { value: 2.4 },
@@ -250,9 +252,56 @@ export default class Materials {
                 .addColor(this.debugObject, 'logouRimColor')
                 .onChange(() => this.items.logoHoloMaterial.uniforms.uRimColor.value = new Color(this.debugObject.logouRimColor))
         }
+        
+        this.items.logoHoloBeam = new ShaderMaterial({
+            uniforms: {
+                uTime: { value: this.time.elapsed },
+                uColor: { value: new Color('#0000ff') },
+                uGlitchSpeed: { value: 0 },
+                uGlitchIntensity: { value: 0 },
+                uBarSpeed: { value: 0.6 },
+                uBarDistance: { value: 1350 },
+                uAlpha: { value: 0 },
+                uFlickerSpeed: { value: 1},
+                uRimColor: { value: new Color("#009b52") },
+                uRimPower: { value: 2.4 },
+                uGlowDistance: { value: 0.5 },
+                uGlowSpeed: { value: 0.8 },
+            },
+
+            vertexShader: beamVertex,
+
+            fragmentShader: beamFragment,
+
+            transparent: true,
+
+            side: 1,
+        })
+
+        if (this.debug) {
+            this.contactLogoFolder.add(this.items.logoHoloBeam.uniforms.uGlitchSpeed, 'value', 0, 3, 0.01).name("GlitchSpeed")
+            this.contactLogoFolder.add(this.items.logoHoloBeam.uniforms.uGlitchIntensity, 'value', 0, 3, 0.01).name("GlitchIntensity")
+            this.contactLogoFolder.add(this.items.logoHoloBeam.uniforms.uBarDistance, 'value', 10, 6000, 1).name("BarDistance")
+            this.contactLogoFolder.add(this.items.logoHoloBeam.uniforms.uBarSpeed, 'value', 0, 5, 0.0001).name("BarSpeed")
+            this.contactLogoFolder.add(this.items.logoHoloBeam.uniforms.uAlpha, 'value', 0, 2, 0.001).name("Alpha")
+            this.contactLogoFolder.add(this.items.logoHoloBeam.uniforms.uFlickerSpeed, 'value', 0, 30, 0.00001).name("FlickerSpeed")
+            this.contactLogoFolder.add(this.items.logoHoloBeam.uniforms.uRimPower, 'value', 0, 5, 0.1).name("RimPower")
+            this.contactLogoFolder.add(this.items.logoHoloBeam.uniforms.uGlowDistance, 'value', 0, 5, 0.1).name("GlowDistance")
+            this.contactLogoFolder.add(this.items.logoHoloBeam.uniforms.uGlowSpeed, 'value', 0, 5, 0.1).name("GlowSpeed")
+
+            // Colors
+            this.contactLogoFolder
+                .addColor(this.debugObject, 'logoBeamuColor')
+                .onChange(() => this.items.logoHoloBeam.uniforms.uColor.value = new Color(this.debugObject.logoBeamuColor))
+
+            this.contactLogoFolder
+                .addColor(this.debugObject, 'logoBeamuRimColor')
+                .onChange(() => this.items.logoHoloBeam.uniforms.uRimColor.value = new Color(this.debugObject.logoBeamuRimColor))
+        }
 
         this.time.on("tick", () => {
             this.items.logoHoloMaterial.uniforms.uTime.value = this.time.elapsed / 1000
+            this.items.logoHoloBeam.uniforms.uTime.value = this.time.elapsed / 1000
         })
     }
 }
