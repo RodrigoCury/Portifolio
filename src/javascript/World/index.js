@@ -28,6 +28,7 @@ export default class {
         }
 
         // Setup
+        this.astronautContainer = new THREE.Object3D()
         this.shipwreckContainer = new THREE.Object3D()
         this.whoAmIContainer = new THREE.Object3D()
         this.whatIDoContainer = new THREE.Object3D()
@@ -36,7 +37,7 @@ export default class {
         this.projectsContainer = new THREE.Object3D()
         this.starsContainer = new THREE.Object3D()
         this.hubbleContainer = new THREE.Object3D()
-        this.astronautContainer = new THREE.Object3D()
+        this.podContainer = new THREE.Object3D()
 
         this.setLights()
         this.setGeometries()
@@ -78,6 +79,7 @@ export default class {
             this.setISS()
             this.setProjects()
             this.setHubble()
+            this.setRescuePod()
         })
     }
 
@@ -536,5 +538,97 @@ export default class {
         }
 
         this.hubbleContainer.add(this.resources.items.hubble.scene)
+    }
+
+    setRescuePod(){
+        // Setup Container
+        this.podContainer.position.set(0,-55, 0)
+        this.podContainer.rotation.set(0,-2.415,0)
+        this.podContainer.scale.set(1,1,1)
+        
+        // setup Pod
+        this.resources.items.pod.scene.position.set(0,0, -10)
+        this.resources.items.pod.scene.rotation.set(0,2.43,0)
+        this.resources.items.pod.scene.scale.set(1,1,1)
+
+        // Setup Logos
+
+            // Set Raycaster Areas
+        this.contactArea = Areas.addArea()
+
+        this.resources.items.eMailLogo.scene.position.set(-2.2, -.6, -1)
+        this.resources.items.eMailLogo.scene.rotation.set(Math.PI / 2, 0, 0)
+        this.resources.items.eMailLogo.scene.traverse(child => {
+            if (child instanceof THREE.Mesh) {
+                child.material = this.materials.items.holoMaterial // Change to HoloMaterial
+            }
+        })
+        this.contactArea.addToArea(2,2,this.resources.items.eMailLogo.scene, 'eMail')
+        
+        this.resources.items.linkedInLogo.scene.position.set(0, -.6, -1)
+        this.resources.items.linkedInLogo.scene.rotation.set(Math.PI / 2, 0, 0)
+        this.resources.items.linkedInLogo.scene.traverse(child => {
+            if (child instanceof THREE.Mesh) {
+                child.material = this.materials.items.holoMaterial // Change to HoloMaterial
+            }
+        })
+        this.contactArea.addToArea(2,2,this.resources.items.linkedInLogo.scene, 'LinkedIn')
+        
+        this.resources.items.githubLogo.scene.position.set(2.2, -.6, -1)
+        this.resources.items.githubLogo.scene.rotation.set(Math.PI / 2, 0, 0)
+        this.resources.items.githubLogo.scene.traverse(child => {
+            if (child instanceof THREE.Mesh) {
+                child.material = this.materials.items.holoMaterial // Change to HoloMaterial
+            }
+        })
+
+        this.contactArea.addToArea(2,2,this.resources.items.githubLogo.scene, 'GitHub')
+
+        // Debugging
+        if (this.debug) {
+            this.podFolder = this.debug.addFolder('Rescue Pod')
+            
+            // Container Debug
+            this.podFolder.add(this.podContainer.position, "x", -10, 10, 0.01).name("Container X")
+            this.podFolder.add(this.podContainer.position, "y", -10, 10, 0.01).name("Container Y")
+            this.podFolder.add(this.podContainer.position, "z", -10, 10, 0.01).name("Container Z")
+            this.podFolder.add(this.podContainer.rotation, "x", -Math.PI, Math.PI, 0.01).name("Container Rot X")
+            this.podFolder.add(this.podContainer.rotation, "y", -Math.PI, Math.PI, 0.01).name("Container Rot Y")
+            this.podFolder.add(this.podContainer.rotation, "z", -Math.PI, Math.PI, 0.01).name("Container Rot Z")
+            this.podFolder.add(this.podContainer.scale, "x", 0, 1, 0.01).name("Container Scale").onChange(() => {
+                let scale = this.podContainer.scale.x
+                this.podContainer.scale.set(scale,scale, scale)
+            })
+            
+            // Pod Debug
+            this.podFolder.add(this.resources.items.pod.scene.position, "x", -10, 10, 0.01).name("Pod X")
+            this.podFolder.add(this.resources.items.pod.scene.position, "y", -10, 10, 0.01).name("Pod Y")
+            this.podFolder.add(this.resources.items.pod.scene.position, "z", -10, 10, 0.01).name("Pod Z")
+            this.podFolder.add(this.resources.items.pod.scene.rotation, "x", -Math.PI, Math.PI, 0.01).name("Pod Rot X")
+            this.podFolder.add(this.resources.items.pod.scene.rotation, "y", -Math.PI, Math.PI, 0.01).name("Pod Rot Y")
+            this.podFolder.add(this.resources.items.pod.scene.rotation, "z", -Math.PI, Math.PI, 0.01).name("Pod Rot Z")
+            
+            this.podFolder.add(this.resources.items.eMailLogo.scene.position, "x", -10, 10, 0.01).name("eMailLogo X")
+            this.podFolder.add(this.resources.items.eMailLogo.scene.position, "y", -10, 10, 0.01).name("eMailLogo Y")
+            this.podFolder.add(this.resources.items.eMailLogo.scene.position, "z", -10, 10, 0.01).name("eMailLogo Z")
+            
+            this.podFolder.add(this.resources.items.linkedInLogo.scene.position, "x", -10, 10, 0.01).name("linkedInLogo X")
+            this.podFolder.add(this.resources.items.linkedInLogo.scene.position, "y", -10, 10, 0.01).name("linkedInLogo Y")
+            this.podFolder.add(this.resources.items.linkedInLogo.scene.position, "z", -10, 10, 0.01).name("linkedInLogo Z")
+            
+            this.podFolder.add(this.resources.items.githubLogo.scene.position, "x", -10, 10, 0.01).name("github X")
+            this.podFolder.add(this.resources.items.githubLogo.scene.position, "y", -10, 10, 0.01).name("github Y")
+            this.podFolder.add(this.resources.items.githubLogo.scene.position, "z", -10, 10, 0.01).name("github Z")
+
+            this.podContainer.add(new THREE.AxesHelper())
+        }
+
+        this.podContainer.add(
+            this.resources.items.pod.scene,
+            this.resources.items.eMailLogo.scene,
+            this.resources.items.linkedInLogo.scene,
+            this.resources.items.githubLogo.scene,
+            this.contactArea
+            )
     }
 }
