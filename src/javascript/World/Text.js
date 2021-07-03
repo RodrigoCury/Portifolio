@@ -25,7 +25,7 @@ export default class Texts {
     }
 
     setHologramGeometries() {
-        const texts = [
+        let texts = [
             'Javascript',
             'Python',
             'Biopython',
@@ -60,5 +60,15 @@ export default class Texts {
             this.holograms.push(geometry)
 
         })
+
+        let contactText = 'Escolha um Destino'
+
+        this.contactText = new TextBufferGeometry(contactText, this.holoProperties)
+        this.contactText.computeBoundingBox()
+        this.contactText.translate(
+            -(this.contactText.boundingBox.max.x - this.holoProperties.bevelSize) * .5,
+            -(this.contactText.boundingBox.max.y - this.holoProperties.bevelSize) * .5,
+            -(this.contactText.boundingBox.max.z - this.holoProperties.bevelThickness) * .5,
+        )
     }
 }
