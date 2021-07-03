@@ -13,6 +13,7 @@ export default class Raycasting {
         this.world = _options.world
         this.DOM = _options.DOM
         this.debug = _options.debug
+        this.config = _options.config
 
         // Setup
         this.setMouse()
@@ -33,30 +34,62 @@ export default class Raycasting {
         // Setup Raycaster
         this.raycaster = new Raycaster()
 
+        this.mouseIsOn = undefined
+
+        this.mouseClick = {
+            eMail: () => {window.location.href='mailto:rodrigocury@ufu.br'},
+            linkedIn: () => window.open('https://www.linkedin.com/in/rodrigo-cury-almeida-baptista-353bb31a5/', '_blank', 'noopener noreferrer'),
+            gitHub: () => window.open('https://github.com/RodrigoCury', '_blank', 'noopener noreferrer'),
+        }
+
         // Update Raycaster Position
         this.resources.on("ready", () => {
             this.time.on("tick", () => {
-                this.raycaster.setFromCamera(this.mouse, this.camera.instance)
-                const intersect = this.raycaster.intersectObject(this.world.logosArea, true)
 
-                // if (this.time.frames % 60 === 0) {
-                // console.log(intersect);
-                this.world.holograms.container.children.forEach(child => {
-                    if (typeof intersect[0] !== 'undefined' && child.name == intersect[0].object.name) {
-                        child.visible = true
-                        this.world.holograms.cone.visible = true
+                /**
+                 * Raycast If is on the right Page
+                 */
+
+                // Only On tech pages
+                if (this.config.screenIsOn == 'technologies'){
+                    this.raycaster.setFromCamera(this.mouse, this.camera.instance)
+                    const intersect = this.raycaster.intersectObject(this.world.logosArea, true)
+
+                    this.world.holograms.container.children.forEach(child => {
+                        if (typeof intersect[0] !== 'undefined' && child.name == intersect[0].object.name) {
+                            child.visible = true
+                            this.world.holograms.cone.visible = true
+                        } else {
+                            child.visible = false
+                        }
+
+                        if (intersect.length === 0) {
+                            this.world.holograms.cone.visible = false
+                        }
+                    })
+                }
+
+                // Only on contact Page
+                if(this.config.screenIsOn === 'contact'){
+                    this.raycaster.setFromCamera(this.mouse, this.camera.instance)
+                    const intersect = this.raycaster.intersectObject(this.world.contactArea, true)
+
+                    if (intersect.length > 0) {
+                        this.mouseIsOn = intersect[0].object.name
                     } else {
-                        child.visible = false
+                        this.mouseIsOn = undefined
                     }
-
-                    if (intersect.length === 0) {
-                        this.world.holograms.cone.visible = false
-                    }
-                })
-                // }
+                }
 
             })
         })
+
+        window.addEventListener('click', () => {
+            if (this.mouseIsOn && this.config.screenIsOn === 'contact') {
+                this.mouseClick[this.mouseIsOn]()
+            }
+        })
+
     }
 
 }
