@@ -59,6 +59,7 @@ export default class Application {
         this.config = {}
         this.config.debug = window.location.hash == '#debug'
         this.config.touch = false
+        this.config.screenIsOn = 'welcomeDiv'
 
         window.addEventListener('touchstart', () => {
             // TODO
@@ -277,6 +278,7 @@ export default class Application {
             world: this.world,
             DOM: this.DOM,
             debug: this.debug,
+            config: this.config,
         })
     }
 
@@ -289,8 +291,8 @@ export default class Application {
             time: this.time,
             world: this.world,
             debug: this.debug,
-            sounds: this.sounds
-
+            sounds: this.sounds,
+            config: this.config,
         })
     }
 
