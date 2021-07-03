@@ -23,10 +23,12 @@ export default class Holograms {
         if (this.resources.beenTriggered("ready")) {
             this.setupGeometries()
             this.setupLightCone()
+            this.setupContactTexts()
         } else {
             this.resources.on("ready", () => {
                 this.setupGeometries()
                 this.setupLightCone()
+                this.setupContactTexts()
             })
         }
     }
@@ -74,5 +76,25 @@ export default class Holograms {
             this.debugFolder.add(this.cone.rotation, 'y', -Math.PI, Math.PI, 0.01).name(`rot y Cone`)
             this.debugFolder.add(this.cone.rotation, 'z', -Math.PI, Math.PI, 0.01).name(`rot z Cone`)
         }
+        this.contactCone = new Mesh(
+            new ConeBufferGeometry(1, 1, 16, 1, true,),
+            this.materials.items.logoHoloBeam
+        )
+        this.contactCone.position.set(-3.2, -.5, -8.273)
+        this.contactCone.rotation.set(-0.55, 1.55, 0.07)
+
+
+        if (this.debug) {
+            this.debugFolder.add(this.contactCone.position, 'x', -15, 16, 0.001).name(`X ContactCone`)
+            this.debugFolder.add(this.contactCone.position, 'y', -5, 5, 0.001).name(`Y ContactCone`)
+            this.debugFolder.add(this.contactCone.position, 'z', -15, 16, 0.001).name(`Z ContactCone`)
+            this.debugFolder.add(this.contactCone.rotation, 'x', -Math.PI, Math.PI, 0.01).name(`rot x ContactCone`)
+            this.debugFolder.add(this.contactCone.rotation, 'y', -Math.PI, Math.PI, 0.01).name(`rot y ContactCone`)
+            this.debugFolder.add(this.contactCone.rotation, 'z', -Math.PI, Math.PI, 0.01).name(`rot z ContactCone`)
+        }
+    }
+
+    setupContactTexts() {
+        this.contactHologram = new Mesh(this.geometries.contactText, this.materials.items.logoHoloMaterial)
     }
 }
