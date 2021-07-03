@@ -43,9 +43,12 @@ import iss from '../models/iss/iss.glb'
 // Hubble
 import hubble from '../models/Hubble/hubble.glb'
 
+// Rescue Pod
+import pod from '../models/pod/pod.glb'
+
 // Astronaut
 import astronaut from '../models/astronaut/astronautMatOnly.glb'
-import astronautRigged from '../models/astronaut/astronaut-Rigged.glb'
+import astronautRigged from '../models/astronaut/astronaut-standing.glb'
 
 // Ambient Assets
 import notebook from '../models/ambientAssets/notebook.glb'
@@ -108,6 +111,7 @@ export default class Resources extends EventEmitter {
             { name: 'headphone', source:headphone },
             { name: 'camera', source:camera },
             { name: 'shipwreck', source:shipwreck },
+            { name: 'pod', source:pod },
         ])
 
         this.trigger("startLoad")
