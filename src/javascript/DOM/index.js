@@ -25,12 +25,6 @@ export default class DOM {
         // Setup
         this.body = document.querySelector('body')
 
-        this.colors = {
-            title: "#ffffff",
-            subTitle: "#a0a0a0",
-            p: "#6952AB"
-        }
-
         this.font = [
 
         ]
@@ -68,22 +62,7 @@ export default class DOM {
         // Elements to Animate
         this.scrollDown = document.querySelector('.scroll-down')
         this.mouseMove = document.querySelector('.mouse-move')
-        
-        if(this.debug){
-            this.text = [...document.querySelectorAll(".modal-ul-title")]
-            this.debugFolder.addColor(this.colors, 'p').onChange(() => {
-                this.text.forEach(child => {
-                    child.style.color = this.colors.p
-                })
-            })
-            this.text.forEach(child => {
-                this.debugFolder.add(child.style , 'font-family', {
-                    mateSC : 'Mate SC',
-                    Caveat : "Caveat",
-                    mSerrat : "Montserrat"
-                })
-            })
-        }
+
     }
 
     setDom3dPosition() {
@@ -132,7 +111,7 @@ export default class DOM {
             {
                 name: 'contact',
                 element: this.contact,
-                position: new Vector3(0, -55, 0)
+                position: new Vector3(0, -57, 0)
             },
         ]
         
