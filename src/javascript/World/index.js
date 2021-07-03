@@ -547,38 +547,43 @@ export default class {
         this.podContainer.scale.set(1,1,1)
         
         // setup Pod
-        this.resources.items.pod.scene.position.set(0,0, -10)
-        this.resources.items.pod.scene.rotation.set(0,2.43,0)
-        this.resources.items.pod.scene.scale.set(1,1,1)
+        this.resources.items.pod.scene.position.set(-3.34, 3.77, -10)
+        this.resources.items.pod.scene.rotation.set(-0.2, 2.43, 0.66)
+        this.resources.items.pod.scene.scale.set(1, 1, 1)
 
+        this.resources.items.pod.scene.traverse(child => {
+            if (child.name === 'Door') {
+                child.material = this.materials.items.doorMaterial // Change to HoloMaterial
+            }
+        })
         // Setup Logos
 
             // Set Raycaster Areas
         this.contactArea = Areas.addArea()
 
-        this.resources.items.eMailLogo.scene.position.set(-2.2, -.6, -1)
+        this.resources.items.eMailLogo.scene.position.set(-2.2, -2.25, -3.5)
         this.resources.items.eMailLogo.scene.rotation.set(Math.PI / 2, 0, 0)
         this.resources.items.eMailLogo.scene.traverse(child => {
             if (child instanceof THREE.Mesh) {
-                child.material = this.materials.items.holoMaterial // Change to HoloMaterial
+                child.material = this.materials.items.logoHoloMaterial // Change to HoloMaterial
             }
         })
         this.contactArea.addToArea(2,2,this.resources.items.eMailLogo.scene, 'eMail')
         
-        this.resources.items.linkedInLogo.scene.position.set(0, -.6, -1)
+        this.resources.items.linkedInLogo.scene.position.set(0, -2.25, -3.5)
         this.resources.items.linkedInLogo.scene.rotation.set(Math.PI / 2, 0, 0)
         this.resources.items.linkedInLogo.scene.traverse(child => {
             if (child instanceof THREE.Mesh) {
-                child.material = this.materials.items.holoMaterial // Change to HoloMaterial
+                child.material = this.materials.items.logoHoloMaterial // Change to HoloMaterial
             }
         })
         this.contactArea.addToArea(2,2,this.resources.items.linkedInLogo.scene, 'LinkedIn')
         
-        this.resources.items.githubLogo.scene.position.set(2.2, -.6, -1)
+        this.resources.items.githubLogo.scene.position.set(2.2, -2.25, -3.5)
         this.resources.items.githubLogo.scene.rotation.set(Math.PI / 2, 0, 0)
         this.resources.items.githubLogo.scene.traverse(child => {
             if (child instanceof THREE.Mesh) {
-                child.material = this.materials.items.holoMaterial // Change to HoloMaterial
+                child.material = this.materials.items.logoHoloMaterial // Change to HoloMaterial
             }
         })
 
