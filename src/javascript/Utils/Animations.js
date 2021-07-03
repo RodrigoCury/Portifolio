@@ -51,9 +51,9 @@ export default class Animations {
 
         // Setup
         this.animateCamera()
+        this.setScrollAnimations()
         this.animateScrollDownDiv()
         this.setLoadingPage()
-        this.setScrollAnimations()
     }    
     
     setLoadingPage(){
@@ -119,6 +119,7 @@ export default class Animations {
 
         this.exitLoadPage = async () => {
             this.DOM.loadingPage.classList.add('hide'),
+            this.DOM.enterSiteBtn.disabled = true
             setTimeout(() => {
                 gsap.to(this.DOM.whiteout.style, {
                     opacity: 0,
@@ -130,7 +131,6 @@ export default class Animations {
             this.homeAnimation()
             this.animateLights()
             this.setAnimationsProps()
-            this.setRadioWavesAnimation()
         }
 
         this.startScrolling = async () => {
@@ -236,7 +236,7 @@ export default class Animations {
                 position: new Vector3(0, 6, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: this.scrollAnimations.welcomeDivStart,
             },
             {
@@ -245,7 +245,7 @@ export default class Animations {
                 position: new Vector3(0, 2, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: this.scrollAnimations.homeDivStart,
             },
             {
@@ -254,7 +254,7 @@ export default class Animations {
                 position: new Vector3(0, -2, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: this.scrollAnimations.whoamiStart,
             },
             {
@@ -263,7 +263,7 @@ export default class Animations {
                 position: new Vector3(0, -6, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: this.scrollAnimations.whatidoStart,
             },
             {
@@ -272,7 +272,7 @@ export default class Animations {
                 position: new Vector3(0, -10, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: this.scrollAnimations.aboutmeStart,
             },
             {
@@ -281,7 +281,7 @@ export default class Animations {
                 position: new Vector3(0, -20, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 visitedFlag: false, // To not show animation when revisiting
                 onStart: this.scrollAnimations.technologiesStart,
                 onComplete: this.scrollAnimations.technologiesComplete,
@@ -294,6 +294,7 @@ export default class Animations {
                 ease: this.ease.slow,
                 duration: 3,
                 onStart: this.scrollAnimations.projectsStart,
+                onComplete: this.scrollAnimations.projectsComplete,
             },
             {
                 name: 'madeWith',
@@ -301,17 +302,19 @@ export default class Animations {
                 position: new Vector3(0, -45, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
                 onStart: this.scrollAnimations.madeWithStart,
             },
             {
                 name: 'contact',
                 element: this.DOM.contact,
-                position: new Vector3(0, -55, 0),
+                position: new Vector3(0, -57, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: .25,
+                duration: 1.5,
+                visitedFlag: false,
                 onStart: this.scrollAnimations.contactStart,
+                onComplete: this.scrollAnimations.contactComplete,
             },
         ]
 
@@ -431,7 +434,7 @@ export default class Animations {
         window.onmousemove = event => {
             gsap.to(this.mouse, {
                 x: ((event.clientX / this.sizes.width)-0.5) * 0.125,
-                y: -((event.clientY / this.sizes.height)-0.5) * 0.25,
+                y: -((event.clientY / this.sizes.height)-0.5) * 0.05,
                 duration: 0.5,
                 ease: this.ease.linear,
             })
@@ -465,9 +468,8 @@ export default class Animations {
     }
 
 
-    async setRadioWavesAnimation() {
+    async radioWavesAnimation() {
         //  y=	-0.38125x
-
         const x = 3 / -0.38125
         const y = 3
         const duration = 4
@@ -486,7 +488,6 @@ export default class Animations {
             gsap.to(wave.scale, {
                 x: scale,
                 y: scale,
-                // z: scale*1.25 ,
                 duration: 5,
                 ease: this.ease.power2in,
                 onComplete: () => {
@@ -507,15 +508,15 @@ export default class Animations {
         
         this.scrollAnimations.welcomeDivStart = () => {
             gsap.to(this.world.astronautContainer.position, {
-                x: 3.442,
-                y: 6,
-                z: -1.669,
+                x: -2.01,
+                y: 3.866,
+                z: 3.557,
                 duration: this.animationsProps[0].duration * 2,
                 ease: this.ease.power2InOut,
             })
             gsap.to(this.world.astronautContainer.rotation, {
-                x: 0,
-                y: -1.639,
+                x: 0.842,
+                y: 2.397,
                 z: 0,
                 duration: this.animationsProps[0].duration * 2,
                 ease: this.ease.power2InOut,
@@ -524,7 +525,7 @@ export default class Animations {
         this.scrollAnimations.homeDivStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: 0,
-                y: 2,
+                y: .5,
                 z: -2.925,
                 duration: this.animationsProps[1].duration * 2,
                 ease: this.ease.power2InOut,
@@ -556,7 +557,7 @@ export default class Animations {
         this.scrollAnimations.whatidoStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: -2.829,
-                y: -3.852,
+                y: -3.3,
                 z: -0.296,
                 duration: this.animationsProps[3].duration * 2,
                 ease: this.ease.power2InOut,
@@ -572,7 +573,7 @@ export default class Animations {
         this.scrollAnimations.aboutmeStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: 1.239,
-                y: -12.853,
+                y: -13.2,
                 z: -2.198,
                 duration: this.animationsProps[4].duration * 3,
                 ease: this.ease.power2InOut,
@@ -588,7 +589,7 @@ export default class Animations {
         this.scrollAnimations.technologiesStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: -9.228,
-                y: -21.278,
+                y: -22.22,
                 z: -7.139,
                 duration: this.animationsProps[5].duration * 3,
                 ease: this.ease.power2Out,
@@ -679,30 +680,88 @@ export default class Animations {
                 ease: this.ease.power2Out,
             })
         }
+
         this.scrollAnimations.madeWithStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: -3.6,
-                y: -45.912,
+                y: -46,
                 z: 0,
-                duration: this.animationsProps[6].duration * 2,
+                duration: this.animationsProps[7].duration * 4,
                 ease: this.ease.power2Out,
+                onComplete: () => this.radioWavesAnimation()
             })
             gsap.to(this.world.astronautContainer.rotation, {
                 x: 1.244,
                 y: 0.432,
                 z: -1.565,
-                duration: this.animationsProps[6].duration * 5 ,
+                duration: this.animationsProps[7].duration * 5 ,
                 ease: this.ease.elastic(1, 0.6),
             })
             gsap.to(this.world.astronautContainer.scale, {
                 x: 0.25,
                 y: 0.25,
                 z: 0.25,
-                duration: this.animationsProps[6].duration * 2,
+                duration: this.animationsProps[7].duration * 4,
                 ease: this.ease.power2Out,
             })
         }
         this.scrollAnimations.contactStart = () => {
+
+            const showHolograms = () => {
+                gsap.to(this.world.materials.items.logoHoloMaterial.uniforms.uAlpha, {
+                    value: 0.55,
+                    duration: 2.5,
+                    ease: "elastic.out(1, 0.1)"
+                })
+                gsap.to(this.world.materials.items.logoHoloBeam.uniforms.uAlpha, {
+                    value: 0.55,
+                    duration: 2.5,
+                    ease: "elastic.out(1, 0.1)"
+                })
+            }
+            
+            const movePod = () => {
+                gsap.to(this.resources.items.pod.scene.position, {
+                    x: -3.34,
+                    y: 3.77,
+                    z: -10,
+                    duration: 4,
+                    ease: this.ease.power2Out,
+                    onComplete: showHolograms
+                })
+                gsap.to(this.resources.items.pod.scene.rotation, {
+                    x: -0.2,
+                    y: 2.43,
+                    z: 0.66,
+                    duration: 2,
+                    ease: this.ease.power2Out
+                })
+            }
+            
+            gsap.to(this.world.astronautContainer.position, {
+                x: 2.209,
+                y: -55,
+                z: 8.768,
+                duration: this.animationsProps[8].duration * 3.5,
+                ease: this.ease.power2Out,
+                onComplete: movePod
+            })
+            gsap.to(this.world.astronautContainer.rotation, {
+                x: 0,
+                y: 1.502,
+                z: 0,
+                duration: this.animationsProps[8].duration * 5 ,
+                ease: this.ease.elastic(1, 0.6),
+            })
+            gsap.to(this.world.astronautContainer.scale, {
+                x: 1,
+                y: 1,
+                z: 1,
+                duration: this.animationsProps[8].duration * 3.5,
+                ease: this.ease.power2Out,
+            })
+        }
+        this.scrollAnimations.contactComplete = () => {
                 gsap.to(this.world.astronautContainer.position, {
                     x: 2.209,
                     y: -57.49,
