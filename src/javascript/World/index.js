@@ -586,7 +586,7 @@ export default class {
                 child.material = this.materials.items.logoHoloMaterial // Change to HoloMaterial
             }
         })
-        this.contactArea.addToArea(2,2,this.resources.items.linkedInLogo.scene, 'LinkedIn')
+        this.contactArea.addToArea(2,2,this.resources.items.linkedInLogo.scene, 'linkedIn')
         
         this.resources.items.githubLogo.scene.position.set(2.2, -2.25, -3.5)
         this.resources.items.githubLogo.scene.rotation.set(Math.PI / 2, 0, 0)
@@ -596,7 +596,7 @@ export default class {
             }
         })
 
-        this.contactArea.addToArea(2,2,this.resources.items.githubLogo.scene, 'GitHub')
+        this.contactArea.addToArea(2,2,this.resources.items.githubLogo.scene, 'gitHub')
 
         // Debugging
         if (this.debug) {
@@ -658,6 +658,5 @@ export default class {
             this.holograms.contactCone,
             )
 
-        console.log(this.holograms.contactCone);
-    }
+   }
 }
