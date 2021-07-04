@@ -326,6 +326,32 @@ export default class Animations {
         // // self for eventListener Scope Problems
         const self = this
 
+        // IDX Controllers Functions
+        this.idxController = {}
+        this.idxController.isInConstraints = (dir) => {
+            if (['ArrowUp', 'w', 'i'].includes(dir)) { dir = -1 }
+            if (['ArrowDown', 's', 'k'].includes(dir)) { dir = 1 }
+
+            if ((dir < 0 && self.IDX <= 0) || (dir > 0 && self.IDX >= self.MAX_INDEX)) {
+                return false
+            }
+            return true
+        }
+        this.idxController.ArrowUp = (dir) => {
+            this.IDX--
+            this.animationsProps[this.IDX].rotation = -Math.abs(this.animationsProps[this.IDX].rotation)
+            this.direction = 'up'
+        }
+        this.idxController.ArrowDown = (dir) => {
+            this.IDX++
+            this.animationsProps[this.IDX].rotation = Math.abs(this.animationsProps[this.IDX].rotation)
+            this.direction = 'down'
+        }
+        this.idxController.w = this.idxController.ArrowUp
+        this.idxController.s = this.idxController.ArrowDown
+        this.idxController.i = this.idxController.ArrowUp
+        this.idxController.k = this.idxController.ArrowDown
+
         // Wheel Event Function // Async for timeout
         async function _wheel(event) {
 
@@ -333,43 +359,54 @@ export default class Animations {
              * Make Sure menu index is between constraints
              */
 
-            if (event.deltaY < 0) {
-                if (self.IDX !== 0) {
-                    self.IDX--
-                    self.animationsProps[self.IDX].rotation = -Math.abs(self.animationsProps[self.IDX].rotation)
-                    self.direction = 'up'
-                } else {
-                    // return if it is off constraints so it does not remove event listener
-                    return
-                }
+            if (!self.idxController.isInConstraints(event.deltaY === 0 ? event.deltaX : event.deltaY)) return;
 
-            } else {
-                if (self.IDX !== self.MAX_INDEX) {
-                    self.IDX++
-                    self.animationsProps[self.IDX].rotation = Math.abs(self.animationsProps[self.IDX].rotation)
-                    self.direction = 'down'
-                } else {
-                    // return if it is off constraints so it does not remove event listener
-                    return
-                }
-            }
+            if ((event.deltaY > 0 || event.deltaX > 0)) {
+                self.idxController.ArrowDown()
+            } else if ((event.deltaY < 0 || event.deltaX < 0)) (
+                self.idxController.ArrowUp()
+            )
 
-            self.moveMouseFlag = false
             self.animations.moveCamera(self.animationsProps[self.IDX])
 
-
-            // remove window event listener so the animations does not overlap
+            // remove window event listener so animations won't overlap
             window.removeEventListener('wheel', _wheel, true)
+            window.removeEventListener('keydown', _arrowKeysListener, true)
 
             // set timeout so it returns after animation is over
             setTimeout(() => {
                 window.addEventListener('wheel', _wheel, true)
+                window.addEventListener('keydown', _arrowKeysListener, true)
+            },
+                self.animationsProps[self.IDX].duration * 1000
+            ) // Seconds for Timeout
+        }
+
+        async function _arrowKeysListener(event) {
+
+            //  Returns if key has no function or offConstraints
+            if (!self.idxController[event.key]) return
+            if (!self.idxController.isInConstraints(event.key)) return
+
+            self.idxController[event.key]()
+
+            self.animations.moveCamera(self.animationsProps[self.IDX])
+
+            // remove window event listener so animations won't overlap
+            window.removeEventListener('wheel', _wheel, true)
+            window.removeEventListener('keydown', _arrowKeysListener, true)
+
+            // set timeout so it returns after animation is over
+            setTimeout(() => {
+                window.addEventListener('wheel', _wheel, true)
+                window.addEventListener('keydown', _arrowKeysListener, true)
             },
                 self.animationsProps[self.IDX].duration * 1000
             ) // Seconds for Timeout
         }
 
         window.addEventListener('wheel', _wheel, true)
+        window.addEventListener('keydown', _arrowKeysListener, true)
 
         this.DOM.openModalBtns.forEach(btn => {
             btn.addEventListener('click', () => {
