@@ -140,7 +140,7 @@ export default class {
 
     setAstronaut() {
         // Position Container initial Position
-        this.astronautContainer.position.set(0, 2, -2.925)
+        this.astronautContainer.position.set(-1, -4.5, -5.925)
         this.astronautContainer.rotation.set(0, -0.859, 0)
         this.astronautContainer.scale.set(1, 1, 1)
 

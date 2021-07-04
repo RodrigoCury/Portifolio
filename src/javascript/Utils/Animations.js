@@ -44,6 +44,7 @@ export default class Animations {
             power3InOut: "power3.inout",
             power4: "power4.in",
             power4Out: "power4.out",
+            power4InOut: "power4.inOut",
             circ: "circ.in",
             circInOut: "circ.inOut",
             bounceIn: 'bounce.in',
@@ -337,6 +338,7 @@ export default class Animations {
                 if (self.IDX !== 0) {
                     self.IDX--
                     self.animationsProps[self.IDX].rotation = -Math.abs(self.animationsProps[self.IDX].rotation)
+                    self.direction = 'up'
                 } else {
                     // return if it is off constraints so it does not remove event listener
                     return
@@ -346,6 +348,7 @@ export default class Animations {
                 if (self.IDX !== self.MAX_INDEX) {
                     self.IDX++
                     self.animationsProps[self.IDX].rotation = Math.abs(self.animationsProps[self.IDX].rotation)
+                    self.direction = 'down'
                 } else {
                     // return if it is off constraints so it does not remove event listener
                     return
@@ -688,10 +691,20 @@ export default class Animations {
         this.scrollAnimations.madeWithStart = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: -3.6,
-                y: -46,
                 z: 0,
-                duration: this.animationsProps[7].duration * 1.5,
-                ease: this.ease.power2Out,
+                duration: this.animationsProps[7].duration * 2.5,
+                ease: this.ease.backOut(1),
+                onComplete: () => this.radioWavesAnimation(),
+                onUpdate: () => console.log(
+                    this.world.astronautContainer.position,
+                    this.world.astronautContainer.rotation,
+                    this.world.astronautContainer.scale,
+                )
+            })
+            gsap.to(this.world.astronautContainer.position, {
+                y: -46,
+                duration: this.animationsProps[7].duration * 2.5,
+                ease: this.direction === 'up' ? this.ease.elastic(1, 1) : this.power2In,
                 onComplete: () => this.radioWavesAnimation()
             })
             gsap.to(this.world.astronautContainer.rotation, {
@@ -705,8 +718,8 @@ export default class Animations {
                 x: 0.25,
                 y: 0.25,
                 z: 0.25,
-                duration: this.animationsProps[7].duration * 1.5,
-                ease: this.ease.power2Out,
+                duration: this.animationsProps[7].duration * 2.5,
+                ease: this.direction === 'up' ? this.ease.elastic(1, 1) : this.power2In,
             })
         }
 
@@ -747,23 +760,23 @@ export default class Animations {
                 x: 2.209,
                 y: -55,
                 z: 8.768,
-                duration: this.animationsProps[8].duration * 3.5,
-                ease: this.ease.power2Out,
+                duration: this.animationsProps[8].duration * 2,
+                ease: this.ease.power2InOut,
                 onComplete: movePod
             })
             gsap.to(this.world.astronautContainer.rotation, {
                 x: 0,
                 y: 1.502,
                 z: 0,
-                duration: this.animationsProps[8].duration * 5,
+                duration: this.animationsProps[8].duration * 2,
                 ease: this.ease.backOut(3),
             })
             gsap.to(this.world.astronautContainer.scale, {
                 x: 1,
                 y: 1,
                 z: 1,
-                duration: this.animationsProps[8].duration * 3.5,
-                ease: this.ease.power2Out,
+                duration: this.animationsProps[8].duration * 2,
+                ease: this.ease.power2InOut,
             })
         }
 
@@ -772,21 +785,21 @@ export default class Animations {
                 x: 2.209,
                 y: -57.49,
                 z: 8.768,
-                duration: this.animationsProps[6].duration * 2,
+                duration: this.animationsProps[6].duration,
                 ease: this.ease.power2Out,
             })
             gsap.to(this.world.astronautContainer.rotation, {
                 x: 0,
                 y: 1.502,
                 z: 0,
-                duration: this.animationsProps[6].duration * 5,
+                duration: this.animationsProps[6].duration,
                 ease: this.ease.backOut(2),
             })
             gsap.to(this.world.astronautContainer.scale, {
                 x: 1,
                 y: 1,
                 z: 1,
-                duration: this.animationsProps[6].duration * 2,
+                duration: this.animationsProps[6].duration,
                 ease: this.ease.power2Out,
             })
         }
