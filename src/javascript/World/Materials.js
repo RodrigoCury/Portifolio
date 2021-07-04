@@ -143,17 +143,17 @@ export default class Materials {
         this.items.doorMaterial = new ShaderMaterial({
             uniforms: {
                 uTime: { value: this.time.elapsed },
-                uColor: { value: new Color('#020000') },
+                uColor: { value: new Color('#ac83cf') },
                 uGlitchSpeed: { value: 0 },
                 uGlitchIntensity: { value: 0 },
                 uBarSpeed: { value: 1 },
                 uBarDistance: { value: 3500 },
-                uAlpha: { value: 0.57 },
+                uAlpha: { value: 0.747 },
                 uFlickerSpeed: { value: 0.7 },
-                uRimColor: { value: new Color("#780707") },
+                uRimColor: { value: new Color("#01012d") },
                 uRimPower: { value: 5 },
                 uGlowDistance: { value: .3 },
-                uGlowSpeed: { value: .1 },
+                uGlowSpeed: { value: 0 },
             },
 
             vertexShader: holoVertex,
@@ -167,8 +167,8 @@ export default class Materials {
 
         if (this.debug) {
 
-            this.debugObject.dooruColor = "#020000"
-            this.debugObject.dooruRimColor = "#780707"
+            this.debugObject.dooruColor = "#30034a"
+            this.debugObject.dooruRimColor = "#01012d"
             this.debugObject.timeValue = 1000
 
             this.doorHoloFolder = this.debug.addFolder("Door Holo")
