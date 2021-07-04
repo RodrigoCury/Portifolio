@@ -331,7 +331,6 @@ li {
 }
 
 .scroll-down-container {
-  position: relative;
   width: 15px;
   height: 45px;
   border: 1px solid white;
@@ -344,13 +343,36 @@ li {
 }
 
 .scroll-down {
-  position: absolute;
-  top: 2;
   margin: 0 auto;
   width: 13px;
   height: 13px;
   background-color: white;
   border-radius: 50%;
+}
+
+.arrows-container {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.arrows-wrapper {
+  height: 45px;
+  width: 45px;
+  border: 2px solid #ffffffff;
+  border-radius: 5px;
+  background: #ffffff00;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrows {
+  font-size: 1.1em;
+  text-align: center;
+  color: #ffffffff;
 }
 
 .welcome-text {
