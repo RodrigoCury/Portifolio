@@ -113,7 +113,7 @@ export default class {
     setShipwreck() {
         this.resources.items.shipwreck.scene.position.set(0, 0, 0)
         this.resources.items.shipwreck.scene.scale.set(0.15, 0.15, 0.15)
-        this.resources.items.shipwreck.scene.rotation.set(1.221, 2.485, 0.33)
+        this.resources.items.shipwreck.scene.rotation.set(1.221, 4.124, 0.33)
 
 
         this.shipwreckContainer.position.set(0, 6, 0)
