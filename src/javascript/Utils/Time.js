@@ -7,12 +7,18 @@ export default class Time extends EventEmitter {
     /**
      * Constructor
      */
-    constructor() {
+    constructor(_options) {
         super()
 
-        this.stats = new Stats()
-        this.stats.showPanel(0)
-        document.body.appendChild(this.stats.dom)
+        this.debug = _options.debug
+
+        if (this.debug) {
+            // Show Stats
+            this.stats = new Stats()
+            this.stats.showPanel(0)
+
+            document.body.appendChild(this.stats.dom)
+        }
 
         this.start = Date.now()
         this.current = this.start
@@ -28,7 +34,9 @@ export default class Time extends EventEmitter {
      * Tick
      */
     tick() {
-        this.stats.begin()
+        if (this.debug) {
+            this.stats.begin()
+        }
         this.frames++
         this.ticker = window.requestAnimationFrame(this.tick)
 
@@ -43,7 +51,10 @@ export default class Time extends EventEmitter {
         }
 
         this.trigger('tick')
-        this.stats.end()
+
+        if (this.debug) {
+            this.stats.end()
+        }
     }
 
 
