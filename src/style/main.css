@@ -203,7 +203,7 @@ li {
   color: #ccc;
   font-size: 0.7em;
   font-style: italic;
-  align-self: end;
+  align-self: flex-end;
 }
 
 .enter-site {
@@ -215,7 +215,7 @@ li {
   border-radius: 5px;
   padding: 5px;
   width: 15%;
-  transition: 200ms;
+  transition: 500ms;
   -webkit-animation-name: pulse;
   -webkit-animation-duration: 1.5s;
   -webkit-animation-iteration-count: infinite;
@@ -540,8 +540,8 @@ li {
   height: 40px;
   border-radius: 5px;
   display: flex;
-  justify-content: end;
-  align-items: end;
+  justify-content: flex-end;
+  align-items: flex-end;
   background-color: #f6dd1e;
   transform: translate(-50%, -50%);
 }
@@ -869,7 +869,7 @@ li {
   right: 30vw;
   width: 65vw;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   flex-flow: column;
 }
 
@@ -968,6 +968,29 @@ li {
   font-family: "Caveat";
   font-size: 1.5em;
   color: white;
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+}
+
+.contact-wrapper {
+  margin: 25px;
+  color: white;
+  width: 90%;
+  display: flex;
+  flex-flow: column;
+  align-items: flex-end;
+}
+
+.contact-h2 {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin: 10px;
+  text-shadow: 0px 0px 7px rgba(255, 255, 255, 0.2);
+}
+
+.contact-p {
+  margin: 5px;
+  font-style: italic;
+  text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.2);
 }
 
 @-webkit-keyframes opacity {
