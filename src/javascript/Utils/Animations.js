@@ -294,7 +294,6 @@ export default class Animations {
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
                 duration: 3,
-                onStart: this.scrollAnimations.projectsStart,
                 onComplete: this.scrollAnimations.projectsComplete,
             },
             {
@@ -671,7 +670,7 @@ export default class Animations {
             leftToRigth()
         }
 
-        this.scrollAnimations.projectsStart = () => {
+        this.scrollAnimations.projectsComplete = () => {
             gsap.to(this.world.astronautContainer.position, {
                 x: -9.228,
                 y: -41.278,
@@ -695,11 +694,6 @@ export default class Animations {
                 duration: this.animationsProps[7].duration * 2.5,
                 ease: this.ease.backOut(1),
                 onComplete: () => this.radioWavesAnimation(),
-                onUpdate: () => console.log(
-                    this.world.astronautContainer.position,
-                    this.world.astronautContainer.rotation,
-                    this.world.astronautContainer.scale,
-                )
             })
             gsap.to(this.world.astronautContainer.position, {
                 y: -46,
