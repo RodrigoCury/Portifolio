@@ -156,7 +156,7 @@ li {
 .unmute-btn {
   width: 20px;
   height: 20px;
-  cursor: grab;
+  cursor: pointer;
 }
 
 .loading-container {
@@ -955,11 +955,11 @@ li {
   position: absolute;
   top: 0;
   left: 0;
-  width: 90vw;
-  height: 50vh;
+  width: 90%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-end;
 }
 
@@ -994,6 +994,10 @@ li {
   font-style: italic;
   text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.2);
   font-family: "Montserrat";
+}
+
+.contact-cursor {
+  cursor: pointer;
 }
 
 @-webkit-keyframes opacity {
