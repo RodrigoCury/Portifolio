@@ -20,7 +20,6 @@ import Camera from './Camera'
 // DOM
 import DOM from './DOM/index'
 
-
 // World
 import World from './World/index'
 import Sounds from './Utils/Sounds'
@@ -36,13 +35,18 @@ export default class Application {
         this.$canvas = _options.$canvas
 
         // Setup
-        this.time = new Time()
         this.sizes = new Sizes()
         this.sounds = new Sounds()
         this.resources = new Resources()
 
         this.setConfig()
         this.setDebug()
+
+        // Time
+        this.time = new Time({
+            debug: this.debug,
+        })
+
         this.setRenderer()
         this.setCamera()
         this.setPasses()
@@ -74,6 +78,8 @@ export default class Application {
         if (this.config.debug) {
             this.debug = new dat.GUI({ width: this.sizes.width / 3 })
             this.debug.close()
+        } else {
+            this.debug = undefined
         }
     }
 
