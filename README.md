@@ -1,16 +1,33 @@
-# Portifolio
+# Portifolio 🇬🇧 | Portifólio 🇧🇷
+## _Rodrigo Cury_
 
-Setup
-Download [Node.js](https://nodejs.org/en/download/).
-Run this followed commands:
+Portifolio developed using | Portifólio desenvolvido usando
+- [Three.js]
+- [GSAP]
+- [Dat.GUI]
+- [Stats.js]
+- [Webpack]
+- [Blender] - for Custom 3D Models
 
-``` bash
-# Install dependencies (only the first time)
-npm install
 
-# Run the local server at localhost:8080
+_Rode localmente_
+
+```sh
+git clone https://github.com/RodrigoCury/Portifolio.git
+npm i
 npm run dev
-
-# Build for production in the dist/ directory
-npm run build
 ```
+
+Feel Free to Share! | Fique a vontade para Compartilhat
+
+## License
+MIT
+
+**_Open Source, FTW!_**
+
+[three.js]: <https://threejs.org/>
+[GSAP]: <https://greensock.com/gsap/>
+[dat.gui]: <https://github.com/dataarts/dat.gui>
+[stats.js]: <https://github.com/mrdoob/stats.js/>
+[webpack]: <https://webpack.js.org/>
+[blender]: <https://www.blender.org/>>
