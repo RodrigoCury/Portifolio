@@ -80,7 +80,7 @@ export default class Holograms {
             new ConeBufferGeometry(1, 1, 16, 1, true,),
             this.materials.items.logoHoloBeam
         )
-        this.contactCone.position.set(-3.2, -.5, -8.273)
+        this.contactCone.position.set(-3.385, -.5, -8.273)
         this.contactCone.rotation.set(-0.55, 1.55, 0.07)
 
 
