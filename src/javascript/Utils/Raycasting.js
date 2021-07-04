@@ -76,7 +76,9 @@ export default class Raycasting {
 
                     if (intersect.length > 0) {
                         this.mouseIsOn = intersect[0].object.name
+                        this.DOM.contact.classList.add('contact-cursor')
                     } else {
+                        this.DOM.contact.classList.remove('contact-cursor')
                         this.mouseIsOn = undefined
                     }
                 }
