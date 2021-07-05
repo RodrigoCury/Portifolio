@@ -129,8 +129,6 @@ export default class Animations {
                     })
                     this.DOM.loadingPage.classList.add('hide')
                     this.sounds.play('theJourney')
-                    console.log('ENTRE NA MUSICA ROMBADO');
-                    console.log(gsap.to);
                 }
             })
         }
@@ -167,7 +165,7 @@ export default class Animations {
                         duration: 2,
                         ease: this.ease.circInOut
                     })
-                }, 1500)
+                }, 4000)
             })
 
             this.animateScrollDownDiv()
@@ -507,6 +505,18 @@ export default class Animations {
             top: 2
         }, {
             top: 29,
+            duration: 1,
+            ease: this.ease.power3InOut,
+            yoyo: true,
+            repeat: 7
+        })
+
+        gsap.fromTo('.arrows-wrapper', {
+            backgroundColor: 'rgba(255,255,255,1)',
+            borderColor: 'rgba(255,255,255,.5)',
+        }, {
+            backgroundColor: 'rgba(255,255,255,.5)',
+            borderColor: 'rgba(255,255,255,1)',
             duration: 1,
             ease: this.ease.power3InOut,
             yoyo: true,
