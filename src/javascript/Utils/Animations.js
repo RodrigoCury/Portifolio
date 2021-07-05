@@ -104,7 +104,7 @@ export default class Animations {
                         duration: .25,
                         ease: this.ease.linear,
                         yoyo: true,
-                        repeat: 10,
+                        repeat: 12,
                         onStart: () => {
                             setTimeout(() => this.finishWarnings(), .25 * 7 * 1000)
                         }
@@ -115,38 +115,41 @@ export default class Animations {
         this.finishWarnings = async () => {
             this.sounds.stop('alarmBeep', 1000)
             this.sounds.play('decompress')
-            setTimeout(() => {
-                this.sounds.play('whiteout')
-                this.sounds.stop('decompress', 2500)
-                this.sounds.stop('loadAmbientSounds', 1000)
-                this.DOM.whiteout.style.zIndex = 1000
-                gsap.to(this.DOM.whiteout.style, {
-                    opacity: 1,
-                    duration: 2,
-                    ease: 'power1.in',
-                    onComplete: () => {
-                        gsap.to('.poem-wrapper', {
-                            opacity: 1,
-                            duration: .5,
-                            ease: this.ease.circ,
-                        })
-                        this.sounds.play('theJourney')
-                    }
-                })
-            }, 300)
+            this.sounds.play('whiteout')
+            this.sounds.stop('decompress', 2500)
+            this.sounds.stop('loadAmbientSounds', 1000)
+            this.DOM.whiteout.style.zIndex = 1000
+            gsap.to(this.DOM.whiteout.style, {
+                opacity: 1,
+                duration: 2.5,
+                ease: 'power1.in',
+                onComplete: () => {
+                    gsap.to('.poem-wrapper', {
+                        opacity: 1,
+                        duration: 2.5,
+                        ease: this.ease.circ,
+                    })
+                    this.sounds.play('theJourney')
+                    this.DOM.loadingPage.classList.add('hide')
+                }
+            })
         }
 
         this.exitLoadPage = async () => {
-            this.DOM.loadingPage.classList.add('hide'),
-                this.DOM.enterSiteBtn.disabled = true
-            setTimeout(() => {
-                gsap.to(this.DOM.whiteout.style, {
-                    opacity: 0,
-                    duration: 1.5,
-                    ease: 'power1.out',
-                    onComplete: () => this.startScrolling()
-                })
-            }, 500)
+            this.DOM.enterSiteBtn.disabled = true
+            gsap.to('.poem-wrapper', {
+                opacity: 0,
+                duration: .5,
+                ease: this.ease.circ,
+                onComplete: () => {
+                    gsap.to(this.DOM.whiteout.style, {
+                        opacity: 0,
+                        duration: 3,
+                        ease: 'power1.out',
+                        onComplete: () => this.startScrolling()
+                    })
+                }
+            })
             this.homeAnimation()
             this.animateLights()
             this.setAnimationsProps()
