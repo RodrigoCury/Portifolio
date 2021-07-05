@@ -8,18 +8,18 @@ import { Texture } from 'three'
  */
 
 // CubeMap
-import nx from '../textures/nebulaEnvMap/nx.png'
-import ny from '../textures/nebulaEnvMap/ny.png'
-import nz from '../textures/nebulaEnvMap/nz.png'
-import px from '../textures/nebulaEnvMap/px.png'
-import py from '../textures/nebulaEnvMap/py.png'
-import pz from '../textures/nebulaEnvMap/pz.png'
+import nx from '../textures/nebulaEnvMap/nx.jpg'
+import ny from '../textures/nebulaEnvMap/ny.jpg'
+import nz from '../textures/nebulaEnvMap/nz.jpg'
+import px from '../textures/nebulaEnvMap/px.jpg'
+import py from '../textures/nebulaEnvMap/py.jpg'
+import pz from '../textures/nebulaEnvMap/pz.jpg'
 
 // Textures
 import starAlphaMap from '../textures/alphamap/starsAlphaMap.png'
 
 /**
- * Fonts
+ * FaceType Fonts
  */
 const mateSC = '/static/fonts/mateSC.json'
 
@@ -44,13 +44,13 @@ import eMailLogo from '../models/logos/eMailLogo.glb'
 import iss from '../models/iss/iss.glb'
 
 // Hubble
-import hubble from '../models/Hubble/hubble.glb'
+import hubble from '../models/Hubble/hubble-min2.glb'
 
 // Rescue Pod
-import pod from '../models/pod/pod.glb'
+import pod from '../models/pod/pod-min.glb'
 
 // Astronaut
-import astronaut from '../models/astronaut/astronautMatOnly.glb'
+import astronaut from '../models/astronaut/astronautMatOnly-min.glb'
 import astronautRigged from '../models/astronaut/astronaut-standing.glb'
 
 // Ambient Assets
