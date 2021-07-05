@@ -40,6 +40,7 @@ export default class DOM {
         // Home Page DOM Elements
         this.welcomePage = document.querySelector('.welcome-container')
         this.loadingPage = document.querySelector('.loading-container')
+        this.imgWarning = document.querySelector('.img-warning')
         this.loadBar = document.querySelector('.load-bar')
         this.loadTexts = document.querySelector('.load-texts')
         this.exitLoadBtn = document.querySelector('.exit-load-btn')
