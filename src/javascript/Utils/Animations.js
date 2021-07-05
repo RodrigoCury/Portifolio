@@ -28,7 +28,6 @@ export default class Animations {
         this.setEases()
         this.animateCamera()
         this.setScrollAnimations()
-        this.animateScrollDownDiv()
         this.setLoadingPage()
     }
 
@@ -98,28 +97,27 @@ export default class Animations {
                 })
                 gsap.fromTo(this.DOM.loadTexts, {
                     opacity: 0,
-                },
-                    {
-                        opacity: 1,
-                        duration: .25,
-                        ease: this.ease.linear,
-                        yoyo: true,
-                        repeat: 12,
-                        onStart: () => {
-                            setTimeout(() => this.finishWarnings(), .25 * 7 * 1000)
-                        }
-                    })
+                }, {
+                    opacity: 1,
+                    duration: .25,
+                    ease: this.ease.linear,
+                    yoyo: true,
+                    repeat: 12,
+
+                })
             }, 1500)
+            setTimeout(() => this.finishWarnings(), 1500 + (.25 * 7 * 1000))
         }
 
-        this.finishWarnings = async () => {
+        this.finishWarnings = () => {
             this.sounds.stop('alarmBeep', 1000)
             this.sounds.play('decompress')
             this.sounds.play('whiteout')
             this.sounds.stop('decompress', 2500)
             this.sounds.stop('loadAmbientSounds', 1000)
             this.DOM.whiteout.style.zIndex = 1000
-            gsap.to(this.DOM.whiteout.style, {
+            console.log
+            gsap.to(this.DOM.whiteout, {
                 opacity: 1,
                 duration: 2.5,
                 ease: 'power1.in',
@@ -129,8 +127,10 @@ export default class Animations {
                         duration: 2.5,
                         ease: this.ease.circ,
                     })
-                    this.sounds.play('theJourney')
                     this.DOM.loadingPage.classList.add('hide')
+                    this.sounds.play('theJourney')
+                    console.log('ENTRE NA MUSICA ROMBADO');
+                    console.log(gsap.to);
                 }
             })
         }
@@ -150,7 +150,7 @@ export default class Animations {
                     })
                 }
             })
-            this.homeAnimation()
+            this.animateProjections()
             this.animateLights()
             this.setAnimationsProps()
         }
@@ -170,6 +170,7 @@ export default class Animations {
                 }, 1500)
             })
 
+            this.animateScrollDownDiv()
             this.setControls()
             this.setEventListeners()
         }
@@ -447,9 +448,7 @@ export default class Animations {
         })
     }
 
-    homeAnimation() {
-        // this.homePosition = new Vector3(0, 2, 0)
-
+    animateProjections() {
         this.time.on('tick', () => {
             [
                 ...this.DOM.firstPositions,
@@ -504,29 +503,15 @@ export default class Animations {
     }
 
     animateScrollDownDiv() {
-        const down = () => {
-            gsap.to('.scroll-down',
-                {
-                    top: 29,
-                    duration: 1,
-                    ease: this.ease.power3Out,
-                    onComplete: () => up()
-                }
-            )
-        }
-
-        const up = () => {
-            gsap.to('.scroll-down',
-                {
-                    top: 2,
-                    duration: 1,
-                    ease: this.ease.power3Out,
-                    onComplete: () => down()
-                }
-            )
-        }
-
-        down()
+        gsap.fromTo('.scroll-down', {
+            top: 2
+        }, {
+            top: 29,
+            duration: 1,
+            ease: this.ease.power3InOut,
+            yoyo: true,
+            repeat: 7
+        })
     }
 
 

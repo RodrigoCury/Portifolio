@@ -331,6 +331,7 @@ li {
 }
 
 .scroll-down-container {
+  position: relative;
   width: 15px;
   height: 45px;
   border: 1px solid white;
@@ -343,6 +344,7 @@ li {
 }
 
 .scroll-down {
+  position: absolute;
   margin: 0 auto;
   width: 13px;
   height: 13px;
