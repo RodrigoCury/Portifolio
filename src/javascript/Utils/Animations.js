@@ -35,6 +35,7 @@ export default class Animations {
     setEases() {
         // Animation Eases
         this.ease = {
+            linear: 'none',
             slow: "slow (0.7, 0.1, false)",
             power2In: "power2.in",
             power2Out: "power2.out",
@@ -63,9 +64,10 @@ export default class Animations {
             this.DOM.exitLoadBtn.classList.remove('hide')
         }
 
-        this.exitBtnClick = async () => {
+        this.exitBtnClick = () => {
             this.sounds.play('btnBeep')
             this.DOM.exitLoadBtn.classList.add('hide')
+            this.DOM.exitLoadBtn.disabled = true
             this.DOM.loadTexts.style.opacity = 0
             gsap.to(this.DOM.loadTexts.style, {
                 onStart: () => {
@@ -82,14 +84,32 @@ export default class Animations {
 
         this.startWarnings = async () => {
             setTimeout(() => {
+                this.DOM.imgWarning.classList.remove('hide')
                 this.DOM.loadTexts.innerHTML = 'Descompressão detectada'
                 this.DOM.loadTexts.classList.add('text-warning')
                 this.sounds.play('alarmBeep')
                 this.sounds.stop('loadingBar', 150)
                 this.sounds.play('lowDescend')
                 this.sounds.play('gasLeak')
+                gsap.to(this.DOM.imgWarning, {
+                    opacity: 1,
+                    duration: .5,
+                    ease: this.ease.linear,
+                })
+                gsap.fromTo(this.DOM.loadTexts, {
+                    opacity: 0,
+                },
+                    {
+                        opacity: 1,
+                        duration: .25,
+                        ease: this.ease.linear,
+                        yoyo: true,
+                        repeat: 10,
+                        onStart: () => {
+                            setTimeout(() => this.finishWarnings(), .25 * 7 * 1000)
+                        }
+                    })
             }, 1500)
-            setTimeout(() => this.finishWarnings(), 3500)
         }
 
         this.finishWarnings = async () => {
