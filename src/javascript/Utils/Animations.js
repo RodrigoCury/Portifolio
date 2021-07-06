@@ -151,6 +151,15 @@ export default class Animations {
             this.animateProjections()
             this.animateLights()
             this.setAnimationsProps()
+            this.setControls()
+            this.setEventListeners()
+
+            if (this.config.touch || this.config.isMobile) {
+                [this.DOM.mouseMove, ...this.DOM.scrollDown].forEach(el => el.classList.add('hide'))
+            } else {
+                this.DOM.touchScroll.classList.add('hide')
+                this.DOM.touchClick.classList.add('hide')
+            }
         }
 
         this.startScrolling = async () => {
@@ -159,18 +168,18 @@ export default class Animations {
                 opacity: 1,
                 duration: .5,
                 ease: this.ease.circInOut,
-                onComplete: () => setTimeout(() => {
-                    gsap.to('.welcome-container', {
-                        opacity: 0,
-                        duration: 2,
-                        ease: this.ease.circInOut
-                    })
-                }, 4000)
+                onComplete: () => {
+                    this.animateScrollDownDiv()
+                    setTimeout(() => {
+                        gsap.to('.welcome-container', {
+                            opacity: 0,
+                            duration: 2,
+                            ease: this.ease.circInOut
+                        })
+                    }, 4000)
+                }
             })
 
-            this.animateScrollDownDiv()
-            this.setControls()
-            this.setEventListeners()
         }
 
         const textList = [
@@ -358,12 +367,12 @@ export default class Animations {
             }
             return true
         }
-        this.idxController.ArrowUp = (dir) => {
+        this.idxController.ArrowUp = () => {
             this.IDX--
             this.animationsProps[this.IDX].rotation = -Math.abs(this.animationsProps[this.IDX].rotation)
             this.direction = 'up'
         }
-        this.idxController.ArrowDown = (dir) => {
+        this.idxController.ArrowDown = () => {
             this.IDX++
             this.animationsProps[this.IDX].rotation = Math.abs(this.animationsProps[this.IDX].rotation)
             this.direction = 'down'
@@ -553,27 +562,59 @@ export default class Animations {
     }
 
     animateScrollDownDiv() {
-        gsap.fromTo('.scroll-down', {
-            top: 2
-        }, {
-            top: 29,
-            duration: 1,
-            ease: this.ease.power3InOut,
-            yoyo: true,
-            repeat: 7
-        })
+        if (this.config.touch || this.config.isMobile) {
 
-        gsap.fromTo('.arrows-wrapper', {
-            backgroundColor: 'rgba(255,255,255,1)',
-            borderColor: 'rgba(255,255,255,.5)',
-        }, {
-            backgroundColor: 'rgba(255,255,255,.5)',
-            borderColor: 'rgba(255,255,255,1)',
-            duration: 1,
-            ease: this.ease.power3InOut,
-            yoyo: true,
-            repeat: 7
-        })
+            gsap.to('.touched-scroll', {
+                opacity: 1,
+                duration: .5,
+                onComplete: () => {
+                    gsap.fromTo(['.touched-scroll', '.inner-touch-scroll'], {
+                        bottom: 0
+                    }, {
+                        bottom: 63,
+                        duration: 1,
+                        ease: this.ease.power3InOut,
+                        repeat: 7,
+                        yoyo: true,
+                        yoyoEase: this.ease.power3InOut,
+                        repeatDelay: 0.4,
+                        onRepeat: () => {
+                            gsap.fromTo('.touched-scroll', {
+                                opacity: 0,
+                            }, {
+                                opacity: 1,
+                                duration: 0.25
+                            })
+                        },
+                    })
+                }
+            })
+        } else {
+
+            gsap.fromTo('.scroll-down', {
+                top: 2
+            }, {
+                top: 29,
+                duration: 1,
+                ease: this.ease.power3InOut,
+                yoyo: true,
+                yoyoEase: this.ease.power3InOut,
+                repeat: 7
+            })
+
+            gsap.fromTo('.arrows-wrapper', {
+                backgroundColor: 'rgba(255,255,255,1)',
+                borderColor: 'rgba(255,255,255,.5)',
+            }, {
+                backgroundColor: 'rgba(255,255,255,.5)',
+                borderColor: 'rgba(255,255,255,1)',
+                duration: 1,
+                ease: this.ease.power3InOut,
+                yoyo: true,
+                repeat: 7
+            })
+
+        }
     }
 
 
@@ -731,50 +772,69 @@ export default class Animations {
 
             this.animationsProps[5].visitedFlag = true
 
-            // Remove Hint to hover Move Opacity
+            // Remove hide to hover Move Opacity
             gsap.to(this.DOM.mouseMove.parentNode, {
                 opacity: 1,
                 duration: 1,
             })
+            if (this.config.touch || this.config.isMobile) {
 
-            // Set Numbers of loops that animation Repeat
-            let loops = 3
+                let loops = 3
 
-            // Gsap integrated Yoyo doesn't look good so... Jenk way to do it
-            let leftToRigth = () => {
-                gsap.to(this.DOM.mouseMove, {
-                    left: this.helperFunctions.percentToPixelWidth(this.DOM.mouseMove, 75),
-                    duration: .5,
-                    ease: this.ease.linear,
-                    onComplete: () => {
-                        // Check if it must stop
-                        if (loops == 0) {
-                            // Hides the DIV
-                            gsap.to(this.DOM.mouseMove.parentNode, {
+                let touchAnimation = async () => {
+                    gsap.to(['.touched-click', '.inner-touch-click'], {
+                        top: 30,
+                        duration: 1,
+                        ease: this.ease.power3InOut,
+                        onComplete: () => {
+                            gsap.fromTo('.touched-click', {
                                 opacity: 0,
-                                duration: 2,
+                            }, {
+                                opacity: 1,
+                                duration: 0.25,
+                                onComplete: () => setTimeout(() => {
+                                    gsap.to(['.touched-click', '.inner-touch-click'], {
+                                        top: 0,
+                                        duration: .01,
+                                        onComplete: () => {
+                                            if (loops > 0) {
+                                                touchAnimation()
+                                                loops--
+                                            } else {
+                                                gsap.to(this.DOM.mouseMove.parentNode, {
+                                                    opacity: 0,
+                                                    duration: 1,
+                                                })
+                                            }
+                                        }
+                                    })
+                                }, 500)
                             })
+                        },
+                    })
+                }
 
-                        } else {
-                            // Keeps Recursion Going
-                            loops--
-                            rigthToLeft()
-                        }
+                touchAnimation()
+
+            } else {
+                gsap.fromTo(this.DOM.mouseMove, {
+                    left: this.helperFunctions.percentToPixelWidth(this.DOM.mouseMove, 75),
+                }, {
+                    left: this.helperFunctions.percentToPixelWidth(this.DOM.mouseMove, 25),
+                    duration: 1,
+                    ease: this.ease.power3InOut,
+                    yoyoEase: this.ease.power3InOut,
+                    yoyo: true,
+                    repeat: 4,
+                    onComplete: () => {
+                        // Hides the Hover
+                        gsap.to(this.DOM.mouseMove.parentNode, {
+                            opacity: 0,
+                            duration: 2,
+                        })
                     }
                 })
             }
-
-            let rigthToLeft = () => {
-                gsap.to(this.DOM.mouseMove, {
-                    left: this.helperFunctions.percentToPixelWidth(this.DOM.mouseMove, 25),
-                    duration: .5,
-                    ease: this.ease.linear,
-                    onComplete: leftToRigth
-                })
-            }
-
-            // Starts loops
-            leftToRigth()
         }
 
         this.scrollAnimations.projectsComplete = () => {
