@@ -160,12 +160,29 @@ li {
 }
 
 .loading-container {
+  background: url(/static/imgs/loadingScreen/6.jpg) no-repeat center center
+    fixed;
+  background-size: cover;
   position: absolute;
+  overflow: hidden;
   top: 0;
   left: 0;
   height: 100vh;
   width: 100%;
   z-index: 100;
+}
+
+.warning-img-container {
+  background: url(/static/imgs/loadingScreen/warning-min.png) no-repeat center
+    center fixed;
+  background-size: cover;
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .loading-whiteout {
@@ -213,8 +230,7 @@ li {
   font-weight: bold;
   border: none;
   border-radius: 5px;
-  padding: 5px;
-  width: 15%;
+  padding: 5px 10px;
   transition: 500ms;
   -webkit-animation-name: pulse;
   -webkit-animation-duration: 1.5s;
@@ -236,7 +252,7 @@ li {
 }
 
 .loading-container > img {
-  width: 100%;
+  width: auto;
   height: 100%;
 }
 
@@ -246,7 +262,7 @@ li {
   left: 50%;
   transform: translate(-50%, -50%) perspective(300px) rotateX(10deg);
   height: 30%;
-  width: 50%;
+  width: 35%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -260,6 +276,7 @@ li {
     0 0 20px #039bb3, 0 0 30px #039bb3, 0 0 40px #039bb3, 0 0 55px #039bb3,
     0 0 75px #039bb3, 2px 2px 2px #ce5937;
   opacity: 75%;
+  text-align: center;
 }
 
 .load-texts-bigger {
@@ -294,8 +311,7 @@ li {
 .exit-load-btn {
   font-size: 1rem;
   border: none;
-  height: 10%;
-  width: 30%;
+  padding: 5px 10px;
   opacity: 0.75;
   color: #d6faff;
   background-color: #74bcff;
@@ -303,6 +319,7 @@ li {
     0 0 20px #039bb3, 0 0 30px #039bb3, 0 0 40px #039bb3, 0 0 55px #039bb3,
     0 0 75px #039bb3, 2px 2px 2px #ce5937;
   transition: 0.2s;
+  border-radius: 5px;
 }
 
 .exit-load-btn:hover {
@@ -328,6 +345,13 @@ li {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+}
+
+.welcome-text {
+  color: white;
+  font-size: 2em;
+  font-family: "Caveat";
+  text-align: center;
 }
 
 .scroll-down-container {
@@ -377,59 +401,59 @@ li {
   color: #000;
 }
 
-.welcome-text {
-  color: white;
-  font-size: 2em;
-  font-family: "Caveat";
-}
-
 .homepage {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
 }
 
 .home {
-  position: absolute;
-  left: 25vw;
-  top: calc(50vh - 10vw);
   text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3em;
 }
 
 .home-text {
-  width: 50vw;
-  font-size: 10vw;
+  width: 100vw;
+  font-size: 4em;
+  text-align: center;
   font-family: "Caveat";
   color: white;
-  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+  text-shadow: 0px 0px 10px rgb(255 255 255 / 20%);
 }
 
 .content {
-  position: absolute;
-  bottom: calc(10vh + 3.5vw);
-  left: 15vw;
-  height: 160px;
+  position: relative;
+  height: auto;
   width: 70vw;
   overflow: hidden;
   font-family: "Mate SC";
-  font-size: 6.6vw;
-  line-height: 7vw;
+  font-size: 1em;
+  line-height: 1em;
   color: #ecf0f1;
 }
 .content__container {
   font-weight: 600;
   overflow: hidden;
-  height: 7vw;
-  padding: 0 7vw;
+  height: 1em;
+  padding: 0 1em;
 }
 .content__container:before {
   content: "⊷";
+  float: left;
   left: 0;
   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
 }
 .content__container:after {
+  float: right;
   content: "⊶";
   position: absolute;
   right: 0;
@@ -466,7 +490,7 @@ li {
   animation-iteration-count: infinite;
 }
 .content__container__list__item {
-  line-height: 1em;
+  line-height: 102%;
   margin: 0;
   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
 }
@@ -509,12 +533,12 @@ li {
 .technologies-container {
   position: absolute;
   top: 5vh;
-  left: 30vw;
-  width: 40vw;
-  height: 25vw;
+  left: 0;
+  width: 100vw;
+  height: 95vh;
   display: flex;
   flex-flow: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -529,7 +553,7 @@ li {
   position: relative;
   margin: 5% 0;
   width: 50%;
-  height: 100%;
+  height: 25%;
   opacity: 0;
   display: flex;
   flex-flow: column;
@@ -541,6 +565,7 @@ li {
   color: white;
   text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.3);
   font-family: "Montserrat";
+  text-align: center;
 }
 
 .mouse-move {
@@ -598,8 +623,10 @@ li {
   border-radius: 25px;
 }
 
-.spine {
-  height: 80%;
+.spine,
+.spine-cards {
+  padding-top: 2.5%;
+  height: 95%;
   width: 3px;
   background: rgb(255, 255, 255);
   background: linear-gradient(
@@ -715,6 +742,7 @@ li {
   height: auto;
   overflow: hidden;
   white-space: nowrap;
+  display: inline-block;
 }
 
 .modal-back,
@@ -770,6 +798,7 @@ li {
   display: flex;
   flex-flow: row;
   justify-content: space-between;
+  width: 100%;
 }
 
 .modal-title {
@@ -927,8 +956,8 @@ li {
   height: 30%;
   display: grid;
   grid-template-columns: 1fr 1fr 1.5fr 1.5fr;
-  grid-template-rows: 1fr 8fr;
-  gap: 5% 1%;
+  grid-template-rows: 1fr;
+  gap: 5%;
   align-items: center;
 }
 
@@ -937,6 +966,7 @@ li {
   font-size: 1.25em;
   color: rgb(0, 195, 255);
   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+  margin-bottom: 20px;
 }
 
 .made-with-header::before {
@@ -991,14 +1021,6 @@ li {
   align-items: flex-end;
 }
 
-.contact-header {
-  margin: 25px;
-  font-family: "Caveat";
-  font-size: 2.5em;
-  color: white;
-  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
-}
-
 .contact-wrapper {
   margin: 25px;
   color: white;
@@ -1006,6 +1028,14 @@ li {
   display: flex;
   flex-flow: column;
   align-items: flex-end;
+}
+
+.contact-header {
+  margin: 25px;
+  font-family: "Caveat";
+  font-size: 2.5em;
+  color: white;
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
 }
 
 .contact-h2 {
