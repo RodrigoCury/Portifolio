@@ -62,8 +62,10 @@ export default class DOM {
         this.unmutebtn = document.querySelector('.unmute-btn')
 
         // Elements to Animate
-        this.scrollDown = document.querySelector('.scroll-down')
+        this.scrollDown = [document.querySelector('.scroll-down-container'), document.querySelector('.arrows-container')]
+        this.touchScroll = document.querySelector('.touch-scroll')
         this.mouseMove = document.querySelector('.mouse-move')
+        this.touchClick = document.querySelector('.touch-click')
 
     }
 
