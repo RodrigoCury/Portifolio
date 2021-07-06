@@ -63,10 +63,11 @@ export default class Application {
         this.config = {}
         this.config.debug = window.location.hash == '#debug'
         this.config.touch = false
+        this.isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent)
         this.config.screenIsOn = 'welcomeDiv'
 
         window.addEventListener('touchstart', () => {
-            // TODO
+            this.config.touch = true
         })
     }
 
@@ -267,6 +268,7 @@ export default class Application {
         this.DOM = new DOM({
             debug: this.debug,
             $canvas: this.$canvas,
+            config: this.config,
             time: this.time,
             world: this.world,
             camera: this.camera,
