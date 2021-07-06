@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
@@ -30,8 +31,7 @@
         </div>
     </div>
     <div class='loading-container'>
-        <img src='/static/imgs/loadingScreen/6.jpg'>
-        <img class='img-warning hide' src='/static/imgs/loadingScreen/warning-min.png'>
+        <div class='warning-img-container'></div>
         <div class='load-bar-container'>
             <div class='load-snippets'>
             <p class='load-texts'>Carregando</p>
@@ -60,7 +60,7 @@
 
     <div class='homepage'>
         <div class='home'>
-            <h1 class="home-text ">Rodrigo Cury</h1>
+            <h1 class="home-text">Rodrigo Cury</h1>
         </div>
         <div class="content">
             <div class="content__container">
@@ -77,10 +77,9 @@
     <div class='whoami'>
         <div class='whoami-container spine-right'>
             <div class='whoami-wrapper'>
-                <h1 class="whoami-header">Rodrigo é</h1>
+                <h1 class="whoami-header">Sou</h1>
                 <p class="whoami-p">Desenvolvedor Júnior</p>    
-                <p class="whoami-p">Frontend em ambientes 3D</p>    
-                <p class="whoami-p">e Backend</p>
+                <p class="whoami-p">Frontend em ambientes 3D e Backend</p>
             </div>  
             <div class='spine'></div>
         </div>
@@ -100,10 +99,7 @@
                     mais no meu tempo livre.
                 </p>
                 <p class='whoami-p'>
-                    Desde pequeno fui apaixonado por Cinema, Animações, Livros, Música, Podcasts
-                </p>
-                <p class='whoami-p'>
-                    e intrigado pelo universo e biologia.
+                    Desde pequeno fui apaixonado por Cinema, Animações, Livros, Música, Podcasts e intrigado pelo universo e biologia.
                 </p>
             </div>
             <div class='spine'></div>
@@ -123,7 +119,7 @@
 
     <div class='projects-container'>
         <div class='project-card'>
-            <div class='spine'></div>
+            <div class='spine-cards'></div>
             <img
                 class='project-logo'
                 src="/static/imgs/coin.png">
@@ -137,7 +133,7 @@
             </div>
         </div>
         <div class='project-card'>
-            <div class='spine'></div>
+            <div class='spine-cards'></div>
             <img
                 class='project-logo'
                 src="/static/imgs/bioinformatizado.jpg">
@@ -153,7 +149,7 @@
             </div>
         </div>
         <div class='project-card'>
-            <div class='spine'></div>
+            <div class='spine-cards'></div>
             <img
                 class='project-logo'
                 src="/static/imgs/bioinfo-project-logo.png">
@@ -356,11 +352,8 @@
 
         </div>
         <div class='made-with-wrapper'>
-            <h2 class='made-with-header'>Tecnologias</h2>
-            <h2 class='made-with-header'>Desenvolvimento</h2>
-            <h2 class='made-with-header'>Músicas</h2>
-            <h2 class='made-with-header'>Agradecimentos</h2>
             <ul class='made-with-ul' id='made-with-tech'>
+                <h2 class='made-with-header'>Tecnologias</h2>
                 <li class='made-with-li'>Three.JS</li>
                 <li class='made-with-li'>GSAP</li>
                 <li class='made-with-li'>Howler</li>
@@ -370,6 +363,7 @@
                 <li class='made-with-li'>Audacity</li>
             </ul>
             <ul class='made-with-ul'id='made-with-trivia'>
+                <h2 class='made-with-header'>Desenvolvimento</h2>
                 <li class='made-with-li'>150+ Hrs desenvolvendo o conceito</li>
                 <li class='made-with-li'>100+ Horas codando</li>
                 <li class='made-with-li'>Bastante Aprendizado</li>
@@ -377,6 +371,7 @@
                 <li class='made-with-li'>Várias danças de comemoração</li>
             </ul>
             <ul class='made-with-ul'id='made-with-music'>
+                <h2 class='made-with-header'>Músicas</h2>
                 <li class='made-with-li'>
                     'The Journey' por
                     <a href="https://pixabay.com/users/astrofreq-19902647/?tab=audio&amp;utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=audio&amp;utm_content=2582" target="_blank" rel="noopener noreferrer">
@@ -399,6 +394,7 @@
                 </li>
             </ul>
             <ul class='made-with-ul'id='made-with-thanks'>
+                <h2 class='made-with-header'>Agradecimentos</h2>
                 <li class='made-with-li'>Amigos e Família pelo apoio e opiniões construtivas</li>
                 <li class='made-with-li'>
                     <a href="https://bruno-simon.com/">
