@@ -11,6 +11,7 @@ export default class DOM {
         this.debug = _options.debug
         this.$canvas = _options.$canvas
         this.time = _options.time
+        this.config = _options.config
         this.world = _options.world
         this.camera = _options.camera
         this.sizes = _options.sizes
@@ -40,7 +41,7 @@ export default class DOM {
         // Home Page DOM Elements
         this.welcomePage = document.querySelector('.welcome-container')
         this.loadingPage = document.querySelector('.loading-container')
-        this.imgWarning = document.querySelector('.img-warning')
+        this.imgWarning = document.querySelector('.warning-img-container')
         this.loadBar = document.querySelector('.load-bar')
         this.loadTexts = document.querySelector('.load-texts')
         this.exitLoadBtn = document.querySelector('.exit-load-btn')
