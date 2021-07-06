@@ -195,13 +195,14 @@ export default class Animations {
             this.sounds.play('loadingBar')
         } else {
             this.resources.on('startLoad', () => {
+                this.sounds.play('loadingBar')
             })
         }
 
 
         this.resources.on('progress', progress => {
             this.DOM.loadTexts.innerHTML = textList[Math.floor(progress * 10)]
-            this.DOM.loadBar.style.width = `${progress * 60}%`
+            this.DOM.loadBar.style.width = `${progress * 100}%`
         })
 
         this.resources.on('ready', () => {
@@ -211,8 +212,6 @@ export default class Animations {
                 ease: 'circ.out',
                 onComplete: () => this.onReady()
             })
-
-
         })
 
         this.DOM.exitLoadBtn.onclick = () => this.exitBtnClick()
@@ -394,11 +393,15 @@ export default class Animations {
             // remove window event listener so animations won't overlap
             window.removeEventListener('wheel', _wheel, true)
             window.removeEventListener('keydown', _arrowKeysListener, true)
+            window.removeEventListener('touchStart', _touchStart, true)
+            window.removeEventListener('touchmove', _touchMove, true)
 
             // set timeout so it returns after animation is over
             setTimeout(() => {
                 window.addEventListener('wheel', _wheel, true)
                 window.addEventListener('keydown', _arrowKeysListener, true)
+                window.addEventListener('touchStart', _touchStart, true)
+                window.addEventListener('touchmove', _touchMove, true)
             },
                 self.animationsProps[self.IDX].duration * 1000
             ) // Seconds for Timeout
@@ -417,18 +420,67 @@ export default class Animations {
             // remove window event listener so animations won't overlap
             window.removeEventListener('wheel', _wheel, true)
             window.removeEventListener('keydown', _arrowKeysListener, true)
+            window.removeEventListener('touchStart', _touchStart, true)
+            window.removeEventListener('touchmove', _touchMove, true)
 
             // set timeout so it returns after animation is over
             setTimeout(() => {
                 window.addEventListener('wheel', _wheel, true)
                 window.addEventListener('keydown', _arrowKeysListener, true)
+                window.addEventListener('touchStart', _touchStart, true)
+                window.addEventListener('touchmove', _touchMove, true)
             },
                 self.animationsProps[self.IDX].duration * 1000
             ) // Seconds for Timeout
         }
 
+        function _touchStart(event) {
+            if (event.touches.length === 1) {
+                self.touchStartY = event.touches[0].clientY
+            }
+        }
+
+        async function _touchMove(event) {
+            if (event.touches.length === 1) {
+                self.touchDeltaY = event.touches[0].clientY - self.touchStartY
+
+                if (Math.abs(self.touchDeltaY) > 40) {
+
+                    if (!self.idxController.isInConstraints(-self.touchDeltaY)) return;
+
+                    if (self.touchDeltaY > 0) {
+                        self.idxController.ArrowUp()
+                    }
+
+                    else if (self.touchDeltaY < 0) {
+                        self.idxController.ArrowDown()
+                    }
+
+                    self.animations.moveCamera(self.animationsProps[self.IDX])
+
+                    // remove window event listener so animations won't overlap
+                    window.removeEventListener('wheel', _wheel, true)
+                    window.removeEventListener('keydown', _arrowKeysListener, true)
+                    window.removeEventListener('touchStart', _touchStart, true)
+                    window.removeEventListener('touchmove', _touchMove, true)
+
+                    // set timeout so it returns after animation is over
+                    setTimeout(() => {
+                        window.addEventListener('wheel', _wheel, true)
+                        window.addEventListener('keydown', _arrowKeysListener, true)
+                        window.addEventListener('touchStart', _touchStart, true)
+                        window.addEventListener('touchmove', _touchMove, true)
+                    },
+                        self.animationsProps[self.IDX].duration * 1000
+                    ) // Seconds for Timeout
+                }
+            }
+        }
+
         window.addEventListener('wheel', _wheel, true)
         window.addEventListener('keydown', _arrowKeysListener, true)
+        window.addEventListener('touchstart', _touchStart, true)
+        window.addEventListener('touchmove', _touchMove, true)
 
         this.DOM.openModalBtns.forEach(btn => {
             btn.addEventListener('click', () => {
