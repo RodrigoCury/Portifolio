@@ -903,9 +903,9 @@ export default class Animations {
                 ease: this.ease.backOut(1),
             })
             gsap.to(this.world.astronautContainer.scale, {
-                x: this.isDesktop() ? 0.575 : 0.125,
-                y: this.isDesktop() ? 0.575 : 0.125,
-                z: this.isDesktop() ? 0.575 : 0.125,
+                x: this.isDesktop() ? 0.25 : 0.125,
+                y: this.isDesktop() ? 0.25 : 0.125,
+                z: this.isDesktop() ? 0.25 : 0.125,
                 duration: this.animationsProps[7].duration * 2.5,
                 ease: this.direction === 'up' ? this.ease.elastic(1, 1) : this.power2In,
             })
