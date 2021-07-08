@@ -276,6 +276,17 @@ export default class Application {
             resources: this.resources,
             sounds: this.sounds
         })
+        const self = this
+        this.DOM.enterSiteBtn.addEventListener('click', function _traverse() {
+            self.scene.traverse(child => {
+                if (child instanceof THREE.Mesh &&
+                    child.material instanceof THREE.MeshStandardMaterial) {
+                    child.material.envMapIntensity = 2.5
+                    child.material.needsUpdate = true
+                }
+            }, true)
+            self.DOM.enterSiteBtn.removeEventListener('click', _traverse(), true)
+        })
     }
 
     setRaycaster() {
