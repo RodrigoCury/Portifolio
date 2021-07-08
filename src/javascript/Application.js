@@ -63,7 +63,7 @@ export default class Application {
         this.config = {}
         this.config.debug = window.location.hash == '#debug'
         this.config.touch = false
-        this.isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent)
+        this.config.isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent)
         this.config.screenIsOn = 'welcomeDiv'
 
         window.addEventListener('touchstart', () => {
