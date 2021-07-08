@@ -326,6 +326,21 @@ li {
   opacity: 1;
 }
 
+.exp-p {
+  font-size: .75em;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff11;
+  border-radius: 1em/1em;
+  padding: 5px 10px;
+  text-align: center;
+  color: #74bcff;
+  font-weight: 100;
+  font-family: -webkit-pictograph;
+}
+
 .canvas {
   position: absolute;
   top: 0;
