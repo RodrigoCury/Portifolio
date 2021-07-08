@@ -1,3 +1,4 @@
+import gsap from 'gsap/gsap-core'
 import { Raycaster, Vector2 } from 'three'
 
 export default class Raycasting {
@@ -44,6 +45,9 @@ export default class Raycasting {
 
         // Update Raycaster Position
         this.resources.on("ready", () => {
+            this.currentTechName = undefined
+            this.hasChangedFlag = false
+
             this.time.on("tick", () => {
 
                 /**
@@ -55,16 +59,44 @@ export default class Raycasting {
                     this.raycaster.setFromCamera(this.mouse, this.camera.instance)
                     const intersect = this.raycaster.intersectObject(this.world.logosArea, true)
 
+                    if (this.time.frames % 120 === 0 && typeof intersect[0] !== 'undefined') {
+                        console.log(intersect);
+                    }
+
+
                     this.world.holograms.container.children.forEach(child => {
                         if (typeof intersect[0] !== 'undefined' && child.name == intersect[0].object.name) {
                             child.visible = true
+
+                            if (child.name !== this.currentTechName) {
+                                this.currentTechName = child.name
+                                this.hasChangedFlag = true
+                            } else {
+                                this.hasChangedFlag = false
+                            }
+
                             this.world.holograms.cone.visible = true
+                            this.world.lights.items.spotLight.target.intersected = true
                         } else {
                             child.visible = false
                         }
 
                         if (intersect.length === 0) {
+                            this.world.lights.items.spotLight.target.intersected = false
                             this.world.holograms.cone.visible = false
+                            this.world.lights.items.spotLight.angle = Math.PI / 8
+                        }
+
+                        if (this.hasChangedFlag && typeof intersect[0] !== 'undefined') {
+                            gsap.to(this.world.lights.items.spotLight.target.position, {
+                                x: intersect[0].object.position.x,
+                                y: intersect[0].object.position.y,
+                                z: intersect[0].object.position.z,
+                                duration: 1,
+                            })
+                            gsap.to(this.world.lights.items.spotLight, {
+                                angle: Math.PI / 12
+                            })
                         }
                     })
                 }
