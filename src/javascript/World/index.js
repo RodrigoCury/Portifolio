@@ -34,6 +34,7 @@ export default class {
         this.whatIDoContainer = new THREE.Object3D()
         this.aboutMeContainer = new THREE.Object3D()
         this.logoContainer = new THREE.Object3D()
+        this.holoTextsContainer = new THREE.Object3D()
         this.projectsContainer = new THREE.Object3D()
         this.starsContainer = new THREE.Object3D()
         this.hubbleContainer = new THREE.Object3D()
@@ -69,18 +70,19 @@ export default class {
         this.resources.on('ready', () => {
             this.setMaterials()
             this.setStars()
-            this.setShipwreck()
-            this.setAstronaut()
-            this.setWhoAmI()
-            this.setWhatIDo()
-            this.setAboutMe()
             this.setTextGeometries()
             this.setHolograms()
-            this.setLogos()
-            this.setISS()
-            this.setProjects()
-            this.setHubble()
-            this.setRescuePod()
+            this.setPositionObject()
+            this.setPositions()
+            this.setLogosRaycasting()
+            this.setRescuePodMaterialsAndRaycasting()
+            this.containerize()
+            if (this.debug) {
+                this.setDebug()
+            }
+            this.sizes.on('resize', () => {
+                this.setPositions()
+            })
         })
     }
 
@@ -107,142 +109,24 @@ export default class {
             materials: this.materials,
             resources: this.resources,
             geometries: this.text,
+            container: this.holoTextsContainer,
         })
     }
 
-    setShipwreck() {
-        this.resources.items.shipwreck.scene.position.set(0, 0, 0)
-        this.resources.items.shipwreck.scene.scale.set(0.15, 0.15, 0.15)
-        this.resources.items.shipwreck.scene.rotation.set(1.221, 4.124, 0.33)
-
-
-        this.shipwreckContainer.position.set(0, 6, 0)
-        this.shipwreckContainer.rotation.y = -2.4
-        this.shipwreckContainer.add(this.resources.items.shipwreck.scene)
-
-        if (this.debug) {
-            this.shipwreckContainer.add(new THREE.AxesHelper(2))
-            this.shipwreckFolder = this.debug.addFolder("Shipwreck")
-            this.shipwreckFolder.add(this.resources.items.shipwreck.scene.position, 'x', -10, 10, .001).name("shipwreck x")
-            this.shipwreckFolder.add(this.resources.items.shipwreck.scene.position, 'y', -10, 10, .001).name("shipwreck y")
-            this.shipwreckFolder.add(this.resources.items.shipwreck.scene.position, 'z', -10, 10, .001).name("shipwreck z")
-            this.shipwreckFolder.add(this.resources.items.shipwreck.scene.rotation, 'x', -10, 10, .001).name("shipwreck rot x")
-            this.shipwreckFolder.add(this.resources.items.shipwreck.scene.rotation, 'y', -10, 10, .001).name("shipwreck rot y")
-            this.shipwreckFolder.add(this.resources.items.shipwreck.scene.rotation, 'z', -10, 10, .001).name("shipwreck rot z")
-            this.shipwreckFolder.add(this.shipwreckContainer.position, 'x', -10, 10, .001).name("container x")
-            this.shipwreckFolder.add(this.shipwreckContainer.position, 'y', -10, 10, .001).name("container y")
-            this.shipwreckFolder.add(this.shipwreckContainer.position, 'z', -10, 10, .001).name("container z")
-            this.shipwreckFolder.add(this.shipwreckContainer.rotation, 'x', -10, 10, .001).name("container rot x")
-            this.shipwreckFolder.add(this.shipwreckContainer.rotation, 'y', -10, 10, .001).name("container rot y")
-            this.shipwreckFolder.add(this.shipwreckContainer.rotation, 'z', -10, 10, .001).name("container rot z")
-        }
-    }
-
-    setAstronaut() {
-        // Position Container initial Position
-        this.astronautContainer.position.set(-1, -4.5, -5.925)
-        this.astronautContainer.rotation.set(0, -0.859, 0)
-        this.astronautContainer.scale.set(1, 1, 1)
-
-        // Position astronaut
-        this.resources.items.astronautRigged.scene.position.set(0, 0, 0)
-        this.resources.items.astronautRigged.scene.rotation.set(0, 0, 0)
-        this.resources.items.astronautRigged.scene.scale.set(.5, .5, .5)
-
-        if (this.debug) {
-            // Debug Folder
-            this.astronautFolder = this.debug.addFolder('Roaming Astronaut')
-
-            // Container Debug
-            this.astronautFolder.add(this.astronautContainer.position, 'x', -15, 15, 0.001).name('container X')
-            this.astronautFolder.add(this.astronautContainer.position, 'y', -60, 10, 0.001).name('container Y')
-            this.astronautFolder.add(this.astronautContainer.position, 'z', -15, 15, 0.001).name('container Z')
-            this.astronautFolder.add(this.astronautContainer.rotation, 'x', -Math.PI, Math.PI, 0.001).name('container rot X')
-            this.astronautFolder.add(this.astronautContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot Y')
-            this.astronautFolder.add(this.astronautContainer.rotation, 'z', -Math.PI, Math.PI, 0.001).name('container rot Z')
-
-            // Astronaut Debug
-            this.astronautFolder.add(this.resources.items.astronautRigged.scene.position, 'x', -6, 6, 0.001).name('Astronaut X')
-            this.astronautFolder.add(this.resources.items.astronautRigged.scene.position, 'y', -6, 6, 0.001).name('Astronaut Y')
-            this.astronautFolder.add(this.resources.items.astronautRigged.scene.position, 'z', -6, 6, 0.001).name('Astronaut Z')
-            this.astronautFolder.add(this.resources.items.astronautRigged.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('Astronaut rot X')
-            this.astronautFolder.add(this.resources.items.astronautRigged.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('Astronaut rot Y')
-            this.astronautFolder.add(this.resources.items.astronautRigged.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('Astronaut rot Z')
-            this.astronautFolder.add(this.resources.items.astronautRigged.scene.scale, 'x', 0, 1, 0.025).name('Astronaut scale X').onChange(() => {
-                let scale = this.resources.items.astronautRigged.scene.scale.x
-                this.resources.items.astronautRigged.scene.scale.set(scale, scale, scale)
-            })
-
-            this.astronautContainer.add(new THREE.AxesHelper(1.5))
-        }
+    containerize() {
+        this.shipwreckContainer.add(this.posObj.shipwreck.objectd3D)
 
         this.astronautContainer.add(this.resources.items.astronautRigged.scene)
-    }
 
-    setLogos() {
-        // Container Position
-        this.logoContainer.position.set(-5.75, -20, 3.75)
+        this.whoAmIContainer.add(this.resources.items.notebook.scene)
 
-        // Container Rotation
-        this.logoContainer.rotation.y = 2.42
+        this.whatIDoContainer.add(this.resources.items.microscope.scene)
 
-        // Set Raycaster Areas
-        this.logosArea = Areas.addArea()
-
-
-        /**
-         * Top Row
-         */
-
-        // Set Python Logo
-        this.resources.items.pyLogo.scene.position.set(-1, 2, 0)
-        this.resources.items.pyLogo.scene.rotation.x = Math.PI / 2
-        this.logosArea.addToArea(2, 2, this.resources.items.pyLogo.scene, 'Python')
-
-        // Set Javascript Logo
-        this.resources.items.jsLogo.scene.position.set(1, 2, 0)
-        this.resources.items.jsLogo.scene.rotation.x = Math.PI / 2
-        this.resources.items.jsLogo.scene.scale.set(0.9, 0.9, 0.9)
-        this.logosArea.addToArea(2, 2, this.resources.items.jsLogo.scene, 'Javascript')
-
-        /**
-         * Middle Row
-         */
-
-        // Django Logo
-        this.resources.items.djangoLogo.scene.position.set(-2, 0, 0)
-        this.resources.items.djangoLogo.scene.rotation.x = Math.PI / 2
-        this.logosArea.addToArea(2, 2, this.resources.items.djangoLogo.scene, 'Django')
-
-        // Set BioPython Logo
-        this.resources.items.biopyLogo.scene.position.set(0, 0, 0)
-        this.resources.items.biopyLogo.scene.rotation.x = Math.PI / 2
-        this.logosArea.addToArea(2, 2, this.resources.items.biopyLogo.scene, 'Biopython')
-
-        // Set THREE.js Logo
-        this.resources.items.threeLogo.scene.position.set(2, 0, 0)
-        this.resources.items.threeLogo.scene.rotation.x = Math.PI / 2
-        this.logosArea.addToArea(2, 2, this.resources.items.threeLogo.scene, 'Three.js')
-
-        /**
-         * Bottom Row
-         */
-
-        // Set HTML Logo
-        this.resources.items.html.scene.position.set(-1, -2, 0)
-        this.resources.items.html.scene.rotation.x = Math.PI / 2
-        this.logosArea.addToArea(2, 2, this.resources.items.html.scene, 'HTML')
-
-        // Set CSS Logo
-        this.resources.items.css.scene.position.set(1, -2, 0)
-        this.resources.items.css.scene.rotation.x = Math.PI / 2
-        this.logosArea.addToArea(2, 2, this.resources.items.css.scene, 'CSS')
-
-
-
-        /**
-         *  Add Logos to Logo Container
-         */
+        this.aboutMeContainer.add(
+            this.resources.items.books.scene,
+            this.resources.items.headphone.scene,
+            this.resources.items.camera.scene,
+        )
 
         this.logoContainer.add(
             this.resources.items.pyLogo.scene,
@@ -252,401 +136,17 @@ export default class {
             this.resources.items.jsLogo.scene,
             this.resources.items.threeLogo.scene,
             this.resources.items.djangoLogo.scene,
-            this.logosArea
-
-        )
-
-        /**
-         * Debug
-         */
-
-        if (this.debug) {
-            this.debugFolder.add(this.logoContainer.position, "z", -30, 30, 0.01).name("logoC Z")
-            this.debugFolder.add(this.logoContainer.position, "y", -30, 30, 0.01).name("logoC Y")
-            this.debugFolder.add(this.logoContainer.position, "x", -30, 30, 0.01).name("logoC X")
-            this.debugFolder.add(this.logoContainer.rotation, "y", -Math.PI, Math.PI, 0.01).name("logoC Rot")
-        }
-    }
-
-    setISS() {
-        // Scale 
-        this.resources.items.iss.scene.scale.set(.6, .6, .6)
-
-        // Rotation
-        this.resources.items.iss.scene.rotation.set(0, Math.PI / 2, Math.PI / 2)
-
-        // Position
-        this.resources.items.iss.scene.position.set(6.437, -1.34, 5)
-
-        // Position SpotLight
-        this.lights.items.spotLight.position.set(6.437, -2.56, 3.95)
-
-        // Add to Logo Container
-        this.logoContainer.add(
+            this.logosArea,
             this.resources.items.iss.scene,
             this.lights.items.spotLight,
             this.lights.items.spotLight.target,
+            this.holoTextsContainer,
+            this.holograms.cone
         )
 
-        // Debug ISS
-        if (this.debug) {
-            this.iss = this.debug.addFolder('ISS')
-            this.iss.add(this.resources.items.iss.scene.position, 'x', -10, 10, 0.001).name("ISS X")
-            this.iss.add(this.resources.items.iss.scene.position, 'y', -10, 10, 0.001).name("ISS Y")
-            this.iss.add(this.resources.items.iss.scene.position, 'z', -10, 10, 0.001).name("ISS Z")
-            this.iss.add(this.resources.items.iss.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name("ISS rot X")
-            this.iss.add(this.resources.items.iss.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name("ISS rot Y")
-            this.iss.add(this.resources.items.iss.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name("ISS rot Z")
-            this.iss.add(this.lights.items.spotLight.position, 'x', -10, 10, 0.001).name("Spotlight X")
-            this.iss.add(this.lights.items.spotLight.position, 'y', -10, 10, 0.001).name("Spotlight Y")
-            this.iss.add(this.lights.items.spotLight.position, 'z', -10, 10, 0.001).name("Spotlight Z")
-
-            /**
-             * SpotLight Helper 
-             */
-
-            // this.sLHelper = new THREE.SpotLightHelper(this.lights.items.spotLight)
-            // this.sLHelper.matrix = this.lights.items.spotLight.matrix
-            // this.logoContainer.add(this.sLHelper)
-        }
-
-        this.logoContainer.add(this.holograms.container, this.holograms.cone)
-    }
-
-
-    setProjects() {
-        // Container position
-        this.projectsContainer.position.set(0, -35, 0)
-        this.projectsContainer.rotation.y = 2.28
-
-        // Atronaut Rotation
-        this.resources.items.astronaut.scene.rotation.set(-.06, 1.53, 0.29)
-
-        // Atronaut Position
-        this.resources.items.astronaut.scene.position.set(-3.34, -0.29, 0)
-        this.resources.items.astronaut.scene.scale.set(0.44, 0.44, 0.44,)
-
-
-
-        // Add to containers
         this.projectsContainer.add(this.resources.items.astronaut.scene)
 
-
-
-        /**
-         * Debug
-         */
-        if (this.debug) {
-            // Axes helper
-            this.projectsContainer.add(new THREE.AxesHelper(2))
-
-            // Container
-            this.projectsFolder = this.debug.addFolder("Projects")
-            this.projectsFolder.add(this.projectsContainer.position, 'x', -30, 30, 0.01).name("Container X")
-            this.projectsFolder.add(this.projectsContainer.position, 'y', -30, 30, 0.01).name("Container Y")
-            this.projectsFolder.add(this.projectsContainer.position, 'z', -30, 30, 0.01).name("Container Z")
-            this.projectsFolder.add(this.projectsContainer.rotation, 'y', -Math.PI, Math.PI, 0.01).name("Container Rot")
-
-            // Astronaut
-            this.projectsFolder.add(this.resources.items.astronaut.scene.position, 'x', -15, 15, 0.01).name("Anaut X")
-            this.projectsFolder.add(this.resources.items.astronaut.scene.position, 'y', -15, 15, 0.01).name("Anaut Y")
-            this.projectsFolder.add(this.resources.items.astronaut.scene.position, 'z', -15, 15, 0.01).name("Anaut Z")
-            this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'y', -Math.PI, Math.PI, 0.01).name("Anaut Rot Y")
-            this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'x', -Math.PI, Math.PI, 0.01).name("Anaut Rot X")
-            this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'z', -Math.PI, Math.PI, 0.01).name("Anaut Rot Z")
-
-        }
-    }
-
-    setWhoAmI() {
-        // Setup Container
-        this.whoAmIContainer.position.set(0, -2, 0)
-        this.whoAmIContainer.rotation.set(0, -0.84, 0)
-
-        // Setup notebook 3D Model
-        this.resources.items.notebook.scene.position.set(-2.46, 0, 0)
-        this.resources.items.notebook.scene.rotation.set(0.284, -0.265, -0.387)
-
-        // Debug
-        if (this.debug) {
-            this.whoAmIContainer.add(new THREE.AxesHelper(2))
-
-            this.whoAmIFolder = this.debug.addFolder("WhoAmI")
-
-            this.whoAmIFolder.add(this.whoAmIContainer.position, 'x', -20, 20, 0.001).name('Container X')
-            this.whoAmIFolder.add(this.whoAmIContainer.position, 'y', -20, 20, 0.001).name('Container Y')
-            this.whoAmIFolder.add(this.whoAmIContainer.position, 'z', -20, 20, 0.001).name('Container Z')
-            this.whoAmIFolder.add(this.whoAmIContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot y')
-            this.whoAmIFolder.add(this.resources.items.notebook.scene.position, 'x', -20, 20, 0.001).name('Notebook x')
-            this.whoAmIFolder.add(this.resources.items.notebook.scene.position, 'y', -20, 20, 0.001).name('Notebook y')
-            this.whoAmIFolder.add(this.resources.items.notebook.scene.position, 'z', -20, 20, 0.001).name('Notebook z')
-            this.whoAmIFolder.add(this.resources.items.notebook.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('Notebook rot x')
-            this.whoAmIFolder.add(this.resources.items.notebook.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('Notebook rot y')
-            this.whoAmIFolder.add(this.resources.items.notebook.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('Notebook rot z')
-        }
-
-        // Add to container
-        this.whoAmIContainer.add(this.resources.items.notebook.scene)
-
-    }
-
-    setWhatIDo() {
-        // Setup Container
-        this.whatIDoContainer.position.set(0, -6, 0)
-        this.whatIDoContainer.rotation.set(0, -0.06, 0)
-
-        // Setup notebook 3D Model
-        this.resources.items.microscope.scene.position.set(3.81, -1.27, -1.561)
-        this.resources.items.microscope.scene.rotation.set(0, 1.414, 0)
-
-        // Debug
-        if (this.debug) {
-            this.whatIDoContainer.add(new THREE.AxesHelper(2))
-
-            this.whatIDoFolder = this.debug.addFolder("whatIDo")
-
-            this.whatIDoFolder.add(this.whatIDoContainer.position, 'x', -20, 20, 0.001).name('Container X')
-            this.whatIDoFolder.add(this.whatIDoContainer.position, 'y', -20, 20, 0.001).name('Container Y')
-            this.whatIDoFolder.add(this.whatIDoContainer.position, 'z', -20, 20, 0.001).name('Container Z')
-            this.whatIDoFolder.add(this.whatIDoContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot y')
-            this.whatIDoFolder.add(this.resources.items.microscope.scene.position, 'x', -20, 20, 0.001).name('microscope x')
-            this.whatIDoFolder.add(this.resources.items.microscope.scene.position, 'y', -20, 20, 0.001).name('microscope y')
-            this.whatIDoFolder.add(this.resources.items.microscope.scene.position, 'z', -20, 20, 0.001).name('microscope z')
-            this.whatIDoFolder.add(this.resources.items.microscope.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('microscope rot x')
-            this.whatIDoFolder.add(this.resources.items.microscope.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('microscope rot y')
-            this.whatIDoFolder.add(this.resources.items.microscope.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('microscope rot z')
-        }
-
-        // Add to container
-        this.whatIDoContainer.add(this.resources.items.microscope.scene)
-
-
-    }
-
-    setAboutMe() {
-        // Setup Container
-        this.aboutMeContainer.position.set(0, -10, 0)
-        this.aboutMeContainer.rotation.set(0, 0.72, 0)
-
-        // Setup notebook 3D Model
-        this.resources.items.books.scene.position.set(-2.539, .806, 0)
-        this.resources.items.books.scene.rotation.set(-0.085, -1.549, 0)
-        this.resources.items.books.scene.scale.set(0.28, 0.28, 0.28)
-
-        // Headphone
-        this.resources.items.headphone.scene.position.set(-0.3, -1.87, 0)
-        this.resources.items.headphone.scene.rotation.set(-.135, 0.757, -0.504)
-        this.resources.items.headphone.scene.scale.set(2, 2, 2)
-
-        // Camera
-        this.resources.items.camera.scene.position.set(2.6, 0.423, 0)
-        this.resources.items.camera.scene.rotation.set(0, -2.395, -0.085)
-
-        // Debug
-        if (this.debug) {
-            this.aboutMeContainer.add(new THREE.AxesHelper(2))
-
-            this.aboutMeFolder = this.debug.addFolder("aboutMe")
-
-            // Container
-            this.aboutMeFolder.add(this.aboutMeContainer.position, 'x', -20, 20, 0.001).name('Container X')
-            this.aboutMeFolder.add(this.aboutMeContainer.position, 'y', -20, 20, 0.001).name('Container Y')
-            this.aboutMeFolder.add(this.aboutMeContainer.position, 'z', -20, 20, 0.001).name('Container Z')
-            this.aboutMeFolder.add(this.aboutMeContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot y')
-
-            // Books
-            this.aboutMeFolder.add(this.resources.items.books.scene.position, 'x', -20, 20, 0.001).name('books x')
-            this.aboutMeFolder.add(this.resources.items.books.scene.position, 'y', -20, 20, 0.001).name('books y')
-            this.aboutMeFolder.add(this.resources.items.books.scene.position, 'z', -20, 20, 0.001).name('books z')
-            this.aboutMeFolder.add(this.resources.items.books.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('books rot x')
-            this.aboutMeFolder.add(this.resources.items.books.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('books rot y')
-            this.aboutMeFolder.add(this.resources.items.books.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('books rot z')
-            // Headphone
-            this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'x', -20, 20, 0.001).name('headphone x')
-            this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'y', -20, 20, 0.001).name('headphone y')
-            this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'z', -20, 20, 0.001).name('headphone z')
-            this.aboutMeFolder.add(this.resources.items.headphone.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('headphone rot x')
-            this.aboutMeFolder.add(this.resources.items.headphone.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('headphone rot y')
-            this.aboutMeFolder.add(this.resources.items.headphone.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('headphone rot z')
-
-            // Camera
-            this.aboutMeFolder.add(this.resources.items.camera.scene.position, 'x', -20, 20, 0.001).name('camera x')
-            this.aboutMeFolder.add(this.resources.items.camera.scene.position, 'y', -20, 20, 0.001).name('camera y')
-            this.aboutMeFolder.add(this.resources.items.camera.scene.position, 'z', -20, 20, 0.001).name('camera z')
-            this.aboutMeFolder.add(this.resources.items.camera.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('camera rot x')
-            this.aboutMeFolder.add(this.resources.items.camera.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('camera rot y')
-            this.aboutMeFolder.add(this.resources.items.camera.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('camera rot z')
-        }
-
-        // Add to container
-        this.aboutMeContainer.add(
-            this.resources.items.books.scene,
-            this.resources.items.headphone.scene,
-            this.resources.items.camera.scene,
-        )
-    }
-
-    setHubble() {
-        // Position Container
-        this.hubbleContainer.position.set(0, -45, 0)
-        this.hubbleContainer.rotation.set(0, 3.075, 0)
-
-        // Positions Hubble
-        this.resources.items.hubble.scene.position.set(3.2, -1.22, 0)
-        this.resources.items.hubble.scene.rotation.set(0, 0, 1.15)
-        this.resources.items.hubble.scene.scale.set(0.2, 0.2, 0.2)
-
-        // Setting Up Radio Waves
-        this.radioWaves = []
-        this.radioWavesCount = 9
-
-        for (let i = 0; i < this.radioWavesCount; i++) {
-            let mesh = new THREE.Mesh(this.geometries.items.torus, this.materials.items.phongMaterial)
-
-            // mesh.position.copy(this.resources.items.hubble.scene.position)
-            mesh.rotation.set(-2.15, 2.06, 2 * Math.PI)
-            mesh.position.copy(this.resources.items.hubble.scene.position)
-            this.radioWaves.push(mesh)
-            this.hubbleContainer.add(mesh)
-        }
-
-
-        if (this.debug) {
-            this.hubbleFolder = this.debug.addFolder("Hubble")
-            // Hubble
-            this.hubbleFolder.add(this.resources.items.hubble.scene.position, "x", -10, 10, 0.01).name("Hubble X")
-            this.hubbleFolder.add(this.resources.items.hubble.scene.position, "y", -10, 10, 0.01).name("Hubble Y")
-            this.hubbleFolder.add(this.resources.items.hubble.scene.position, "z", -10, 10, 0.01).name("Hubble Z")
-            this.hubbleFolder.add(this.resources.items.hubble.scene.rotation, "x", -Math.PI, Math.PI, 0.01).name("Hubble Rot X")
-            this.hubbleFolder.add(this.resources.items.hubble.scene.rotation, "y", -Math.PI, Math.PI, 0.01).name("Hubble Rot Y")
-            this.hubbleFolder.add(this.resources.items.hubble.scene.rotation, "z", -Math.PI, Math.PI, 0.01).name("Hubble Rot Z")
-
-            this.hubbleFolder.add(this.hubbleContainer.position, "x", -10, 10, 0.01).name("Container X")
-            this.hubbleFolder.add(this.hubbleContainer.position, "z", -10, 10, 0.01).name("Container Z")
-            this.hubbleFolder.add(this.hubbleContainer.rotation, "x", -Math.PI, Math.PI, 0.01).name("Container Rot X")
-            this.hubbleFolder.add(this.hubbleContainer.rotation, "y", -Math.PI, Math.PI, 0.01).name("Container Rot Y")
-            this.hubbleFolder.add(this.hubbleContainer.rotation, "z", -Math.PI, Math.PI, 0.01).name("Container Rot Z")
-
-            this.hubbleFolder.add(this.radioWaves[0].rotation, "x", -Math.PI, Math.PI, 0.01).name("Waves Rot X").onChange(() => {
-                this.radioWaves.forEach(wave => wave.rotation.x = this.radioWaves[0].rotation.x)
-            })
-            this.hubbleFolder.add(this.radioWaves[0].rotation, "y", -Math.PI, Math.PI, 0.01).name("Waves Rot Y").onChange(() => {
-                this.radioWaves.forEach(wave => wave.rotation.y = this.radioWaves[0].rotation.y)
-            })
-            this.hubbleFolder.add(this.radioWaves[0].rotation, "z", -Math.PI, Math.PI, 0.01).name("Waves Rot Z").onChange(() => {
-                this.radioWaves.forEach(wave => wave.rotation.z = this.radioWaves[0].rotation.z)
-            })
-
-            this.resources.items.hubble.scene.add(new THREE.AxesHelper(5))
-        }
-
         this.hubbleContainer.add(this.resources.items.hubble.scene)
-    }
-
-    setRescuePod() {
-        // Setup Container
-        this.podContainer.position.set(0, -57, 0)
-        this.podContainer.rotation.set(0, -2.415, 0)
-        this.podContainer.scale.set(1, 1, 1)
-
-        // setup Pod
-        this.resources.items.pod.scene.position.set(-15, 4.87, -2)
-        this.resources.items.pod.scene.rotation.set(-1.53, 3.14, 1.82)
-        this.resources.items.pod.scene.scale.set(1, 1, 1)
-
-        this.resources.items.pod.scene.traverse(child => {
-            if (child.name === 'Door') {
-                child.material = this.materials.items.doorMaterial // Change to HoloMaterial
-            }
-        })
-
-        // Setup text
-
-        this.holograms.contactHologram.position.set(0, -0.78, -3.5)
-        this.holograms.contactHologram.rotation.set(0, 0, 0)
-
-        // Setup Logos
-
-        // Set Raycaster Areas
-        this.contactArea = Areas.addArea()
-
-        this.resources.items.eMailLogo.scene.position.set(-2.2, -2.25, -3.5)
-        this.resources.items.eMailLogo.scene.rotation.set(Math.PI / 2, 0, 0)
-        this.resources.items.eMailLogo.scene.traverse(child => {
-            if (child instanceof THREE.Mesh) {
-                child.material = this.materials.items.logoHoloMaterial // Change to HoloMaterial
-            }
-        })
-        this.contactArea.addToArea(2, 2, this.resources.items.eMailLogo.scene, 'eMail')
-
-        this.resources.items.linkedInLogo.scene.position.set(0, -2.25, -3.5)
-        this.resources.items.linkedInLogo.scene.rotation.set(Math.PI / 2, 0, 0)
-        this.resources.items.linkedInLogo.scene.traverse(child => {
-            if (child instanceof THREE.Mesh) {
-                child.material = this.materials.items.logoHoloMaterial // Change to HoloMaterial
-            }
-        })
-        this.contactArea.addToArea(2, 2, this.resources.items.linkedInLogo.scene, 'linkedIn')
-
-        this.resources.items.githubLogo.scene.position.set(2.2, -2.25, -3.5)
-        this.resources.items.githubLogo.scene.rotation.set(Math.PI / 2, 0, 0)
-        this.resources.items.githubLogo.scene.traverse(child => {
-            if (child instanceof THREE.Mesh) {
-                child.material = this.materials.items.logoHoloMaterial // Change to HoloMaterial
-            }
-        })
-
-        this.contactArea.addToArea(2, 2, this.resources.items.githubLogo.scene, 'gitHub')
-
-        // Debugging
-        if (this.debug) {
-            this.podFolder = this.debug.addFolder('Rescue Pod')
-
-            // Container Debug
-            this.podFolder.add(this.podContainer.position, "x", -10, 10, 0.01).name("Container X")
-            this.podFolder.add(this.podContainer.position, "y", -10, 10, 0.01).name("Container Y")
-            this.podFolder.add(this.podContainer.position, "z", -10, 10, 0.01).name("Container Z")
-            this.podFolder.add(this.podContainer.rotation, "x", -Math.PI, Math.PI, 0.01).name("Container Rot X")
-            this.podFolder.add(this.podContainer.rotation, "y", -Math.PI, Math.PI, 0.01).name("Container Rot Y")
-            this.podFolder.add(this.podContainer.rotation, "z", -Math.PI, Math.PI, 0.01).name("Container Rot Z")
-            this.podFolder.add(this.podContainer.scale, "x", 0, 1, 0.01).name("Container Scale").onChange(() => {
-                let scale = this.podContainer.scale.x
-                this.podContainer.scale.set(scale, scale, scale)
-            })
-
-            // Pod Debug
-            this.podFolder.add(this.resources.items.pod.scene.position, "x", -10, 10, 0.01).name("Pod X")
-            this.podFolder.add(this.resources.items.pod.scene.position, "y", -10, 10, 0.01).name("Pod Y")
-            this.podFolder.add(this.resources.items.pod.scene.position, "z", -10, 10, 0.01).name("Pod Z")
-            this.podFolder.add(this.resources.items.pod.scene.rotation, "x", -Math.PI, Math.PI, 0.01).name("Pod Rot X")
-            this.podFolder.add(this.resources.items.pod.scene.rotation, "y", -Math.PI, Math.PI, 0.01).name("Pod Rot Y")
-            this.podFolder.add(this.resources.items.pod.scene.rotation, "z", -Math.PI, Math.PI, 0.01).name("Pod Rot Z")
-
-            // Text
-
-            this.podFolder.add(this.holograms.contactHologram.position, "x", -10, 10, 0.01).name("text X")
-            this.podFolder.add(this.holograms.contactHologram.position, "y", -10, 10, 0.01).name("text Y")
-            this.podFolder.add(this.holograms.contactHologram.position, "z", -10, 10, 0.01).name("text Z")
-            this.podFolder.add(this.holograms.contactHologram.rotation, "x", -Math.PI, Math.PI, 0.01).name("text Rot X")
-            this.podFolder.add(this.holograms.contactHologram.rotation, "y", -Math.PI, Math.PI, 0.01).name("text Rot Y")
-            this.podFolder.add(this.holograms.contactHologram.rotation, "z", -Math.PI, Math.PI, 0.01).name("text Rot Z")
-
-            // Logos
-
-            this.podFolder.add(this.resources.items.eMailLogo.scene.position, "x", -10, 10, 0.01).name("eMailLogo X")
-            this.podFolder.add(this.resources.items.eMailLogo.scene.position, "y", -10, 10, 0.01).name("eMailLogo Y")
-            this.podFolder.add(this.resources.items.eMailLogo.scene.position, "z", -10, 10, 0.01).name("eMailLogo Z")
-
-            this.podFolder.add(this.resources.items.linkedInLogo.scene.position, "x", -10, 10, 0.01).name("linkedInLogo X")
-            this.podFolder.add(this.resources.items.linkedInLogo.scene.position, "y", -10, 10, 0.01).name("linkedInLogo Y")
-            this.podFolder.add(this.resources.items.linkedInLogo.scene.position, "z", -10, 10, 0.01).name("linkedInLogo Z")
-
-            this.podFolder.add(this.resources.items.githubLogo.scene.position, "x", -10, 10, 0.01).name("github X")
-            this.podFolder.add(this.resources.items.githubLogo.scene.position, "y", -10, 10, 0.01).name("github Y")
-            this.podFolder.add(this.resources.items.githubLogo.scene.position, "z", -10, 10, 0.01).name("github Z")
-
-            this.podContainer.add(new THREE.AxesHelper())
-        }
 
         this.podContainer.add(
             this.resources.items.pod.scene,
@@ -658,5 +158,859 @@ export default class {
             this.holograms.contactCone,
         )
 
+    }
+
+    setLogosRaycasting() {
+        // Set Raycaster Area
+        this.logosArea = Areas.addArea()
+
+        this.logosArea.addList([
+            [2, 2, this.resources.items.pyLogo.scene, 'Python'],
+            [2, 2, this.resources.items.jsLogo.scene, 'Javascript'],
+            [2, 2, this.resources.items.djangoLogo.scene, 'Django'],
+            [2, 2, this.resources.items.biopyLogo.scene, 'Biopython'],
+            [2, 2, this.resources.items.threeLogo.scene, 'Three.js'],
+            [2, 2, this.resources.items.html.scene, 'HTML'],
+            [2, 2, this.resources.items.css.scene, 'CSS'],
+        ])
+    }
+
+
+    setHubbleRadioWaves(screenSize) {
+        if (this.radioWavesContainer) {
+            this.aboutMeContainer.dispose()
+            this.radioWaves = []
+        }
+
+        // Setting Up Radio Waves
+        this.radioWaves = []
+        this.radioWavesCount = 9
+        this.radioWavesContainer = new THREE.Object3D()
+
+        for (let i = 0; i < this.radioWavesCount; i++) {
+            let mesh = new THREE.Mesh(this.geometries.items.torus, this.materials.items.phongMaterial)
+
+            // mesh.position.copy(this.resources.items.hubble.scene.position)
+            if (screenSize === 'mobile') {
+                mesh.rotation.set(-0.73, 0.49, 0)
+            } else if (screenSize === 'desktop') {
+                mesh.rotation.set(-2.15, 2.06, 2 * Math.PI)
+            }
+            mesh.position.copy(this.resources.items.hubble.scene.position)
+            this.radioWaves.push(mesh)
+            this.hubbleContainer.add(mesh)
+        }
+    }
+
+    setRescuePodMaterialsAndRaycasting() {
+        let door = this.resources.items.pod.scene.children.find(child => child.name === 'Door')
+        door.material = this.materials.items.doorMaterial // Change to HoloMaterial
+
+        let list = [
+            this.resources.items.githubLogo.scene,
+            this.resources.items.linkedInLogo.scene,
+            this.resources.items.eMailLogo.scene
+        ]
+        list.forEach(item => {
+            item.traverse(child => {
+                if (child instanceof THREE.Mesh) {
+                    child.material = this.materials.items.logoHoloMaterial // Change to HoloMaterial
+                }
+            })
+        })
+
+
+        // Set Raycaster Areas
+        this.contactArea = Areas.addArea()
+        this.contactArea.addToArea(2, 2, this.resources.items.githubLogo.scene, 'gitHub')
+        this.contactArea.addToArea(2, 2, this.resources.items.linkedInLogo.scene, 'linkedIn')
+        this.contactArea.addToArea(2, 2, this.resources.items.eMailLogo.scene, 'eMail')
+    }
+
+    setPositionObject() {
+        this.posObj = {
+        }
+        this.posObj.shipwreckCont = {
+            objectd3D: this.shipwreckContainer,
+            desktop: {
+                position: new THREE.Vector3(0, 6, 0),
+                rotation: new THREE.Vector3(0, -2.4, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, 6, 0),
+                rotation: new THREE.Vector3(0, -2.4, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.shipwreck = {
+            objectd3D: this.resources.items.shipwreck.scene,
+            desktop: {
+                position: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Vector3(1.221, 4.124, 0.33),
+                scale: new THREE.Vector3(0.15, 0.15, 0.15),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Vector3(1.221, 4.124, 0.33),
+                scale: new THREE.Vector3(0.05, 0.05, 0.05),
+            },
+        }
+
+        this.posObj.astronautCont = {
+            objectd3D: this.astronautContainer,
+            desktop: {
+                position: new THREE.Vector3(-1, -4.5, -5.925),
+                rotation: new THREE.Vector3(0, -0.859, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(-1, -4.5, -5.925),
+                rotation: new THREE.Vector3(0, -0.859, 0),
+                scale: new THREE.Vector3(.5, .5, .5),
+            },
+        }
+
+        this.posObj.astronaut = {
+            objectd3D: this.resources.items.astronautRigged.scene,
+            desktop: {
+                position: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Vector3(0, 0, 0),
+                scale: new THREE.Vector3(.5, .5, .5),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Vector3(0, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.logoCont = {
+            objectd3D: this.logoContainer,
+            desktop: {
+                position: new THREE.Vector3(-5.75, -20, 3.75),
+                rotation: new THREE.Vector3(0, 2.42, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(-2.06, -19.44, -0.14),
+                rotation: new THREE.Vector3(0, 1.52, 0),
+                scale: new THREE.Vector3(.5, .5, .5),
+            },
+        }
+
+        this.posObj.pyLogo = {
+            objectd3D: this.resources.items.pyLogo.scene,
+            desktop: {
+                position: new THREE.Vector3(-1, 2, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(-1, 2, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.jsLogo = {
+            objectd3D: this.resources.items.jsLogo.scene,
+            desktop: {
+                position: new THREE.Vector3(1, 2, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(.9, .9, .9),
+            },
+            mobile: {
+                position: new THREE.Vector3(1, 2, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(.9, .9, .9),
+            },
+        }
+
+        this.posObj.djangoLogo = {
+            objectd3D: this.resources.items.djangoLogo.scene,
+            desktop: {
+                position: new THREE.Vector3(-2, 0, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(-2, 0, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.biopyLogo = {
+            objectd3D: this.resources.items.biopyLogo.scene,
+            desktop: {
+                position: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.threeLogo = {
+            objectd3D: this.resources.items.threeLogo.scene,
+            desktop: {
+                position: new THREE.Vector3(2, 0, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(2, 0, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.html = {
+            objectd3D: this.resources.items.html.scene,
+            desktop: {
+                position: new THREE.Vector3(-1, -2, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(-1, -2, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.css = {
+            objectd3D: this.resources.items.css.scene,
+            desktop: {
+                position: new THREE.Vector3(1, -2, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(1, -2, 0),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.iss = {
+            objectd3D: this.resources.items.iss.scene,
+            desktop: {
+                position: new THREE.Vector3(6.437, -1.34, 5),
+                rotation: new THREE.Vector3(0, Math.PI / 2, Math.PI / 2),
+                scale: new THREE.Vector3(.6, .6, .6),
+            },
+            mobile: {
+                position: new THREE.Vector3(2.123, -3.451, 3.95),
+                rotation: new THREE.Vector3(0, 1.834, 1.571),
+                scale: new THREE.Vector3(.5, .5, .5),
+            },
+        }
+
+        this.posObj.spotLight = {
+            objectd3D: this.lights.items.spotLight,
+            desktop: {
+                position: new THREE.Vector3(6.437, -2.56, 3.95),
+                rotation: new THREE.Vector3(0, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(6.437, -2.56, 3.95),
+                rotation: new THREE.Vector3(0, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.holoText = {
+            objectd3D: this.holoTextsContainer,
+            desktop: {
+                position: new THREE.Vector3(0.266, -1.70, 6.795),
+                rotation: new THREE.Vector3(0, -Math.PI / 2, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, -3.917, 5.256),
+                rotation: new THREE.Vector3(0, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.holoCone = {
+            objectd3D: this.holograms.cone,
+            desktop: {
+                position: new THREE.Vector3(5.298, -1.683, 5.297),
+                rotation: new THREE.Vector3(0.26, -Math.PI, 0.16),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(1.547, -3.652, 4.363),
+                rotation: new THREE.Vector3(0.6, -2.46, 0.39),
+                scale: new THREE.Vector3(.5, .5, .5),
+            },
+        }
+
+        this.posObj.projectsCont = {
+            objectd3D: this.projectsContainer,
+            desktop: {
+                position: new THREE.Vector3(0, -35, 0),
+                rotation: new THREE.Vector3(0, 2.28, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, -35, 0),
+                rotation: new THREE.Vector3(0, 2.28, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.moonAstronaut = {
+            objectd3D: this.resources.items.astronaut.scene,
+            desktop: {
+                position: new THREE.Vector3(-3.34, -0.29, 0),
+                rotation: new THREE.Vector3(-.06, 1.53, 0.29),
+                scale: new THREE.Vector3(0.44, 0.44, 0.44),
+            },
+            mobile: {
+                position: new THREE.Vector3(1.14, -2.28, 0),
+                rotation: new THREE.Vector3(-0.57, -0.72, 0),
+                scale: new THREE.Vector3(.3, .3, .3),
+            },
+        }
+
+        this.posObj.whoAmICont = {
+            objectd3D: this.whoAmIContainer,
+            desktop: {
+                position: new THREE.Vector3(0, -2, 0),
+                rotation: new THREE.Vector3(0, -0.84, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, -2, 0),
+                rotation: new THREE.Vector3(0, -0.84, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.notebook = {
+            objectd3D: this.resources.items.notebook.scene,
+            desktop: {
+                position: new THREE.Vector3(-2.46, 0, 0),
+                rotation: new THREE.Vector3(0.284, -0.265, -0.387),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0.699, -0.236, 0.025),
+                rotation: new THREE.Vector3(0.548, -2.442, 0),
+                scale: new THREE.Vector3(.8, .8, .8),
+            },
+        }
+
+        this.posObj.whatIDoCont = {
+            objectd3D: this.whatIDoContainer,
+            desktop: {
+                position: new THREE.Vector3(0, -6, 0),
+                rotation: new THREE.Vector3(0, -0.06, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, -6, 0),
+                rotation: new THREE.Vector3(0, -0.06, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.microscope = {
+            objectd3D: this.resources.items.microscope.scene,
+            desktop: {
+                position: new THREE.Vector3(3.81, -1.27, -1.561),
+                rotation: new THREE.Vector3(0, 1.414, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, -1.619, 0),
+                rotation: new THREE.Vector3(0, -2.246, 0),
+                scale: new THREE.Vector3(.4, .4, .4),
+            },
+        }
+
+        this.posObj.aboutMeCont = {
+            objectd3D: this.aboutMeContainer,
+            desktop: {
+                position: new THREE.Vector3(0, -10, 0),
+                rotation: new THREE.Vector3(0, 0.72, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, -10, 0),
+                rotation: new THREE.Vector3(0, 0.72, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.books = {
+            objectd3D: this.resources.items.books.scene,
+            desktop: {
+                position: new THREE.Vector3(-2.539, .806, 0),
+                rotation: new THREE.Vector3(-0.085, -1.549, 0),
+                scale: new THREE.Vector3(0.28, 0.28, 0.28),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, 1.01, 0),
+                rotation: new THREE.Vector3(0, -1.714, -0.219),
+                scale: new THREE.Vector3(.15, .15, .15),
+            },
+        }
+
+        this.posObj.headphone = {
+            objectd3D: this.resources.items.headphone.scene,
+            desktop: {
+                position: new THREE.Vector3(-0.3, -1.87, 0),
+                rotation: new THREE.Vector3(-.135, 0.757, -0.504),
+                scale: new THREE.Vector3(2, 2, 2),
+            },
+            mobile: {
+                position: new THREE.Vector3(-0.641, -1.27, 0),
+                rotation: new THREE.Vector3(-.135, 0.757, -0.504),
+                scale: new THREE.Vector3(1.5, 1.5, 1.5),
+            },
+        }
+
+        this.posObj.camera = {
+            objectd3D: this.resources.items.camera.scene,
+            desktop: {
+                position: new THREE.Vector3(2.6, 0.423, 0),
+                rotation: new THREE.Vector3(0, -2.395, -0.085),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0.757, -1.219, 0),
+                rotation: new THREE.Vector3(0, -2.22, 0.159),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.hubbleCont = {
+            objectd3D: this.hubbleContainer,
+            desktop: {
+                position: new THREE.Vector3(0, -45, 0),
+                rotation: new THREE.Vector3(0, 3.075, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, -45, 0),
+                rotation: new THREE.Vector3(0, 3.075, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+        this.posObj.hubble = {
+            objectd3D: this.resources.items.hubble.scene,
+            desktop: {
+                position: new THREE.Vector3(3.2, -1.22, 0),
+                rotation: new THREE.Vector3(0, 0, 1.15),
+                scale: new THREE.Vector3(0.2, 0.2, 0.2),
+            },
+            mobile: {
+                position: new THREE.Vector3(0.94, 0.94, 0.94),
+                rotation: new THREE.Vector3(0, 0.18, 2.41),
+                scale: new THREE.Vector3(0.2, 0.2, 0.2),
+            },
+        }
+
+
+        this.posObj.podCont = {
+            objectd3D: this.podContainer,
+            desktop: {
+                position: new THREE.Vector3(0, -57, 0),
+                rotation: new THREE.Vector3(0, -2.415, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, -57, 0),
+                rotation: new THREE.Vector3(0, -2.415, 0),
+                scale: new THREE.Vector3(.28, .28, .28),
+            },
+        }
+
+
+        this.posObj.pod = {
+            objectd3D: this.resources.items.pod.scene,
+            desktop: {
+                position: new THREE.Vector3(-15, 4.87, -2),
+                rotation: new THREE.Vector3(-1.53, 3.14, 1.82),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(-15, 4.87, -2),
+                rotation: new THREE.Vector3(-1.53, 3.14, 1.82),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+
+        this.posObj.contactHologram = {
+            objectd3D: this.holograms.contactHologram,
+            desktop: {
+                position: new THREE.Vector3(0, -0.78, -3.5),
+                rotation: new THREE.Vector3(0, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, -0.68, -3.5),
+                rotation: new THREE.Vector3(0, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+
+        this.posObj.contactCone = {
+            objectd3D: this.holograms.contactCone,
+            desktop: {
+                position: new THREE.Vector3(-3.385, -.5, -8.273),
+                rotation: new THREE.Vector3(-0.55, 1.55, 0.07),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(-3.116, -0.215, -8.273),
+                rotation: new THREE.Vector3(-0.55, 2.79, -0.93),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+
+        this.posObj.eMailLogo = {
+            objectd3D: this.resources.items.eMailLogo.scene,
+            desktop: {
+                position: new THREE.Vector3(-2.2, -2.25, -3.5),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, -2.6, -3.5),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+
+        this.posObj.linkedInLogo = {
+            objectd3D: this.resources.items.linkedInLogo.scene,
+            desktop: {
+                position: new THREE.Vector3(0, -2.25, -3.5),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, -5, -3.5),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+
+        this.posObj.githubLogo = {
+            objectd3D: this.resources.items.githubLogo.scene,
+            desktop: {
+                position: new THREE.Vector3(2.2, -2.25, -3.5),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+            mobile: {
+                position: new THREE.Vector3(0, -7.4, -3.5),
+                rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
+                scale: new THREE.Vector3(1, 1, 1),
+            },
+        }
+
+    }
+
+    setPositions() {
+        if (this.sizes.userType === 'desktop') {
+            this.positions('desktop')
+            this.setHubbleRadioWaves('desktop')
+        } else if (this.sizes.userType === 'mobile') {
+            this.positions('mobile')
+            this.setHubbleRadioWaves('mobile')
+        }
+    }
+
+    positions(screenSize) {
+
+        for (const info of Object.values(this.posObj)) {
+            info.objectd3D.position.x = info[screenSize].position.x
+            info.objectd3D.position.y = info[screenSize].position.y
+            info.objectd3D.position.z = info[screenSize].position.z
+            info.objectd3D.rotation.x = info[screenSize].rotation.x
+            info.objectd3D.rotation.y = info[screenSize].rotation.y
+            info.objectd3D.rotation.z = info[screenSize].rotation.z
+            info.objectd3D.scale.x = info[screenSize].scale.x
+            info.objectd3D.scale.y = info[screenSize].scale.y
+            info.objectd3D.scale.z = info[screenSize].scale.z
+        }
+
+    }
+
+    setDebug() {
+        /**
+         * Shipwreck
+         */
+        this.shipwreckContainer.add(new THREE.AxesHelper(2))
+        this.shipwreckFolder = this.debugFolder.addFolder("Shipwreck")
+        this.shipwreckFolder.add(this.resources.items.shipwreck.scene.position, 'x', -10, 10, .001).name("shipwreck x")
+        this.shipwreckFolder.add(this.resources.items.shipwreck.scene.position, 'y', -10, 10, .001).name("shipwreck y")
+        this.shipwreckFolder.add(this.resources.items.shipwreck.scene.position, 'z', -10, 10, .001).name("shipwreck z")
+        this.shipwreckFolder.add(this.resources.items.shipwreck.scene.rotation, 'x', -10, 10, .001).name("shipwreck rot x")
+        this.shipwreckFolder.add(this.resources.items.shipwreck.scene.rotation, 'y', -10, 10, .001).name("shipwreck rot y")
+        this.shipwreckFolder.add(this.resources.items.shipwreck.scene.rotation, 'z', -10, 10, .001).name("shipwreck rot z")
+        this.shipwreckFolder.add(this.shipwreckContainer.position, 'x', -10, 10, .001).name("container x")
+        this.shipwreckFolder.add(this.shipwreckContainer.position, 'y', -10, 10, .001).name("container y")
+        this.shipwreckFolder.add(this.shipwreckContainer.position, 'z', -10, 10, .001).name("container z")
+        this.shipwreckFolder.add(this.shipwreckContainer.rotation, 'x', -10, 10, .001).name("container rot x")
+        this.shipwreckFolder.add(this.shipwreckContainer.rotation, 'y', -10, 10, .001).name("container rot y")
+        this.shipwreckFolder.add(this.shipwreckContainer.rotation, 'z', -10, 10, .001).name("container rot z")
+        this.shipwreckFolder.add(this.shipwreckContainer.scale, 'z', 0, 1, .0001).name("Scale").onChange(() => {
+            let scale = this.shipwreckContainer.scale.z
+            this.shipwreckContainer.scale.set(scale, scale, scale)
+        })
+
+        /**
+         * Roaming Astronaut
+         */
+
+        // Debug Folder
+        this.astronautFolder = this.debugFolder.addFolder('Roaming Astronaut')
+
+        // Container Debug
+        this.astronautFolder.add(this.astronautContainer.position, 'x', -15, 15, 0.001).name('container X')
+        this.astronautFolder.add(this.astronautContainer.position, 'y', -60, 10, 0.001).name('container Y')
+        this.astronautFolder.add(this.astronautContainer.position, 'z', -15, 15, 0.001).name('container Z')
+        this.astronautFolder.add(this.astronautContainer.rotation, 'x', -Math.PI, Math.PI, 0.001).name('container rot X')
+        this.astronautFolder.add(this.astronautContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot Y')
+        this.astronautFolder.add(this.astronautContainer.rotation, 'z', -Math.PI, Math.PI, 0.001).name('container rot Z')
+
+        // Astronaut Debug
+        this.astronautFolder.add(this.resources.items.astronautRigged.scene.position, 'x', -6, 6, 0.001).name('Astronaut X')
+        this.astronautFolder.add(this.resources.items.astronautRigged.scene.position, 'y', -6, 6, 0.001).name('Astronaut Y')
+        this.astronautFolder.add(this.resources.items.astronautRigged.scene.position, 'z', -6, 6, 0.001).name('Astronaut Z')
+        this.astronautFolder.add(this.resources.items.astronautRigged.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('Astronaut rot X')
+        this.astronautFolder.add(this.resources.items.astronautRigged.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('Astronaut rot Y')
+        this.astronautFolder.add(this.resources.items.astronautRigged.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('Astronaut rot Z')
+        this.astronautFolder.add(this.resources.items.astronautRigged.scene.scale, 'x', 0, 1, 0.025).name('Astronaut scale X').onChange(() => {
+            let scale = this.resources.items.astronautRigged.scene.scale.x
+            this.resources.items.astronautRigged.scene.scale.set(scale, scale, scale)
+        })
+
+        this.astronautContainer.add(new THREE.AxesHelper(1.5))
+
+        /**
+         * Who Am I
+         */
+
+        this.whoAmIContainer.add(new THREE.AxesHelper(2))
+
+        this.whoAmIFolder = this.debugFolder.addFolder("WhoAmI")
+
+        this.whoAmIFolder.add(this.whoAmIContainer.position, 'x', -20, 20, 0.001).name('Container X')
+        this.whoAmIFolder.add(this.whoAmIContainer.position, 'y', -20, 20, 0.001).name('Container Y')
+        this.whoAmIFolder.add(this.whoAmIContainer.position, 'z', -20, 20, 0.001).name('Container Z')
+        this.whoAmIFolder.add(this.whoAmIContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot y')
+        this.whoAmIFolder.add(this.resources.items.notebook.scene.position, 'x', -20, 20, 0.001).name('Notebook x')
+        this.whoAmIFolder.add(this.resources.items.notebook.scene.position, 'y', -20, 20, 0.001).name('Notebook y')
+        this.whoAmIFolder.add(this.resources.items.notebook.scene.position, 'z', -20, 20, 0.001).name('Notebook z')
+        this.whoAmIFolder.add(this.resources.items.notebook.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('Notebook rot x')
+        this.whoAmIFolder.add(this.resources.items.notebook.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('Notebook rot y')
+        this.whoAmIFolder.add(this.resources.items.notebook.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('Notebook rot z')
+
+
+        /**
+         * What I Do
+         */
+
+        this.whatIDoContainer.add(new THREE.AxesHelper(2))
+
+        this.whatIDoFolder = this.debugFolder.addFolder("whatIDo")
+
+        this.whatIDoFolder.add(this.whatIDoContainer.position, 'x', -20, 20, 0.001).name('Container X')
+        this.whatIDoFolder.add(this.whatIDoContainer.position, 'y', -20, 20, 0.001).name('Container Y')
+        this.whatIDoFolder.add(this.whatIDoContainer.position, 'z', -20, 20, 0.001).name('Container Z')
+        this.whatIDoFolder.add(this.whatIDoContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot y')
+        this.whatIDoFolder.add(this.resources.items.microscope.scene.position, 'x', -20, 20, 0.001).name('microscope x')
+        this.whatIDoFolder.add(this.resources.items.microscope.scene.position, 'y', -20, 20, 0.001).name('microscope y')
+        this.whatIDoFolder.add(this.resources.items.microscope.scene.position, 'z', -20, 20, 0.001).name('microscope z')
+        this.whatIDoFolder.add(this.resources.items.microscope.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('microscope rot x')
+        this.whatIDoFolder.add(this.resources.items.microscope.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('microscope rot y')
+        this.whatIDoFolder.add(this.resources.items.microscope.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('microscope rot z')
+
+        /**
+         * About Me
+         */
+
+        this.aboutMeContainer.add(new THREE.AxesHelper(2))
+
+        this.aboutMeFolder = this.debugFolder.addFolder("aboutMe")
+
+        // Container
+        this.aboutMeFolder.add(this.aboutMeContainer.position, 'x', -20, 20, 0.001).name('Container X')
+        this.aboutMeFolder.add(this.aboutMeContainer.position, 'y', -20, 20, 0.001).name('Container Y')
+        this.aboutMeFolder.add(this.aboutMeContainer.position, 'z', -20, 20, 0.001).name('Container Z')
+        this.aboutMeFolder.add(this.aboutMeContainer.rotation, 'y', -Math.PI, Math.PI, 0.001).name('container rot y')
+
+        // Books
+        this.aboutMeFolder.add(this.resources.items.books.scene.position, 'x', -20, 20, 0.001).name('books x')
+        this.aboutMeFolder.add(this.resources.items.books.scene.position, 'y', -20, 20, 0.001).name('books y')
+        this.aboutMeFolder.add(this.resources.items.books.scene.position, 'z', -20, 20, 0.001).name('books z')
+        this.aboutMeFolder.add(this.resources.items.books.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('books rot x')
+        this.aboutMeFolder.add(this.resources.items.books.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('books rot y')
+        this.aboutMeFolder.add(this.resources.items.books.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('books rot z')
+        this.aboutMeFolder.add(this.resources.items.books.scene.scale, 'z', -Math.PI, Math.PI, 0.001).name('books Scale').onChange(() => {
+            let s = this.resources.items.books.scene.scale.z
+            this.resources.items.books.scene.scale.set(s, s, s)
+        })
+        // Headphone
+        this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'x', -20, 20, 0.001).name('headphone x')
+        this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'y', -20, 20, 0.001).name('headphone y')
+        this.aboutMeFolder.add(this.resources.items.headphone.scene.position, 'z', -20, 20, 0.001).name('headphone z')
+        this.aboutMeFolder.add(this.resources.items.headphone.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('headphone rot x')
+        this.aboutMeFolder.add(this.resources.items.headphone.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('headphone rot y')
+        this.aboutMeFolder.add(this.resources.items.headphone.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('headphone rot z')
+
+        // Camera
+        this.aboutMeFolder.add(this.resources.items.camera.scene.position, 'x', -20, 20, 0.001).name('camera x')
+        this.aboutMeFolder.add(this.resources.items.camera.scene.position, 'y', -20, 20, 0.001).name('camera y')
+        this.aboutMeFolder.add(this.resources.items.camera.scene.position, 'z', -20, 20, 0.001).name('camera z')
+        this.aboutMeFolder.add(this.resources.items.camera.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name('camera rot x')
+        this.aboutMeFolder.add(this.resources.items.camera.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name('camera rot y')
+        this.aboutMeFolder.add(this.resources.items.camera.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name('camera rot z')
+
+        /**
+         * Logos
+         */
+        this.logoContainerFolder = this.debugFolder.addFolder("Logo Container")
+        this.logoContainerFolder.add(this.logoContainer.position, "z", -30, 30, 0.01).name("logoC Z")
+        this.logoContainerFolder.add(this.logoContainer.position, "y", -30, 30, 0.01).name("logoC Y")
+        this.logoContainerFolder.add(this.logoContainer.position, "x", -30, 30, 0.01).name("logoC X")
+        this.logoContainerFolder.add(this.logoContainer.rotation, "y", -Math.PI, Math.PI, 0.01).name("logoC Rot")
+
+        this.issFolder = this.debugFolder.addFolder('ISS')
+        this.issFolder.add(this.resources.items.iss.scene.position, 'x', -10, 10, 0.001).name("ISS X")
+        this.issFolder.add(this.resources.items.iss.scene.position, 'y', -10, 10, 0.001).name("ISS Y")
+        this.issFolder.add(this.resources.items.iss.scene.position, 'z', -10, 10, 0.001).name("ISS Z")
+        this.issFolder.add(this.resources.items.iss.scene.rotation, 'x', -Math.PI, Math.PI, 0.001).name("ISS rot X")
+        this.issFolder.add(this.resources.items.iss.scene.rotation, 'y', -Math.PI, Math.PI, 0.001).name("ISS rot Y")
+        this.issFolder.add(this.resources.items.iss.scene.rotation, 'z', -Math.PI, Math.PI, 0.001).name("ISS rot Z")
+        this.issFolder.add(this.lights.items.spotLight.position, 'x', -10, 10, 0.001).name("Spotlight X")
+        this.issFolder.add(this.lights.items.spotLight.position, 'y', -10, 10, 0.001).name("Spotlight Y")
+        this.issFolder.add(this.lights.items.spotLight.position, 'z', -10, 10, 0.001).name("Spotlight Z")
+
+        // this.sLHelper = new THREE.SpotLightHelper(this.lights.items.spotLight)
+        // this.sLHelper.matrix = this.lights.items.spotLight.matrix
+        // this.logoContainer.add(this.sLHelper)
+
+        /**
+         * Projects
+         */
+
+        // Axes helper
+        this.projectsContainer.add(new THREE.AxesHelper(2))
+
+        // Container
+        this.projectsFolder = this.debugFolder.addFolder("Projects")
+        this.projectsFolder.add(this.projectsContainer.position, 'x', -30, 30, 0.01).name("Container X")
+        this.projectsFolder.add(this.projectsContainer.position, 'y', -30, 30, 0.01).name("Container Y")
+        this.projectsFolder.add(this.projectsContainer.position, 'z', -30, 30, 0.01).name("Container Z")
+        this.projectsFolder.add(this.projectsContainer.rotation, 'y', -Math.PI, Math.PI, 0.01).name("Container Rot")
+
+        // Astronaut
+        this.projectsFolder.add(this.resources.items.astronaut.scene.position, 'x', -15, 15, 0.01).name("Anaut X")
+        this.projectsFolder.add(this.resources.items.astronaut.scene.position, 'y', -15, 15, 0.01).name("Anaut Y")
+        this.projectsFolder.add(this.resources.items.astronaut.scene.position, 'z', -15, 15, 0.01).name("Anaut Z")
+        this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'y', -Math.PI, Math.PI, 0.01).name("Anaut Rot Y")
+        this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'x', -Math.PI, Math.PI, 0.01).name("Anaut Rot X")
+        this.projectsFolder.add(this.resources.items.astronaut.scene.rotation, 'z', -Math.PI, Math.PI, 0.01).name("Anaut Rot Z")
+
+        /**
+         * Hubble
+         */
+
+        this.hubbleFolder = this.debugFolder.addFolder("Hubble")
+        // Hubble
+        this.hubbleFolder.add(this.resources.items.hubble.scene.position, "x", -10, 10, 0.01).name("Hubble X")
+        this.hubbleFolder.add(this.resources.items.hubble.scene.position, "y", -10, 10, 0.01).name("Hubble Y")
+        this.hubbleFolder.add(this.resources.items.hubble.scene.position, "z", -10, 10, 0.01).name("Hubble Z")
+        this.hubbleFolder.add(this.resources.items.hubble.scene.rotation, "x", -Math.PI, Math.PI, 0.01).name("Hubble Rot X")
+        this.hubbleFolder.add(this.resources.items.hubble.scene.rotation, "y", -Math.PI, Math.PI, 0.01).name("Hubble Rot Y")
+        this.hubbleFolder.add(this.resources.items.hubble.scene.rotation, "z", -Math.PI, Math.PI, 0.01).name("Hubble Rot Z")
+
+        this.hubbleFolder.add(this.hubbleContainer.position, "x", -10, 10, 0.01).name("Container X")
+        this.hubbleFolder.add(this.hubbleContainer.position, "z", -10, 10, 0.01).name("Container Z")
+        this.hubbleFolder.add(this.hubbleContainer.rotation, "x", -Math.PI, Math.PI, 0.01).name("Container Rot X")
+        this.hubbleFolder.add(this.hubbleContainer.rotation, "y", -Math.PI, Math.PI, 0.01).name("Container Rot Y")
+        this.hubbleFolder.add(this.hubbleContainer.rotation, "z", -Math.PI, Math.PI, 0.01).name("Container Rot Z")
+
+        this.hubbleFolder.add(this.radioWaves[0].rotation, "x", -Math.PI, Math.PI, 0.01).name("Waves Rot X").onChange(() => {
+            this.radioWaves.forEach(wave => wave.rotation.x = this.radioWaves[0].rotation.x)
+        })
+        this.hubbleFolder.add(this.radioWaves[0].rotation, "y", -Math.PI, Math.PI, 0.01).name("Waves Rot Y").onChange(() => {
+            this.radioWaves.forEach(wave => wave.rotation.y = this.radioWaves[0].rotation.y)
+        })
+        this.hubbleFolder.add(this.radioWaves[0].rotation, "z", -Math.PI, Math.PI, 0.01).name("Waves Rot Z").onChange(() => {
+            this.radioWaves.forEach(wave => wave.rotation.z = this.radioWaves[0].rotation.z)
+        })
+
+        this.resources.items.hubble.scene.add(new THREE.AxesHelper(5))
+        this.hubbleContainer.add(new THREE.AxesHelper(2))
+
+        /**
+         * Rescue Pod
+         */
+
+        this.podFolder = this.debugFolder.addFolder('Rescue Pod')
+
+        // Container Debug
+        this.podFolder.add(this.podContainer.position, "x", -10, 10, 0.01).name("Container X")
+        this.podFolder.add(this.podContainer.position, "y", -10, 10, 0.01).name("Container Y")
+        this.podFolder.add(this.podContainer.position, "z", -10, 10, 0.01).name("Container Z")
+        this.podFolder.add(this.podContainer.rotation, "x", -Math.PI, Math.PI, 0.01).name("Container Rot X")
+        this.podFolder.add(this.podContainer.rotation, "y", -Math.PI, Math.PI, 0.01).name("Container Rot Y")
+        this.podFolder.add(this.podContainer.rotation, "z", -Math.PI, Math.PI, 0.01).name("Container Rot Z")
+        this.podFolder.add(this.podContainer.scale, "x", 0, 1, 0.01).name("Container Scale").onChange(() => {
+            let scale = this.podContainer.scale.x
+            this.podContainer.scale.set(scale, scale, scale)
+        })
+
+        // Pod Debug
+        this.podFolder.add(this.resources.items.pod.scene.position, "x", -10, 10, 0.01).name("Pod X")
+        this.podFolder.add(this.resources.items.pod.scene.position, "y", -10, 10, 0.01).name("Pod Y")
+        this.podFolder.add(this.resources.items.pod.scene.position, "z", -10, 10, 0.01).name("Pod Z")
+        this.podFolder.add(this.resources.items.pod.scene.rotation, "x", -Math.PI, Math.PI, 0.01).name("Pod Rot X")
+        this.podFolder.add(this.resources.items.pod.scene.rotation, "y", -Math.PI, Math.PI, 0.01).name("Pod Rot Y")
+        this.podFolder.add(this.resources.items.pod.scene.rotation, "z", -Math.PI, Math.PI, 0.01).name("Pod Rot Z")
+
+        // Text
+
+        this.podFolder.add(this.holograms.contactHologram.position, "x", -10, 10, 0.01).name("text X")
+        this.podFolder.add(this.holograms.contactHologram.position, "y", -10, 10, 0.01).name("text Y")
+        this.podFolder.add(this.holograms.contactHologram.position, "z", -10, 10, 0.01).name("text Z")
+
+        // Logos
+
+        this.podFolder.add(this.resources.items.githubLogo.scene.position, "x", -10, 10, 0.01).name("github X")
+        this.podFolder.add(this.resources.items.githubLogo.scene.position, "y", -10, 10, 0.01).name("github Y")
+        this.podFolder.add(this.resources.items.githubLogo.scene.position, "z", -10, 10, 0.01).name("github Z")
+
+        this.podFolder.add(this.resources.items.linkedInLogo.scene.position, "x", -10, 10, 0.01).name("linkedInLogo X")
+        this.podFolder.add(this.resources.items.linkedInLogo.scene.position, "y", -10, 10, 0.01).name("linkedInLogo Y")
+        this.podFolder.add(this.resources.items.linkedInLogo.scene.position, "z", -10, 10, 0.01).name("linkedInLogo Z")
+
+        this.podFolder.add(this.resources.items.eMailLogo.scene.position, "x", -10, 10, 0.01).name("eMailLogo X")
+        this.podFolder.add(this.resources.items.eMailLogo.scene.position, "y", -10, 10, 0.01).name("eMailLogo Y")
+        this.podFolder.add(this.resources.items.eMailLogo.scene.position, "z", -10, 10, 0.01).name("eMailLogo Z")
+
+        this.podContainer.add(new THREE.AxesHelper())
     }
 }
