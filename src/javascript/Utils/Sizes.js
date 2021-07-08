@@ -38,7 +38,19 @@ export default class Sizes extends EventEmitter {
         this.width = window.innerWidth
         this.height = window.innerHeight
 
+        this.setUserType()
+
         this.trigger('resize')
+    }
+
+    setUserType() {
+        if (this.width <= 450 && this.width / this.height < 9 / 16) {
+            this.userType = 'mobile'
+        } else if (this.width / this.height < 1) {
+            this.userType = 'mobile'
+        } else {
+            this.userType = 'desktop'
+        }
     }
 
 }
