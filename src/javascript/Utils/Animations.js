@@ -26,6 +26,7 @@ export default class Animations {
 
         // Setup
         this.setEases()
+        this.setHelperFunctions()
         this.animateCamera()
         this.setScrollAnimations()
         this.setLoadingPage()
@@ -64,6 +65,11 @@ export default class Animations {
         }
 
         this.exitBtnClick = () => {
+            console.log(this.config);
+            if (this.config.isMobile) {
+                document.body.requestFullscreen()
+            }
+
             this.sounds.play('btnBeep')
             this.DOM.exitLoadBtn.classList.add('hide')
             this.DOM.exitLoadBtn.disabled = true
@@ -620,25 +626,28 @@ export default class Animations {
 
     async radioWavesAnimation() {
         //  y=	-0.38125x
-        const x = 3 / -0.38125
-        const y = 3
-        const duration = 4
+        const x = this.isDesktop() ? 3 / -0.38125 : 3 / -0.38125
+        const y = this.isDesktop() ? 3 : -9
+        const duration = 5
         const scale = 4.5
         const animate = (wave) => {
             gsap.to(wave.position, {
-                y: y,
-                x: x,
-                duration: 5,
+                y,
+                x,
+                duration,
                 ease: this.ease.power2in,
                 onComplete: () => {
-                    wave.position.set(3.2, -1.22, 0)
+                    wave.position.set(
+                        this.isDesktop() ? 3.2 : 0.94,
+                        this.isDesktop() ? -1.22 : 0.94,
+                        this.isDesktop() ? 0 : 0.94)
                     animate(wave);
                 }
             })
             gsap.to(wave.scale, {
                 x: scale,
                 y: scale,
-                duration: 5,
+                duration,
                 ease: this.ease.power2in,
                 onComplete: () => {
                     wave.scale.set(1, 1, 1)
@@ -658,84 +667,103 @@ export default class Animations {
 
         this.scrollAnimations.welcomeDivStart = () => {
             gsap.to(this.world.astronautContainer.position, {
-                x: -2.01,
-                y: 3.866,
-                z: 3.557,
+                x: this.isDesktop() ? -2.01 : 3.316,
+                y: this.isDesktop() ? 3.866 : 4.961,
+                z: this.isDesktop() ? 3.557 : 6.412,
                 duration: this.animationsProps[0].duration * 2,
-                ease: this.ease.power2InOut,
+                ease: this.ease.power2Out,
             })
             gsap.to(this.world.astronautContainer.rotation, {
-                x: 0.842,
-                y: -3.142,
-                z: 0,
+                x: this.isDesktop() ? 0.842 : -0.383,
+                y: this.isDesktop() ? -3.142 : 3.142,
+                z: this.isDesktop() ? 0 : 0,
                 duration: this.animationsProps[0].duration * 2,
-                ease: this.ease.backOut(3),
+                ease: this.ease.backOut(1),
             })
+
+            if (!this.isDesktop()) {
+                gsap.to(this.world.astronautContainer.scale, {
+                    x: .25,
+                    y: .25,
+                    z: .25,
+                    duration: this.animationsProps[0].duration * 2,
+                    ease: this.ease.power2Out,
+                })
+            }
         }
 
         this.scrollAnimations.homeDivStart = () => {
             gsap.to(this.world.astronautContainer.position, {
-                x: 0,
-                y: .5,
-                z: -2.925,
+                x: this.isDesktop() ? 0 : 0.002,
+                y: this.isDesktop() ? .5 : -0.468,
+                z: this.isDesktop() ? -2.925 : - 0.616,
                 duration: this.animationsProps[1].duration * 2,
                 ease: this.ease.power2InOut,
             })
             gsap.to(this.world.astronautContainer.rotation, {
-                x: 0,
-                y: -0.859,
-                z: 0,
-                duration: this.animationsProps[1].duration * 2,
-                ease: this.ease.backOut(2),
+                x: this.isDesktop() ? 0 : -0.383,
+                y: this.isDesktop() ? -0.859 : -0.706,
+                z: this.isDesktop() ? 0 : -0.03,
+                duration: this.animationsProps[1].duration * 2.3,
+                ease: this.ease.backOut(4),
             })
+            if (!this.isDesktop()) {
+                gsap.to(this.world.astronautContainer.scale, {
+                    x: .5,
+                    y: .5,
+                    z: .5,
+                    duration: this.animationsProps[0].duration * 2,
+                    ease: this.ease.power2Out,
+                })
+            }
         }
 
         this.scrollAnimations.whoamiStart = () => {
             gsap.to(this.world.astronautContainer.position, {
-                x: 3.606,
-                y: -0.468,
-                z: 1.033,
+                x: this.isDesktop() ? 3.606 : -0.679,
+                y: this.isDesktop() ? -0.468 : -1.729,
+                z: this.isDesktop() ? 1.033 : -1.725,
                 duration: this.animationsProps[2].duration * 2,
                 ease: this.ease.power2InOut,
             })
             gsap.to(this.world.astronautContainer.rotation, {
-                x: -0.303,
-                y: -2.136,
-                z: 0,
-                duration: this.animationsProps[2].duration * 2,
-                ease: this.ease.backOut(1),
+                x: this.isDesktop() ? -0.303 : 0.834,
+                y: this.isDesktop() ? -2.136 : -0.225,
+                z: this.isDesktop() ? 0 : -0.129,
+                duration: this.animationsProps[2].duration * 2.2,
+                ease: this.ease.backOut(.3),
             })
         }
 
         this.scrollAnimations.whatidoStart = () => {
             gsap.to(this.world.astronautContainer.position, {
-                x: -2.829,
-                y: -3.3,
-                z: -0.296,
+                x: this.isDesktop() ? -2.829 : -0.556,
+                y: this.isDesktop() ? -3.3 : -3.614,
+                z: this.isDesktop() ? -0.296 : -2.258,
                 duration: this.animationsProps[3].duration * 2,
                 ease: this.ease.power2InOut,
             })
             gsap.to(this.world.astronautContainer.rotation, {
-                x: 0.484,
-                y: 1.516,
-                z: 2.252,
+                x: this.isDesktop() ? 0.484 : 0,
+                y: this.isDesktop() ? 1.516 : 0.463,
+                z: this.isDesktop() ? 2.252 : Math.PI,
                 duration: this.animationsProps[3].duration * 2,
-                ease: this.ease.power2InOut,
+                ease: this.ease.backOut(.15),
             })
         }
 
         this.scrollAnimations.aboutMeStart = () => {
             gsap.to(this.world.astronautContainer.position, {
-                x: 1.239,
-                y: -13.2,
-                z: -2.198,
+                x: this.isDesktop() ? 1.239 : -0.901,
+                y: this.isDesktop() ? -13.2 : -13.48,
+                z: this.isDesktop() ? -2.198 : -0.576,
                 duration: this.animationsProps[4].duration * 3,
                 ease: this.ease.power2Out,
             })
             gsap.to(this.world.astronautContainer.rotation, {
-                x: -0.656,
-                y: -0.722,
-                z: 0,
+                x: this.isDesktop() ? -0.656 : 0,
+                y: this.isDesktop() ? -0.722 : 0.829,
+                z: this.isDesktop() ? 0 : 0.068,
                 duration: this.animationsProps[4].duration * 4,
                 ease: this.ease.backOut(1),
             })
@@ -743,19 +771,19 @@ export default class Animations {
 
         this.scrollAnimations.technologiesStart = () => {
             gsap.to(this.world.astronautContainer.position, {
-                x: -9.228,
-                z: -7.139,
+                x: this.isDesktop() ? -9.228 : -7.606,
+                z: this.isDesktop() ? -7.139 : 1.114,
                 duration: this.animationsProps[5].duration * 3,
                 ease: this.ease.power2Out,
             })
             gsap.to(this.world.astronautContainer.position, {
-                y: -22.22,
+                y: this.isDesktop() ? -22.22 : -23.803,
                 duration: this.animationsProps[5].duration * 4.5,
                 ease: this.ease.power2Out,
             })
             gsap.to(this.world.astronautContainer.rotation, {
                 x: 0,
-                y: 0.215,
+                y: this.isDesktop() ? 0.215 : 2.022,
                 z: 0,
                 duration: this.animationsProps[5].duration * 4,
                 ease: this.ease.elastic(1, 0.6),
@@ -842,43 +870,42 @@ export default class Animations {
                 x: -9.228,
                 y: -41.278,
                 z: -7.139,
-                duration: this.animationsProps[6].duration,
+                duration: this.animationsProps[6].duration * .1,
                 ease: this.ease.power4Out,
             })
             gsap.to(this.world.astronautContainer.scale, {
-                x: 1,
-                y: 1,
-                z: 1,
-                duration: this.animationsProps[6].duration * 2,
+                x: this.isDesktop() ? 1 : .5,
+                y: this.isDesktop() ? 1 : .5,
+                z: this.isDesktop() ? 1 : .5,
+                duration: this.animationsProps[6].duration * .1,
                 ease: this.ease.power2Out,
             })
         }
 
         this.scrollAnimations.madeWithStart = () => {
             gsap.to(this.world.astronautContainer.position, {
-                x: -3.6,
-                z: 0,
+                x: this.isDesktop() ? -3.6 : -1.135,
+                z: this.isDesktop() ? 0 : -0.608,
                 duration: this.animationsProps[7].duration * 2.5,
                 ease: this.ease.backOut(1),
                 onComplete: () => this.radioWavesAnimation(),
             })
             gsap.to(this.world.astronautContainer.position, {
-                y: -46,
+                y: this.isDesktop() ? -46 : -43.829,
                 duration: this.animationsProps[7].duration * 2.5,
                 ease: this.direction === 'up' ? this.ease.elastic(1, 1) : this.power2In,
-                onComplete: () => this.radioWavesAnimation()
             })
             gsap.to(this.world.astronautContainer.rotation, {
-                x: 1.244,
-                y: 0.432,
-                z: -1.565,
+                x: this.isDesktop() ? 1.244 : 2.973,
+                y: this.isDesktop() ? 0.432 : -0.113,
+                z: this.isDesktop() ? -1.565 : -2.045,
                 duration: this.animationsProps[7].duration * 1.5,
                 ease: this.ease.backOut(1),
             })
             gsap.to(this.world.astronautContainer.scale, {
-                x: 0.25,
-                y: 0.25,
-                z: 0.25,
+                x: this.isDesktop() ? 0.575 : 0.125,
+                y: this.isDesktop() ? 0.575 : 0.125,
+                z: this.isDesktop() ? 0.575 : 0.125,
                 duration: this.animationsProps[7].duration * 2.5,
                 ease: this.direction === 'up' ? this.ease.elastic(1, 1) : this.power2In,
             })
@@ -943,7 +970,7 @@ export default class Animations {
 
         this.scrollAnimations.contactComplete = () => {
             gsap.to(this.world.astronautContainer.position, {
-                x: 2.209,
+                x: this.isDesktop() ? 2.209 : 5.287,
                 y: -57.49,
                 z: 8.768,
                 duration: this.animationsProps[6].duration,
@@ -964,15 +991,18 @@ export default class Animations {
                 ease: this.ease.power2Out,
             })
         }
-
-        this.helperFunctions = {
-
-            percentToPixelWidth: (_elem, _perc) => {
-                return (_elem.parentNode.offsetWidth / 100) * parseFloat(_perc);
-            },
-            percentToPixelHeight: (_elem, _perc) => {
-                return (_elem.parentNode.offsetHeight / 100) * parseFloat(_perc);
-            },
-        }
     }
+    setHelperFunctions() {
+
+
+        this.percentToPixelWidth = (_elem, _perc) => {
+            return (_elem.parentNode.offsetWidth / 100) * parseFloat(_perc);
+        }
+        this.percentToPixelHeight = (_elem, _perc) => {
+            return (_elem.parentNode.offsetHeight / 100) * parseFloat(_perc);
+        }
+        this.isDesktop = () => this.sizes.userType === 'desktop'
+
+    }
+
 }
