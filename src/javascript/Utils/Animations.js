@@ -105,6 +105,12 @@ export default class Animations {
                 this.sounds.stop('loadingBar', 150)
                 this.sounds.play('lowDescend')
                 this.sounds.play('gasLeak')
+                gsap.to('.exp-p', {
+                    color: '#ff9393',
+                    backgroundColor: '#a500055c',
+                    duration: .5,
+                    ease: this.ease.linear,
+                })
                 gsap.to(this.DOM.imgWarning, {
                     opacity: 1,
                     duration: .5,
@@ -114,7 +120,7 @@ export default class Animations {
                     opacity: 0,
                 }, {
                     opacity: 1,
-                    duration: .25,
+                    duration: .5,
                     ease: this.ease.linear,
                     yoyo: true,
                     repeat: 12,
@@ -158,7 +164,7 @@ export default class Animations {
                 onComplete: () => {
                     gsap.to(this.DOM.whiteout.style, {
                         opacity: 0,
-                        duration: 3,
+                        duration: 1.5,
                         ease: 'power1.out',
                         onComplete: () => this.startScrolling()
                     })
