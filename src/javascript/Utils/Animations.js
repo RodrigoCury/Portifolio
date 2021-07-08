@@ -1,5 +1,5 @@
 import gsap from 'gsap'
-import { Vector2, Vector3 } from 'three'
+import { Vector2, Vector3, Mesh, MeshStandardMaterial } from 'three'
 
 export default class Animations {
 
@@ -58,6 +58,16 @@ export default class Animations {
 
     setLoadingPage() {
 
+        this._traverse = () => {
+            this.world.astronautContainer.parent.traverse(child => {
+                if (child instanceof Mesh &&
+                    child.material instanceof MeshStandardMaterial) {
+                    child.material.envMapIntensity = 2.5
+                    child.material.needsUpdate = true
+                }
+            })
+        }
+
         this.onReady = () => {
             this.DOM.loadTexts.innerHTML = 'Pronto para Decolar'
             this.DOM.loadBar.classList.add('hide')
@@ -65,7 +75,6 @@ export default class Animations {
         }
 
         this.exitBtnClick = () => {
-            console.log(this.config);
             if (this.config.isMobile) {
                 document.body.requestFullscreen()
             }
@@ -140,6 +149,7 @@ export default class Animations {
         }
 
         this.exitLoadPage = async () => {
+            this._traverse()
             this.DOM.enterSiteBtn.disabled = true
             gsap.to('.poem-wrapper', {
                 opacity: 0,
@@ -154,6 +164,7 @@ export default class Animations {
                     })
                 }
             })
+
             this.animateProjections()
             this.animateLights()
             this.setAnimationsProps()
@@ -530,8 +541,10 @@ export default class Animations {
 
     animateLights() {
         this.time.on('tick', () => {
-            this.world.lights.items.spotLight.target.position.x = Math.cos(this.time.elapsed * 0.00105) * 2.5
-            this.world.lights.items.spotLight.target.position.y = Math.sin(this.time.elapsed * 0.00035) * 2.5
+            if (!this.world.lights.items.spotLight.target.intersected) {
+                this.world.lights.items.spotLight.target.position.x = Math.cos(this.time.elapsed * 0.00105) * 2.5
+                this.world.lights.items.spotLight.target.position.y = Math.sin(this.time.elapsed * 0.00035) * 2.5
+            }
         })
     }
 
@@ -846,9 +859,9 @@ export default class Animations {
 
             } else {
                 gsap.fromTo(this.DOM.mouseMove, {
-                    left: this.helperFunctions.percentToPixelWidth(this.DOM.mouseMove, 75),
+                    left: this.percentToPixelWidth(this.DOM.mouseMove, 75),
                 }, {
-                    left: this.helperFunctions.percentToPixelWidth(this.DOM.mouseMove, 25),
+                    left: this.percentToPixelWidth(this.DOM.mouseMove, 25),
                     duration: 1,
                     ease: this.ease.power3InOut,
                     yoyoEase: this.ease.power3InOut,
