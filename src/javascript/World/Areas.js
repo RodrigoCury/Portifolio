@@ -21,6 +21,12 @@ export default class Areas {
             newArea.add(plane)
         }
 
+        newArea.addList = (list) => {
+            list.forEach(obj => {
+                newArea.addToArea(...obj)
+            })
+        }
+
         return newArea
     }
 }
