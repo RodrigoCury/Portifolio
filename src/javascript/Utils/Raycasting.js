@@ -45,8 +45,8 @@ export default class Raycasting {
 
         // Update Raycaster Position
         this.resources.on("ready", () => {
-            this.currentTechName = undefined
-            this.hasChangedFlag = false
+            this.currentTechName = undefined // Used For Smooth SpotLight Animation
+            this.hasChangedFlag = false // Used For Smooth SpotLight Animation
 
             this.time.on("tick", () => {
 
@@ -58,11 +58,6 @@ export default class Raycasting {
                 if (this.config.screenIsOn == 'technologies') {
                     this.raycaster.setFromCamera(this.mouse, this.camera.instance)
                     const intersect = this.raycaster.intersectObject(this.world.logosArea, true)
-
-                    if (this.time.frames % 120 === 0 && typeof intersect[0] !== 'undefined') {
-                        console.log(intersect);
-                    }
-
 
                     this.world.holograms.container.children.forEach(child => {
                         if (typeof intersect[0] !== 'undefined' && child.name == intersect[0].object.name) {
