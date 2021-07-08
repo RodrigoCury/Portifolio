@@ -11,6 +11,7 @@ export default class Holograms {
         this.materials = _options.materials
         this.resources = _options.resources
         this.geometries = _options.geometries
+        this.container = _options.container
 
         // Debug
 
@@ -18,20 +19,11 @@ export default class Holograms {
             this.debugFolder = this.debug.addFolder("Holograms")
         }
 
-        this.container = new Object3D()
-
-        if (this.resources.beenTriggered("ready")) {
-            this.setupGeometries()
-            this.setupLightCone()
-            this.setupContactTexts()
-        } else {
-            this.resources.on("ready", () => {
-                this.setupGeometries()
-                this.setupLightCone()
-                this.setupContactTexts()
-            })
-        }
+        this.setupGeometries()
+        this.setupLightCone()
+        this.setupContactTexts()
     }
+
 
     setupGeometries() {
         this.geometries.holograms.forEach(geometry => {
@@ -44,9 +36,6 @@ export default class Holograms {
 
             this.container.add(mesh)
         })
-
-        this.container.rotation.y = -Math.PI / 2
-        this.container.position.set(0.266, -1.70, 6.795)
 
         if (this.debug) {
             this.debugFolder.add(this.container.position, 'x', -10, 10, 0.001).name("Holograms X")
@@ -64,9 +53,6 @@ export default class Holograms {
             this.materials.items.beamMaterial
         )
         this.cone.visible = false
-        this.cone.position.set(5.298, -1.683, 5.297)
-        this.cone.rotation.set(0.26, -Math.PI, 0.16)
-
 
         if (this.debug) {
             this.debugFolder.add(this.cone.position, 'x', -5, 6, 0.001).name(`X Cone`)
@@ -76,12 +62,11 @@ export default class Holograms {
             this.debugFolder.add(this.cone.rotation, 'y', -Math.PI, Math.PI, 0.01).name(`rot y Cone`)
             this.debugFolder.add(this.cone.rotation, 'z', -Math.PI, Math.PI, 0.01).name(`rot z Cone`)
         }
+
         this.contactCone = new Mesh(
             new ConeBufferGeometry(1, 1, 16, 1, true,),
             this.materials.items.logoHoloBeam
         )
-        this.contactCone.position.set(-3.385, -.5, -8.273)
-        this.contactCone.rotation.set(-0.55, 1.55, 0.07)
 
 
         if (this.debug) {
