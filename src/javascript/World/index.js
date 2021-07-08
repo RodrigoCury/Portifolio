@@ -193,9 +193,7 @@ export default class {
         this.radioWavesContainer = new THREE.Object3D()
 
         for (let i = 0; i < this.radioWavesCount; i++) {
-            console.log(this.radioWaves);
             const mesh = new THREE.Mesh(this.geometries.items.torus, this.materials.items.phongMaterial)
-            console.log(mesh);
 
             // mesh.position.copy(this.resources.items.hubble.scene.position)
             if (screenSize === 'mobile') {
