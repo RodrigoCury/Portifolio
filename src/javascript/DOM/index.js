@@ -35,6 +35,7 @@ export default class DOM {
         this.setupModals()
         this.setupCarousels()
         this.setupMutebtns()
+        this.setTouch()
     }
 
     getDOMElements() {
@@ -50,6 +51,7 @@ export default class DOM {
 
         // Major containers
         this.homeDiv = document.querySelector('.homepage')
+        this.whoamiContainer = document.querySelector('.whoami')
         this.whoami = [...document.querySelectorAll('.whoami-container')]
         this.techDiv = document.querySelector('.technologies-container')
         this.projects = document.querySelector('.projects-container')
@@ -67,6 +69,16 @@ export default class DOM {
         this.mouseMove = document.querySelector('.mouse-move')
         this.touchClick = document.querySelector('.touch-click')
 
+    }
+
+    setTouch() {
+        if (this.config.isTouch || this.config.isMobile) {
+            let welcomeText = document.querySelector('.welcome-text')
+            welcomeText.innerHTML = 'Arraste a tela para explorar'
+
+            let techMouseText = document.querySelector('.tech-mouse-p')
+            techMouseText.innerHTML = 'Toque nas Logos'
+        }
     }
 
     setDom3dPosition() {
