@@ -326,15 +326,18 @@ li {
   opacity: 1;
 }
 
-.exp-p {
-  font-size: .75em;
+.exp-div {
   position: absolute;
   bottom: 5px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #ffffff11;
   border-radius: 1em/1em;
-  padding: 5px 10px;
+}
+
+.exp-p {
+  font-size: .75em;
+  margin: 5px 10px;
   text-align: center;
   color: #74bcff;
   font-weight: 100;

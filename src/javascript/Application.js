@@ -68,7 +68,7 @@ export default class Application {
 
         window.addEventListener('touchstart', () => {
             this.config.touch = true
-        })
+        }, { once: true })
     }
 
     /**

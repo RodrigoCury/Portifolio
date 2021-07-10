@@ -76,8 +76,26 @@ export default class Animations {
 
         this.exitBtnClick = () => {
             if (this.config.isMobile) {
-                document.body.requestFullscreen()
+                if (document.requestFullscreen) {
+                    document.requestFullscreen();
+                } else if (document.webkitRequestFullscreen) {
+                    document.webkitRequestFullscreen();
+                } else if (document.mozRequestFullScreen) {
+                    document.mozRequestFullScreen();
+                } else if (document.msRequestFullscreen) {
+                    document.msRequestFullscreen();
+                } else if (document.webkitEnterFullscreen) {
+                    document.webkitEnterFullscreen();
+                }
             }
+
+            this.DOM.welcomePage.classList.remove('hide')
+            this.DOM.homeDiv.classList.remove('hide')
+            this.DOM.whoamiContainer.classList.remove('hide')
+            this.DOM.techDiv.classList.remove('hide')
+            this.DOM.projects.classList.remove('hide')
+            this.DOM.madeWith.classList.remove('hide')
+            this.DOM.contact.classList.remove('hide')
 
             this.sounds.play('btnBeep')
             this.DOM.exitLoadBtn.classList.add('hide')
@@ -105,9 +123,13 @@ export default class Animations {
                 this.sounds.stop('loadingBar', 150)
                 this.sounds.play('lowDescend')
                 this.sounds.play('gasLeak')
+                gsap.to('.exp-div', {
+                    backgroundColor: '#a500055c',
+                    duration: .5,
+                    ease: this.ease.linear,
+                })
                 gsap.to('.exp-p', {
                     color: '#ff9393',
-                    backgroundColor: '#a500055c',
                     duration: .5,
                     ease: this.ease.linear,
                 })
