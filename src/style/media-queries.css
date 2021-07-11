@@ -216,7 +216,7 @@
     height: 90%;
     left: 0;
     width: 100%;
-    justify-content: flex-start;
+    justify-content: space-around;
 }
   .made-with-title {
     margin: 5px;
@@ -240,8 +240,14 @@
     align-self: center;
   }
 
+    .made-with-ul {
+      height: auto;
+      width: 100%;
+      margin-bottom: 1.5%;
+  }
+
   .made-with-li {
-    padding: 3px 10%;
+    width: 100%;
   }
 
   .contact-container {
