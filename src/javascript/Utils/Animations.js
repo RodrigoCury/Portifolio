@@ -76,16 +76,16 @@ export default class Animations {
 
         this.exitBtnClick = () => {
             if (this.config.isMobile) {
-                if (document.requestFullscreen) {
-                    document.requestFullscreen();
-                } else if (document.webkitRequestFullscreen) {
-                    document.webkitRequestFullscreen();
-                } else if (document.mozRequestFullScreen) {
-                    document.mozRequestFullScreen();
+                if (document.body.requestFullscreen) {
+                    document.body.requestFullscreen();
+                } else if (document.body.webkitRequestFullscreen) {
+                    document.body.webkitRequestFullscreen();
+                } else if (document.body.mozRequestFullScreen) {
+                    document.body.mozRequestFullScreen();
                 } else if (document.msRequestFullscreen) {
-                    document.msRequestFullscreen();
-                } else if (document.webkitEnterFullscreen) {
-                    document.webkitEnterFullscreen();
+                    document.body.msRequestFullscreen();
+                } else if (document.body.webkitEnterFullscreen) {
+                    document.body.webkitEnterFullscreen();
                 }
             }
 
@@ -159,7 +159,6 @@ export default class Animations {
             this.sounds.stop('decompress', 2500)
             this.sounds.stop('loadAmbientSounds', 1000)
             this.DOM.whiteout.style.zIndex = 1000
-            console.log
             gsap.to(this.DOM.whiteout, {
                 opacity: 1,
                 duration: 2.5,
@@ -226,6 +225,30 @@ export default class Animations {
             })
 
         }
+
+        this.skip = () => {
+            this.DOM.loadingPage.classList.add('hide')
+            this.DOM.whiteout.classList.add('hide')
+            this.animateProjections()
+            this.animateLights()
+            this.setAnimationsProps()
+            this.setControls()
+            this.setEventListeners()
+            this.DOM.welcomePage.classList.remove('hide')
+            this.DOM.homeDiv.classList.remove('hide')
+            this.DOM.whoamiContainer.classList.remove('hide')
+            this.DOM.techDiv.classList.remove('hide')
+            this.DOM.projects.classList.remove('hide')
+            this.DOM.madeWith.classList.remove('hide')
+            this.DOM.contact.classList.remove('hide')
+            this.animateScrollDownDiv()
+        }
+
+        window.addEventListener('keydown', event => {
+            if (event.key === 'r') {
+                this.skip()
+            }
+        })
 
         const textList = [
             "Configuração de Humor do TARS ajustada",
@@ -368,7 +391,7 @@ export default class Animations {
                 position: new Vector3(0, -35, 0),
                 rotation: Math.PI / 4,
                 ease: this.ease.slow,
-                duration: 3,
+                duration: 2,
                 onComplete: this.scrollAnimations.projectsComplete,
             },
             {
