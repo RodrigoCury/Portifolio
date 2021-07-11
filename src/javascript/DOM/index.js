@@ -36,6 +36,7 @@ export default class DOM {
         this.setupCarousels()
         this.setupMutebtns()
         this.setTouch()
+        this.setupModalSidescroll()
     }
 
     getDOMElements() {
@@ -72,7 +73,7 @@ export default class DOM {
     }
 
     setTouch() {
-        if (this.config.isTouch || this.config.isMobile) {
+        if (this.config.isMobile) {
             let welcomeText = document.querySelector('.welcome-text')
             welcomeText.innerHTML = 'Arraste a tela para explorar'
 
@@ -168,7 +169,7 @@ export default class DOM {
     setupCarousels() {
         this.coinSlidePos = 0
         this.bioinformatizadoSlidePos = 0
-        this.biInfoPSlidePos = 0
+        this.bioInfoPSlidePos = 0
 
         // Carousel Buttons
         this.coinBack = document.querySelector("#coin-back")
@@ -182,8 +183,8 @@ export default class DOM {
 
         // Carousel Slides
         this.coinSlides = [...document.getElementsByClassName("modal-img-coin")]
-        this.bioinsformatizadoSlides = [...document.getElementsByClassName("modal-img-bioinformatizado")]
-        this.bioIndoPSlides = [...document.getElementsByClassName("modal-img-bioinfop")]
+        this.bioinformatizadoSlides = [...document.getElementsByClassName("modal-img-bioinformatizado")]
+        this.bioInfoPSlides = [...document.getElementsByClassName("modal-img-bioinfop")]
 
         // Self For Event Scope problems
         const self = this
@@ -196,17 +197,44 @@ export default class DOM {
             } else if (self[position] < 0) {
                 self[position] = slides.length - 1
             }
-            console.log(self[position], slides, n);
 
             slides.forEach(i => i.classList.add('hide'))
             slides[self[position]].classList.remove('hide')
         }
         this.coinBack.onclick = () => this.slideShow('coinSlidePos', this.coinSlides, -1)
         this.coinForward.onclick = () => this.slideShow('coinSlidePos', this.coinSlides, 1)
-        this.bioinformatizadoBack.onclick = () => this.slideShow('bioinformatizadoSlidePos', this.bioinsformatizadoSlides, -1)
-        this.bioinformatizadoForward.onclick = () => this.slideShow('bioinformatizadoSlidePos', this.bioinsformatizadoSlides, 1)
-        this.bioInfoPBack.onclick = () => this.slideShow('biInfoPSlidePos', this.bioIndoPSlides, -1)
-        this.bioInfoPForward.onclick = () => this.slideShow('biInfoPSlidePos', this.bioIndoPSlides, 1)
+        this.bioinformatizadoBack.onclick = () => this.slideShow('bioinformatizadoSlidePos', this.bioinformatizadoSlides, -1)
+        this.bioinformatizadoForward.onclick = () => this.slideShow('bioinformatizadoSlidePos', this.bioinformatizadoSlides, 1)
+        this.bioInfoPBack.onclick = () => this.slideShow('bioInfoPSlidePos', this.bioInfoPSlides, -1)
+        this.bioInfoPForward.onclick = () => this.slideShow('bioInfoPSlidePos', this.bioInfoPSlides, 1)
+    }
+
+    setupModalSidescroll() {
+        this.coinScrollBtn = document.getElementById('side-scroll-btn-coin')
+        this.bioinformatizadoScrollBtn = document.getElementById('side-scroll-btn-bioinformatizado')
+        this.bioinfopScrollBtn = document.getElementById('side-scroll-btn-bioinfop')
+
+        if (this.config.isMobile) {
+            const modalTechs = document.querySelectorAll('.modal-tech')
+            modalTechs.forEach(el => el.classList.add('hide'))
+            function _sidescroll(event) {
+                const el = event.srcElement
+                const modalSide = el.parentElement.children[2].children[0]
+                const modalTech = el.parentElement.children[2].children[1]
+                modalSide.classList.toggle('hide')
+                modalTech.classList.toggle('hide')
+            }
+
+            this.coinScrollBtn.onclick = _sidescroll
+            this.bioinformatizadoScrollBtn.onclick = _sidescroll
+            this.bioinfopScrollBtn.onclick = _sidescroll
+
+        } else {
+            this.coinScrollBtn.classList.add('hide')
+            this.bioinformatizadoScrollBtn.classList.add('hide')
+            this.bioinfopScrollBtn.classList.add('hide')
+
+        }
     }
 
     setupMutebtns() {
