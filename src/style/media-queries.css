@@ -27,10 +27,14 @@
   .exp-div {
     width: 80%;
     border-radius: 2em/2em;
+    top: 5px;
+    height: 2.5em;
+
   }
   
   .exp-p {
     font-size: 1em;
+    margin: 0;
   }
 
   .poem-wrapper {
@@ -40,8 +44,9 @@
 
   .enter-site,
   .exit-load-btn {
-    padding: 15px;
-    border-radius: 2.5em / 2.5em;
+    height: 35px;
+    width: 110px;
+    border-radius: 8px;
   }
 
   .welcome-container {
@@ -58,6 +63,11 @@
     width: 95%;
   }
 
+  .btn-p{
+    border-radius: 8px;
+    opacity: 0.8;
+  }
+
   .whoami-container {
     width: 98%;
     left: 1%;
@@ -72,19 +82,85 @@
     left: 5%;
     height: 80%;
     top: 0;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    display: flex ;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
+  .project-card{
+    margin: 0;
+    padding: 11px;
+  }
+
+  .project-title{
+    font-size: 18px;
+    width: 100%;
+    text-align: left;
+  }
+
+  .project-description{
+    font-size: 13px;
+  }
+
+  .modal-a{
+    width: 100%;
+    max-width: 130px;
+  }
+
+  .modal-ul-title{
+    width: 100%;
+    max-width: 130px;
+    text-shadow: 0px 0px 14px #ff00e3aa;
+    text-align: center;
+  
+  }
+
+  .modal-li{
+    font-size: 14px;  
+  }
+
+  .modal-quit{
+    background-color: rgba(255,255,255, 0);
+    color: white;
+    box-shadow: none;
+  }
+
+  .modal-btn{
+    width: 100%;
+    max-width: 130px;
+    border-radius: 8px;
+  }
+
+  .modal-top-row{
+    justify-content: space-around;
+    width: 100%;
+    padding: 15px;
+  }
+
+  .modal-btn-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .modal-sidescroll-wrapper{
+    width: 90%;
+    align-items: center;
+    padding-top: 15px;
+    justify-content: flex-start;
+  }
+
+
+
   .modal-bg {
-    position: absolute;
-    top: 0;
-    height: 100vh;
-    left: 2.5vw;
-    width: 95vw;
+    width: 100%;
+    z-index: 9999;
+    left: 0px;
     display: flex;
     flex-flow: column;
-    justify-content: flex-start;
+    justify-content: space-between;
+    height: 90%;
   }
 
   .modal-spine {
@@ -104,27 +180,44 @@
     display: inline-block;
   }
 
-  .modal-side,
+  .modal-side{
+    justify-content: space-around;
+  }
+ 
   .modal-tech {
-    height: auto;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
   }
 
-  .modal-tech {
-    grid-template-columns: 1fr 1fr 1fr;
+  .main-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 83%;
+    width: 50%;
   }
 
   .modal-ul-div {
     justify-content: flex-start;
   }
 
-  .made-with-container {
-    top: 0;
+  .project-links {
     height: 100%;
-    left: 2%;
-    width: 98%;
-    justify-content: space-between;
   }
 
+  .secondary-column {
+    width: 50%;
+  }
+
+  .made-with-container {
+    top: 0;
+    height: 90%;
+    left: 0;
+    width: 100%;
+    justify-content: flex-start;
+}
   .made-with-title {
     margin: 5px;
     font-size: 2.25em;
@@ -132,21 +225,18 @@
   }
 
   .made-with-wrapper {
-    height: 100%;
+    height: auto;
     display: flex;
     flex-flow: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 0;
-  }
+}t
 
   .made-with-ul {
-    margin-bottom: 20px;
     width: 100%;
-  }
+}
 
   .made-with-header {
-    margin-bottom: 10px;
-    margin-left: 10px;
     align-self: center;
   }
 
@@ -170,4 +260,125 @@
     font-size: 2em;
     text-align: center;
   }
+}
+
+@media (max-height: 500px) {
+  
+  .project-card{
+    margin: 0;
+    padding: 11px;
+    width: 48% ;
+  }
+  
+  .projects-container{
+    display: flex;
+    left: 0;
+  }
+
+  .spine-cards{
+    display: none;
+  }
+  
+  .project-logo{
+    width: 50px;
+    height: 50px;
+  }
+  
+  .project-title{
+    width: 100%;
+  }
+  
+  .project-description{
+    font-size: 12px;
+  }
+
+  .exp-div {
+    width: 70%;
+    top: 5px;
+    height: 1.5em;
+  }
+
+  .exp-p {
+    font-size: .75em;
+    margin: 5px 10px;
+    text-align: center;
+    color: #74bcff;
+    font-weight: 100;
+    font-family: -webkit-pictograph;
+  }
+
+    .homepage {
+      top: 15%;
+      height: 70%;
+      justify-content: space-between;
+    }
+
+    .home {
+      margin-bottom: 0;
+    }
+
+    .whoami-container {
+      top: 25%;
+      height: 50%;
+  }
+  .poem-wrapper {
+    top: 5%;
+    left: 12.5%;
+    height: 75%;
+    width: 75%;
+}
+  .made-with-container {
+    top: 0;
+    height: 90%;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-flow: column;
+}
+.made-with-wrapper {
+  height: 100%;
+  align-self: center;
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+
+.made-with-ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  width: 25%;
+}
+
+
+.project-title {
+  width: 100%;
+  font-size: .9em;
+  font-family: 'Work Sans';
+}
+.project-card {
+  margin: 0;
+  margin-bottom: 5%;
+  padding: 2px;
+  width: 33%;
+  height: 50%;
+}
+.projects-container {
+  top: 0;
+  height: 100%;
+  left: 0;
+  width: 100%;
+  align-items: flex-end;
+  justify-content: space-around;
+}
+
+.side-scroll-btn {
+  width: 25%;
+  align-self: flex-end;
+}
 }
