@@ -17,6 +17,7 @@ export default class DOM {
         this.sizes = _options.sizes
         this.resources = _options.resources
         this.sounds = _options.sounds
+        this.passes = _options.passes
 
         // Debug
         if (this.debug) {
@@ -32,6 +33,7 @@ export default class DOM {
 
         this.getDOMElements()
         this.setDom3dPosition()
+        this.setPasses()
         this.setupModals()
         this.setupCarousels()
         this.setupMutebtns()
@@ -46,7 +48,8 @@ export default class DOM {
         this.imgWarning = document.querySelector('.warning-img-container')
         this.loadBar = document.querySelector('.load-bar')
         this.loadTexts = document.querySelector('.load-texts')
-        this.exitLoadBtn = document.querySelector('.exit-load-btn')
+        this.qualitySelector = document.querySelector('.quality-selector')
+        this.exitLoadBtn = [...document.querySelectorAll('.exit-load-btn')]
         this.whiteout = document.querySelector('.loading-whiteout')
         this.enterSiteBtn = document.querySelector('.enter-site')
 
@@ -69,7 +72,30 @@ export default class DOM {
         this.touchScroll = document.querySelector('.touch-scroll')
         this.mouseMove = document.querySelector('.mouse-move')
         this.touchClick = document.querySelector('.touch-click')
+    }
 
+    setPasses() {
+        this.highQuality = document.getElementById("high")
+        this.mediumQuality = document.getElementById("medium")
+        this.lowQuality = document.getElementById("low")
+
+
+        this.highQuality.addEventListener("click", event => {
+            this.passes.fxaaShader.enabled = false
+            this.passes.ssaaShader.enabled = true
+            this.passes.ssaaShader.sampleLevel = 4
+        })
+
+        this.mediumQuality.addEventListener("click", event => {
+            this.passes.fxaaShader.enabled = false
+            this.passes.ssaaShader.enabled = true
+            this.passes.ssaaShader.sampleLevel = 2
+        })
+
+        this.lowQuality.addEventListener("click", event => {
+            this.passes.fxaaShader.enabled = true
+            this.passes.ssaaShader.enabled = false
+        })
     }
 
     setTouch() {
