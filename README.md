@@ -1,4 +1,4 @@
-# Portifolio 🇬🇧 | Portifólio 🇧🇷
+# Portfolio 🇬🇧 | Portifólio 🇧🇷
 ## _Rodrigo Cury_
 
 Portifolio developed using | Portifólio desenvolvido usando
