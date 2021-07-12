@@ -309,6 +309,14 @@ li {
     0 0 75px #039bb3, 2px 2px 2px #ce5937;
 }
 
+.quality-selector {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
 .exit-load-btn {
   font-size: 1rem;
   border: none;
