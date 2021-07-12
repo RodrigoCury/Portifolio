@@ -18,6 +18,7 @@ export default class Animations {
         this.debug = _options.debug
         this.sounds = _options.sounds
         this.config = _options.config
+        this.passes = _options.passes
 
 
 
@@ -69,9 +70,9 @@ export default class Animations {
         }
 
         this.onReady = () => {
-            this.DOM.loadTexts.innerHTML = 'Pronto para Decolar'
+            this.DOM.loadTexts.innerHTML = 'Para Decolar escolha a Qualidade'
             this.DOM.loadBar.classList.add('hide')
-            this.DOM.exitLoadBtn.classList.remove('hide')
+            this.DOM.qualitySelector.classList.remove('hide')
         }
 
         this.exitBtnClick = () => {
@@ -98,8 +99,10 @@ export default class Animations {
             this.DOM.contact.classList.remove('hide')
 
             this.sounds.play('btnBeep')
-            this.DOM.exitLoadBtn.classList.add('hide')
-            this.DOM.exitLoadBtn.disabled = true
+            this.DOM.qualitySelector.classList.add('hide')
+            this.DOM.exitLoadBtn.forEach(btn => {
+                btn.disabled = true
+            })
             this.DOM.loadTexts.style.opacity = 0
             gsap.to(this.DOM.loadTexts.style, {
                 onStart: () => {
@@ -208,6 +211,15 @@ export default class Animations {
 
         this.startScrolling = async () => {
             this.DOM.whiteout.classList.add('hide')
+            gsap.to([
+                this.passes.rgbShiftPass.material.uniforms.amount,
+                this.passes.rgbShiftPass.material.uniforms.angle
+            ], {
+                value: 0,
+                duration: 8,
+                ease: this.ease.power2Out,
+                onComplete: () => this.passes.rgbShiftPass.enabled = false
+            })
             gsap.to('.welcome-container', {
                 opacity: 1,
                 duration: .5,
@@ -291,7 +303,7 @@ export default class Animations {
             })
         })
 
-        this.DOM.exitLoadBtn.onclick = () => this.exitBtnClick()
+        this.DOM.exitLoadBtn.forEach(btn => btn.addEventListener('click', event => this.exitBtnClick()))
         this.DOM.enterSiteBtn.onclick = () => this.exitLoadPage()
     }
 
