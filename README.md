@@ -30,4 +30,4 @@ MIT
 [dat.gui]: <https://github.com/dataarts/dat.gui>
 [stats.js]: <https://github.com/mrdoob/stats.js/>
 [webpack]: <https://webpack.js.org/>
-[blender]: <https://www.blender.org/>>
+[blender]: <https://www.blender.org/>
