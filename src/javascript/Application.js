@@ -9,6 +9,10 @@ import Time from './Utils/Time'
 import * as THREE from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass'
+import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader'
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
+import { SSAARenderPass } from 'three/examples/jsm/postprocessing/SSAARenderPass.js'
 
 // Debug
 import * as dat from 'dat.gui'
@@ -198,34 +202,50 @@ export default class Application {
         // Setup Passes 
         this.passes.renderPass = new RenderPass(this.scene, this.camera.instance)
 
-        // this.passes.horizontalBlurPass = new ShaderPass(BlurPass)
-        // this.passes.horizontalBlurPass.strength = this.config.touch ? 0 : 1
-        // this.passes.horizontalBlurPass.material.uniforms.uResolution.value = new THREE.Vector2(this.sizes.viewport.width, this.sizes.viewport.height)
-        // this.passes.horizontalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(this.passes.horizontalBlurPass.strength, 0)
+        this.passes.passesParams = {
+            shiftAmount: 0.01,
+            angle: Math.PI * 2,
+            sampleLevel: 2,
+            unbiased: true,
+        }
+
+        this.passes.rgbShiftPass = new ShaderPass(RGBShiftShader)
+        this.passes.rgbShiftPass.material.uniforms.amount.value = this.passes.passesParams.shiftAmount
+        this.passes.rgbShiftPass.material.uniforms.angle.value = this.passes.passesParams.angle
+        this.passes.rgbShiftPass.enabled = true
+
+        this.passes.fxaaShader = new ShaderPass(FXAAShader)
+        this.passes.fxaaShader.enabled = true
+
+        this.passes.ssaaShader = new SSAARenderPass(this.scene, this.camera.instance)
+        this.passes.ssaaShader.enabled = false
+        this.passes.ssaaShader.sampleLevel = this.passes.passesParams.sampleLevel
+        this.passes.ssaaShader.unbiased = this.passes.passesParams.unbiased
+
+        console.log(this.passes.ssaaShader);
 
         // Debug
         if (this.debug) {
-            // const folder = this.passes.debugFolder.addFolder('blur')
-            // folder.open()
-
-            // folder.add(this.passes.horizontalBlurPass.material.uniforms.uStrength.value, 'x').step(0.001).min(0).max(10)
+            this.passes.debugFolder.add(this.passes.rgbShiftPass.material.uniforms.amount, 'value', 0, 0.01, 0.001).name("Shift Amount")
+            this.passes.debugFolder.add(this.passes.rgbShiftPass.material.uniforms.angle, 'value', 0, Math.PI * 2, 0.1).name("Shift Angle")
+            this.passes.debugFolder.add(this.passes.passesParams, 'unbiased').name("SSAA Unbiased").onChange(() => this.passes.ssaaShader.unbiased = this.passes.passesParams.unbiased)
+            this.passes.debugFolder.add(this.passes.passesParams, 'sampleLevel').name("SSAA Unbiased").onChange(() => this.passes.ssaaShader.sampleLevel = this.passes.passesParams.sampleLevel)
         }
 
         // Add Passes
         this.passes.composer.addPass(this.passes.renderPass)
-        // this.passes.composer.addPass(this.passes.horizontalBlurPass)
+        this.passes.composer.addPass(this.passes.rgbShiftPass)
+        this.passes.composer.addPass(this.passes.fxaaShader)
+        this.passes.composer.addPass(this.passes.ssaaShader)
+
 
         // Time Tick
         this.time.on('tick', () => {
-            // this.passes.horizontalBlurPass.enabled = this.passes.horizontalBlurPass.material.uniforms.uStrength.value.x > 0
 
             /**
              *  Renderer
              */
-
             this.passes.composer.render()
-            // this.renderer.domElement.style.background = 'black'
-            // this.renderer.render(this.scene, this.camera.instance)
         })
 
 
@@ -233,8 +253,8 @@ export default class Application {
         this.sizes.on('resize', () => {
             this.renderer.setSize(this.sizes.viewport.width, this.sizes.viewport.height)
             this.passes.composer.setSize(this.sizes.viewport.width, this.sizes.viewport.height)
-            // this.passes.horizontalBlurPass.material.uniforms.uResolution.value.x = this.sizes.viewport.width
-            // this.passes.horizontalBlurPass.material.uniforms.uResolution.value.y = this.sizes.viewport.height
+            this.passes.rgbShiftPass.setSize(this.sizes.viewport.width, this.sizes.viewport.height)
+            this.passes.fxaaShader.uniforms.resolution.value.set(1 / this.sizes.viewport.width, 1 / this.sizes.viewport.height)
         })
     }
 
@@ -274,7 +294,8 @@ export default class Application {
             camera: this.camera,
             sizes: this.sizes,
             resources: this.resources,
-            sounds: this.sounds
+            sounds: this.sounds,
+            passes: this.passes
         })
     }
 
@@ -287,6 +308,7 @@ export default class Application {
             DOM: this.DOM,
             debug: this.debug,
             config: this.config,
+            passes: this.passes,
         })
     }
 
@@ -301,6 +323,7 @@ export default class Application {
             debug: this.debug,
             sounds: this.sounds,
             config: this.config,
+            passes: this.passes,
         })
     }
 
