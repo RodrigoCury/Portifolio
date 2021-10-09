@@ -168,7 +168,7 @@ export default class {
       [2, 2, this.resources.items.pyLogo.scene, "Python"],
       [2, 2, this.resources.items.jsLogo.scene, "Javascript"],
       [2, 2, this.resources.items.threeLogo.scene, "Three.js"],
-      [2, 2, this.resources.items.javaLogo.scene, "Java"],
+      [2, 2, this.resources.items.javaLogo.scene, "Java 8+"],
       [2, 2, this.resources.items.springLogo.scene, "Spring"],
       [2, 2, this.resources.items.reactLogo.scene, "React.js"],
       [2, 2, this.resources.items.expressLogo.scene, "Express.js"],
@@ -340,7 +340,7 @@ export default class {
         scale: new THREE.Vector3(1, 1, 1),
       },
       mobile: {
-        position: new THREE.Vector3(-1, 2, 0),
+        position: new THREE.Vector3(0, 0, 0),
         rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
         scale: new THREE.Vector3(1, 1, 1),
       },
@@ -354,7 +354,7 @@ export default class {
         scale: new THREE.Vector3(0.9, 0.9, 0.9),
       },
       mobile: {
-        position: new THREE.Vector3(1, 2, 0),
+        position: new THREE.Vector3(2, 0, 0),
         rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
         scale: new THREE.Vector3(0.9, 0.9, 0.9),
       },
@@ -382,7 +382,7 @@ export default class {
         scale: new THREE.Vector3(1, 1, 1),
       },
       mobile: {
-        position: new THREE.Vector3(0, 0, 0),
+        position: new THREE.Vector3(-1, 2, 0),
         rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
         scale: new THREE.Vector3(1, 1, 1),
       },
@@ -424,7 +424,7 @@ export default class {
         scale: new THREE.Vector3(1, 1, 1),
       },
       mobile: {
-        position: new THREE.Vector3(2, 0, 0),
+        position: new THREE.Vector3(1, -2, 0),
         rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
         scale: new THREE.Vector3(1, 1, 1),
       },
@@ -452,7 +452,7 @@ export default class {
         scale: new THREE.Vector3(1, 1, 1),
       },
       mobile: {
-        position: new THREE.Vector3(1, -2, 0),
+        position: new THREE.Vector3(1, 2, 0),
         rotation: new THREE.Vector3(Math.PI / 2, 0, 0),
         scale: new THREE.Vector3(1, 1, 1),
       },
