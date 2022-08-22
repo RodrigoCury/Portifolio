@@ -1,27 +1,27 @@
-import { Object3D, TextBufferGeometry, Mesh } from "three";
+import { Object3D, TextBufferGeometry } from 'three'
 
 export default class Texts {
   /**
    * Constructor
    */
-
   constructor(_options) {
     // Options
-    this.resources = _options.resources;
-    this.materials = _options.materials;
-    this.debug = _options.debug;
-    this.logosNames = _options.logosArray.map((logoObj) => logoObj[3]);
+    this.resources = _options.resources
+    this.materials = _options.materials
+    this.debug = _options.debug
+    this.logosNames = _options.logosArray
 
-    this.holograms = [];
+    this.holograms = []
 
-    this.homeText = {};
+    this.homeText = {}
 
-    if (this.resources.beenTriggered("ready")) {
-      this.setHologramGeometries();
+    if (this.resources.beenTriggered('ready')) {
+      this.setHologramGeometries()
     } else {
-      this.resources.on("ready", () => {
-        this.setHologramGeometries();
-      });
+      this.resources.on('ready', () => {
+        this.setHologramGeometries()
+        this.setupContactMeText()
+      })
     }
   }
 
@@ -36,33 +36,47 @@ export default class Texts {
       bevelSize: 0.005,
       bevelOffset: 0.005,
       bevelSegments: 4,
-    };
+    }
 
-    this.logosNames.forEach((text) => {
-      const geometry = new TextBufferGeometry(text, this.holoProperties);
-      geometry.computeBoundingBox();
-      geometry.translate(
-        -(geometry.boundingBox.max.x - this.holoProperties.bevelSize) * 0.5,
-        -(geometry.boundingBox.max.y - this.holoProperties.bevelSize) * 0.5,
-        -(geometry.boundingBox.max.z - this.holoProperties.bevelThickness) * 0.5
-      );
-      geometry.name = text;
+    this.logosNames.forEach(({ title, level }) => {
+      const geometry = new Object3D()
+      geometry.name = title
 
-      this.holograms.push(geometry);
-    });
+      const levelText = '-'.repeat(level)
 
-    let contactText = "Escolha um Destino";
+      const titleGeometry = this.createText(title)
+      const levelGeometry = this.createTextGeometry(levelText)
+      levelGeometry.translate(0, -0.5, 0)
 
-    this.contactText = new TextBufferGeometry(contactText, this.holoProperties);
-    this.contactText.computeBoundingBox();
-    this.contactText.translate(
-      -(this.contactText.boundingBox.max.x - this.holoProperties.bevelSize) *
-        0.5,
-      -(this.contactText.boundingBox.max.y - this.holoProperties.bevelSize) *
-        0.5,
-      -(
-        this.contactText.boundingBox.max.z - this.holoProperties.bevelThickness
-      ) * 0.5
-    );
+      this.holograms.push({
+        geometry,
+        titleGeometry,
+        levelGeometry,
+      })
+    })
+  }
+
+  setupContactMeText() {
+    const contactText = 'Escolha um Destino'
+
+    this.contactText = this.createTextGeometry(contactText)
+  }
+
+  createText(title) {
+    const text = this.createTextGeometry(title)
+
+    return text
+  }
+
+  createTextGeometry(textToRender) {
+    const text = new TextBufferGeometry(textToRender, this.holoProperties)
+    text.computeBoundingBox()
+    text.translate(
+      -(text.boundingBox.max.x - this.holoProperties.bevelSize) * 0.5,
+      -(text.boundingBox.max.y - this.holoProperties.bevelSize) * 0.5,
+      -(text.boundingBox.max.z - this.holoProperties.bevelThickness) * 0.5
+    )
+
+    return text
   }
 }

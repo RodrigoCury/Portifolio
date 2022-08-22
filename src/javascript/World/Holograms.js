@@ -26,15 +26,23 @@ export default class Holograms {
 
 
     setupGeometries() {
-        this.geometries.holograms.forEach(geometry => {
-            const mesh = new Mesh(
-                geometry,
+        this.geometries.holograms.forEach(({geometry, titleGeometry, subtitleGeometry, levelGeometry }) => {
+            const title = new Mesh(
+                titleGeometry,
                 this.materials.items.holoMaterial
             )
-            mesh.name = geometry.name
-            mesh.visible = false
+            const subtitle = new Mesh(
+                subtitleGeometry,
+                this.materials.items.holoMaterial
+            )
+            const level = new Mesh(
+                levelGeometry,
+                this.materials.items.holoMaterial
+            )
+            geometry.visible = false
+            geometry.add(title, subtitle, level)
 
-            this.container.add(mesh)
+            this.container.add(geometry)
         })
 
         if (this.debug) {

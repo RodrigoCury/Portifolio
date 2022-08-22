@@ -14,8 +14,8 @@ _Rode localmente_
 
 ```sh
 git clone https://github.com/RodrigoCury/Portifolio.git
-npm i
-npm run dev
+yarn
+yarn run start
 ```
 
 Feel Free to Share! | Fique a vontade para Compartilhat

@@ -580,25 +580,11 @@ export default class Animations {
     window.addEventListener("touchstart", _touchStart, true);
     window.addEventListener("touchmove", _touchMove, true);
 
-    this.DOM.openModalBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        let modal = this.DOM.modals.find((item) => item.name === btn.id);
-        modal.element.classList.toggle("hide");
-        this.DOM.projects.classList.toggle("hide");
-      });
-    });
-
-    this.DOM.closeModalBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        this.DOM.projects.classList.toggle("hide");
-        btn.parentElement.parentElement.classList.toggle("hide");
-      });
-    });
   }
-
+  
   animateProjections() {
     this.time.on("tick", () => {
-      [...this.DOM.firstPositions, ...this.DOM.modals].forEach((el) => {
+      [...this.DOM.firstPositions].forEach((el) => {
         let projected = el.position.clone();
         projected.project(this.camera.instance);
 
